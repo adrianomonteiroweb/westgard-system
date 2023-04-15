@@ -1,8 +1,9 @@
 .App {
   align-items: center;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   height: 650px;
+  justify-content: center;
   padding: 20px;
 }
 
