@@ -7,6 +7,9 @@ import './App.css';
 function App() {
   return (
     <div className='App'>
+      <div>
+        <h1>Controle de qualidade</h1>
+      </div>
     <Router>
       <Routes>
         <Route path='/' element={[<AnaliticSystemPage />]} />
