@@ -1,0 +1,14 @@
+.analiticSystem-div {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #3b3a3a;
+    border-radius: 8px;
+    height: 450px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.analiticSystem-div #next-button {
+    position: relative;
+    top: 10px;
+}
