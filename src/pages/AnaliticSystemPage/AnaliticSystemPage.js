@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './analiticSystemPage.css'
@@ -17,7 +17,7 @@ function AnaliticSystemPage() {
         <Form.Control type='text' id='method' />
         <Form.Label htmlFor='period'>Período</Form.Label>
         <Form.Control type='text' id='period' />
-        <Button variant="secondary" id='next-button'>Próximo</Button>{' '}
+        <Link to='/next' id='next-button'>Próximo</Link>
       </div>
     );
   }
