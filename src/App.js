@@ -1,14 +1,16 @@
-import Form from 'react-bootstrap/Form';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import AnaliticSystemPage from './pages/AnaliticSystemPage/AnaliticSystemPage';
+
 import './App.css';
 
 function App() {
   return (
-    <>
-      <Form.Label htmlFor='analiticSystem'>Sistema Analítico</Form.Label>
-      <Form.Control type='text' id='analiticSystem' />
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element={[<AnaliticSystemPage />]} />
+      </Routes>
+    </Router>
   );
 }
 
