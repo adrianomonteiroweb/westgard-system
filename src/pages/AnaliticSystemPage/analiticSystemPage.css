@@ -9,9 +9,10 @@
 }
 
 .analiticSystem-div #next-button {
+    background-color: transparent;
     border: 1px solid blue;
     border-radius: 8px;
-    background-color: transparent;
+    color: blue;
     text-align: center;
     text-decoration: none;
     position: relative;
@@ -19,11 +20,22 @@
 }
 
 .analiticSystem-div #clear-button {
+    background-color: transparent;
     border: 1px solid red;
     border-radius: 8px;
-    background-color: transparent;
+    color: red;
     text-align: center;
     text-decoration: none;
     position: relative;
     top: 10px;
+}
+
+#next-button:hover {
+    background-color: rgba(0, 0, 255, 0.568);
+    color: aliceblue;
+}
+
+#clear-button:hover {
+    background-color: rgba(255, 0, 0, 0.596);
+    color: aliceblue;
 }
