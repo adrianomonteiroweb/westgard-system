@@ -10,7 +10,7 @@ import { initialStage1 } from '../../context/initialGlobalState';
 
 function AnaliticSystemPage() {
     const { stage1, setStage1 } = useContext(IsContext);
-    console.log(stage1);
+    
     return (
       <div className='analiticSystem-div'>
         <h5>Estágio 1</h5>

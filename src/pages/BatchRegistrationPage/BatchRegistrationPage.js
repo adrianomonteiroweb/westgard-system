@@ -1,36 +1,25 @@
 import { useContext } from 'react';
-import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 
 import IsContext from '../../context/IsContext';
+import NilvelsComponent from './nivelsComponent/NivelsComponent';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './batchRegistrationPage.css';
+import { initialStage2 } from '../../context/initialGlobalState';
 
 function BatchRegistrationPage() {
     const { stage2, setStage2 } = useContext(IsContext);
-
+    console.log(stage2);
     return (
       <div className='batchRegistration-div'>
         <div className='nivels-div'>
-            <div className='nivel1'>
-                {/* nivel1 input */}
-                <Form.Label htmlFor='nivel1'>Nível 1</Form.Label>
-                <Form.Control type='text' id='nivel1'
-                onChange={(event) => setStage2({ nivel2: stage2.nivel2, nivel1: { ...stage2.nivel1, nivel1: event.target.value} })}
-                />
-            </div>
-            <div className='nivel2'>
-                {/* nivel2 input */}
-                <Form.Label htmlFor='nivel2'>Nível 2</Form.Label>
-                <Form.Control type='text' id='nivel2'
-                onChange={(event) => setStage2({ nivel1: stage2.nivel1, nivel2: { ...stage2.nivel2, nivel2: event.target.value} })}
-                />
-            </div>
+            <NilvelsComponent nivel={ ['nivel1', 'Nível 1', stage2, setStage2] } />
+            <NilvelsComponent nivel={ ['nivel2', 'Nível 2', stage2, setStage2] } />
         </div>
         {/* link */}
-        <Link to='/' id='next-button'>Voltar</Link>
+        <Link to='/' id='back-button'>Voltar</Link>
         <Link to='/batch-registration' id='next-button'>Próximo</Link>
+        <Link id='clear-button' onClick={() => setStage2(initialStage2)}>Limpar</Link>
       </div>
     );
   }

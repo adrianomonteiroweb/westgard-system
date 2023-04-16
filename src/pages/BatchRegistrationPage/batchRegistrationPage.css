@@ -11,3 +11,51 @@
 .batchRegistration-div .nivels-div {
     display: flex;
 }
+
+.batchRegistration-div #back-button {
+    border: 1px solid rgb(58, 56, 56);
+    border-radius: 8px;
+    background-color: transparent;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    top: 10px;
+}
+
+.batchRegistration-div #next-button {
+    border: 1px solid blue;
+    border-radius: 8px;
+    background-color: transparent;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    top: 10px;
+}
+
+.batchRegistration-div #clear-button {
+    border: 1px solid red;
+    border-radius: 8px;
+    background-color: transparent;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    top: 10px;
+}
+
+#back-button:hover {
+    background-color: rgba(0, 0, 0, 0.582);
+    color: aliceblue;
+}
+
+#next-button:hover {
+    background-color: rgba(0, 0, 255, 0.568);
+    color: aliceblue;
+}
+
+#clear-button:hover {
+    background-color: rgba(255, 0, 0, 0.596);
+    color: aliceblue;
+}
