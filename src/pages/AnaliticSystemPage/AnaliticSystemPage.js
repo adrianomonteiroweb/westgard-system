@@ -6,12 +6,14 @@ import IsContext from '../../context/IsContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './analiticSystemPage.css'
+import { initialStage1 } from '../../context/initialGlobalState';
 
 function AnaliticSystemPage() {
     const { stage1, setStage1 } = useContext(IsContext);
-    
+    console.log(stage1);
     return (
       <div className='analiticSystem-div'>
+        <h5>Estágio 1</h5>
         {/* analiticSystem input */}
         <Form.Label htmlFor='analiticSystem'>Sistema Analítico</Form.Label>
         <Form.Control type='text' id='analiticSystem' value={ stage1.analiticSystem } onChange={(event) => setStage1({...stage1, analiticSystem: event.target.value })} />
@@ -29,6 +31,7 @@ function AnaliticSystemPage() {
         <Form.Control type='text' id='period' value={ stage1.period } onChange={(event) => setStage1({...stage1, period: event.target.value })} />
         {/* link */}
         <Link to='/batch-registration' id='next-button'>Próximo</Link>
+        <Link id='clear-button' onClick={() => setStage1(initialStage1)}>Limpar</Link>
       </div>
     );
   }

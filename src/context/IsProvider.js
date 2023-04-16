@@ -2,29 +2,11 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import IsContext from './IsContext';
+import { initialStage1, initialStage2 } from './initialGlobalState';
 
 function IsProvider({ children }) {
-    const [stage1, setStage1] = useState({
-        analiticSystem: '',
-        test: '',
-        unit: '',
-        method: '',
-        period: ''
-    });
-    const [stage2, setStage2] = useState({
-        nivel1: {
-            nivel1: '',
-            batchNumber: 0,
-            media: 100,
-            DP: 2
-        },
-        nivel2: {
-            nivel2: '',
-            batchNumber: 0,
-            media: 300,
-            DP: 4
-        }
-    });
+    const [stage1, setStage1] = useState(initialStage1);
+    const [stage2, setStage2] = useState(initialStage2);
 
     const contextValue = {
         stage1,
