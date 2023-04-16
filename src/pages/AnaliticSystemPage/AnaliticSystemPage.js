@@ -14,19 +14,19 @@ function AnaliticSystemPage() {
       <div className='analiticSystem-div'>
         {/* analiticSystem input */}
         <Form.Label htmlFor='analiticSystem'>Sistema Analítico</Form.Label>
-        <Form.Control type='text' id='analiticSystem' onChange={(event) => setStage1({...stage1, analiticSystem: event.target.value })} />
+        <Form.Control type='text' id='analiticSystem' value={ stage1.analiticSystem } onChange={(event) => setStage1({...stage1, analiticSystem: event.target.value })} />
         {/* test input */}
         <Form.Label htmlFor='test'>Teste</Form.Label>
-        <Form.Control type='text' id='test' onChange={(event) => setStage1({...stage1, test: event.target.value })} />
+        <Form.Control type='text' id='test' value={ stage1.test } onChange={(event) => setStage1({...stage1, test: event.target.value })} />
         {/* unit input */}
         <Form.Label htmlFor='unit'>Unidade</Form.Label>
-        <Form.Control type='text' id='unit' onChange={(event) => setStage1({...stage1, unit: event.target.value })} />
+        <Form.Control type='text' id='unit' value={ stage1.unit } onChange={(event) => setStage1({...stage1, unit: event.target.value })} />
         {/* method input */}
         <Form.Label htmlFor='method'>Método</Form.Label>
-        <Form.Control type='text' id='method' onChange={(event) => setStage1({...stage1, method: event.target.value })} />
+        <Form.Control type='text' id='method' value={ stage1.method } onChange={(event) => setStage1({...stage1, method: event.target.value })} />
         {/* period input */}
         <Form.Label htmlFor='period'>Período</Form.Label>
-        <Form.Control type='text' id='period' onChange={(event) => setStage1({...stage1, period: event.target.value })} />
+        <Form.Control type='text' id='period' value={ stage1.period } onChange={(event) => setStage1({...stage1, period: event.target.value })} />
         {/* link */}
         <Link to='/batch-registration' id='next-button'>Próximo</Link>
       </div>
