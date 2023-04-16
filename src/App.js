@@ -1,8 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+// pages
 import AnaliticSystemPage from './pages/AnaliticSystemPage/AnaliticSystemPage';
+import BatchRegistrationPage from './pages/BatchRegistrationPage/BatchRegistrationPage';
 
+// css style
 import './App.css';
+
+// provider
 import IsProvider from './context/IsProvider';
 
 function App() {
@@ -15,6 +20,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={[<AnaliticSystemPage />]} />
+          <Route path='/batch-registration' element={[<BatchRegistrationPage />]} />
         </Routes>
       </Router>
       </div>

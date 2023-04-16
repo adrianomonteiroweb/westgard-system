@@ -11,10 +11,26 @@ function IsProvider({ children }) {
         method: '',
         period: ''
     });
+    const [stage2, setStage2] = useState({
+        nivel1: {
+            nivel1: '',
+            batchNumber: 0,
+            media: 100,
+            DP: 2
+        },
+        nivel2: {
+            nivel2: '',
+            batchNumber: 0,
+            media: 300,
+            DP: 4
+        }
+    });
 
     const contextValue = {
         stage1,
-        setStage1
+        setStage1,
+        stage2,
+        setStage2
     };
 
     return (

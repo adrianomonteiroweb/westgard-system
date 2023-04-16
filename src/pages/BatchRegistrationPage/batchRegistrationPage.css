@@ -1,0 +1,13 @@
+.batchRegistration-div {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #3b3a3a;
+    border-radius: 8px;
+    height: 450px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.batchRegistration-div .nivels-div {
+    display: flex;
+}

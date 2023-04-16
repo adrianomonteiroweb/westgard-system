@@ -28,7 +28,7 @@ function AnaliticSystemPage() {
         <Form.Label htmlFor='period'>Período</Form.Label>
         <Form.Control type='text' id='period' onChange={(event) => setStage1({...stage1, period: event.target.value })} />
         {/* link */}
-        <Link to='/next' id='next-button'>Próximo</Link>
+        <Link to='/batch-registration' id='next-button'>Próximo</Link>
       </div>
     );
   }
