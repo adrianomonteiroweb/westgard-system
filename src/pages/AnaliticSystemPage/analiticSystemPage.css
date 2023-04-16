@@ -17,3 +17,13 @@
     position: relative;
     top: 10px;
 }
+
+.analiticSystem-div #clear-button {
+    border: 1px solid red;
+    border-radius: 8px;
+    background-color: transparent;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    top: 10px;
+}
