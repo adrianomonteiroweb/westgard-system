@@ -18,7 +18,7 @@ function BatchRegistrationPage() {
         </div>
         {/* link */}
         <Link to='/' id='back-button'>Voltar</Link>
-        <Link to='/batch-record' id='next-button'>Próximo</Link>
+        <Link to='/batch-registration' id='next-button'>Próximo</Link>
         <Link id='clear-button' onClick={() => setStage2(initialStage2)}>Limpar</Link>
       </div>
     );
