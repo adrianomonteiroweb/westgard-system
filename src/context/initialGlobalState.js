@@ -20,3 +20,16 @@ export const initialStage2 = {
         DP: 4
     }
 };
+
+export const initialStage3 = [
+    {
+        date: '01/12/2022',
+        nivel1: 2,
+        nivel2: 3
+    },
+    {
+        date: '05/01/2023',
+        nivel1: 1,
+        nivel2: 2
+    }
+];

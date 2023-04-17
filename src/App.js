@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // pages
 import AnaliticSystemPage from './pages/AnaliticSystemPage/AnaliticSystemPage';
 import BatchRegistrationPage from './pages/BatchRegistrationPage/BatchRegistrationPage';
+import BatchRecordPage from './pages/BatchRecordPage/BatchRecordPage';
 
 // css style
 import './App.css';
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path='/' element={[<AnaliticSystemPage />]} />
           <Route path='/batch-registration' element={[<BatchRegistrationPage />]} />
+          <Route path='/batch-record' element={[<BatchRecordPage />]} />
         </Routes>
       </Router>
       </div>
