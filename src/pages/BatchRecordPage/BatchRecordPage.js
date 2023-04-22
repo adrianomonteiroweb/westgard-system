@@ -49,8 +49,8 @@ function BatchRecordPage() {
             </Table>
             <div className='links-div'>
                 {/* link */}
-                <Link to='/batch-registration' id='back-button' className='link'>Voltar</Link>
-                <Link to='/batch-result' id='next-button'  className='link'>Próximo</Link>
+                <Link to='/batch-record' id='back-button' className='link'>Voltar</Link>
+                <Link to='/batch-registration' id='next-button'  className='link'>Próximo</Link>
                 <Link id='clear-button'  className='link' onClick={() => setStage3(initialStage3)}>Limpar</Link>
             </div>
         </>

@@ -20,3 +20,5 @@ export const initialStage2 = {
         DP: 4
     }
 };
+
+export const initialStage3 = [];

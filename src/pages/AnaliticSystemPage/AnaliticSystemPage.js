@@ -30,7 +30,7 @@ function AnaliticSystemPage() {
         <Form.Label htmlFor='period'>Período</Form.Label>
         <Form.Control type='text' id='period' value={ stage1.period } onChange={(event) => setStage1({...stage1, period: event.target.value })} />
         {/* link */}
-        <Link to='/batch-registration' id='next-button'>Próximo</Link>
+        <Link to='/batch-record' id='next-button'>Próximo</Link>
         <Link id='clear-button' onClick={() => setStage1(initialStage1)}>Limpar</Link>
       </div>
     );
