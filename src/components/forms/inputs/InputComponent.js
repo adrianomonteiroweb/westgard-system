@@ -6,7 +6,12 @@ function InputComponent({ input: [ type = 'text', id, value, nivelText, eventFun
     return (
         <>
             <Form.Label htmlFor={`${id}`}>{`${nivelText}`}</Form.Label>
-            <Form.Control type={`${type}`} id={`${id}`} value={value} max={new Date().toISOString().split("T")[0]} onChange={(event) => eventFunc(event, prop, nivel)}
+            <Form.Control
+                type={`${type}`}
+                id={`${id}`}
+                value={value}
+                // max={new Date().toISOString().split("T")[0]}
+                onChange={(event) => eventFunc ? eventFunc(event, prop, nivel) : undefined}
             />
         </>
     );

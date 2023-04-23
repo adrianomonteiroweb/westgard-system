@@ -1,11 +1,19 @@
 .batch-record-div {
     display: flex;
+    font-size: 12px;
 }
 
-.batch-record-div .register-button {
-    font-size: 18px;
+.batch-record-div .register-button,.update-button {
+    border-radius: 10px;
+    font-size: 12px;
+    margin: 2px;
     position: relative;
     top: 30px;
+}
+
+.batch-record-div .update-button {
+    background-color: green;
+    border: 0;
 }
 
 .links-div {
@@ -64,4 +72,21 @@
 #clear-button:hover {
     background-color: rgba(255, 0, 0, 0.596);
     color: aliceblue;
+}
+
+table {
+    margin-top: 40px;
+}
+
+table th, td {
+    font-size: 12px;
+    text-align: center;
+}
+
+.edit-button {
+    background-color: dimgray;
+    border: 0;
+    border-radius: 10px;
+    font-size: 12px;
+    width: 55px;
 }
