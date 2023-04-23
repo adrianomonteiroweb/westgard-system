@@ -17,3 +17,7 @@ export const setValuesOfInputs = (inputArrayOfIDs, arrayOfValues) =>
   inputArrayOfIDs.map((ID, i) => document
     .querySelector(`#${ID}`).value = arrayOfValues[i]);
 };
+
+export const persistDataOnLocalStorage = (key, data) => {
+  localStorage.setItem(`${key}`, JSON.stringify(data));
+};

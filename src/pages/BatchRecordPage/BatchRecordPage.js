@@ -1,18 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
 import IsContext from "../../context/IsContext";
-import { emptyInputs, getValuesOfInputs, setValuesOfInputs } from "../../utils/functions/";
+import { emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
 
 function BatchRecordPage() {
   const { stage3, setStage3 } = useContext(IsContext);
-  const { stage2, setStage2 } = useContext(IsContext);
-  const [batches, setBatches] = useState({});
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("stage3"))) setStage3(JSON.parse(localStorage.getItem("stage3")));
+  }, []);
+  
+  const batches = {};
 
   const setStage3Func = () =>
   {
@@ -20,12 +24,16 @@ function BatchRecordPage() {
     const nivel1 = document.querySelector("#nivel1-result").value;
     const nivel2 = document.querySelector("#nivel2-result").value;
 
-    setStage3([...stage3, {
+    const stage3Change = [...stage3, {
       id: stage3.length + 1,
       date,
       nivel1,
       nivel2
-    }]);
+    }];
+
+    setStage3(stage3Change);
+
+    persistDataOnLocalStorage("stage3", stage3Change);
 
     emptyInputs(["batch-date", "nivel1-result", "nivel2-result"]);
   };
@@ -37,9 +45,13 @@ function BatchRecordPage() {
 
     const isId = Number(id);
 
-    setStage3([
+    const changeStage3 = [
       ...allStage,
-      {id: isId, date: values[0], nivel1: values[1], nivel2: values[2]}]);
+      {id: isId, date: values[0], nivel1: values[1], nivel2: values[2]}];
+
+    setStage3(changeStage3);
+
+    persistDataOnLocalStorage("stage3", changeStage3);
 
     emptyInputs(["batch-date", "nivel1-result", "nivel2-result"]);
   };
@@ -60,6 +72,8 @@ function BatchRecordPage() {
     const forDelete = stage3.filter((reg) => reg.id !== id);
 
     setStage3(forDelete);
+
+    persistDataOnLocalStorage("stage3", forDelete);
   };
 
   return (
@@ -123,7 +137,10 @@ function BatchRecordPage() {
         {/* link */}
         <Link to="/" id="back-button" className="link">Voltar</Link>
         <Link to="/batch-registration" id="next-button"  className="link">Próximo</Link>
-        <Link id="clear-button"  className="link" onClick={() => setStage3(initialStage3)}>Limpar</Link>
+        <Link id="clear-button"  className="link" onClick={() => {
+          setStage3(initialStage3);
+          persistDataOnLocalStorage("stage3", initialStage3);
+        }}>Limpar Sessão</Link>
       </div>
     </div>
   );
