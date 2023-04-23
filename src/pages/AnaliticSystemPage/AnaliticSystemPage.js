@@ -10,8 +10,6 @@ import InputComponent from "../../components/forms/inputs/InputComponent";
 function AnaliticSystemPage() {
   const { stage1, setStage1 } = useContext(IsContext);
 
-  console.log(stage1);
-
   const setStage1Func = (event, prop) =>
     setStage1({...stage1, [prop]: event.target.value });
 
