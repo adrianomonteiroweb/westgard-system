@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AnaliticSystemPage from "./pages/AnaliticSystemPage/AnaliticSystemPage";
 import BatchRegistrationPage from "./pages/BatchRegistrationPage/BatchRegistrationPage";
 import BatchRecordPage from "./pages/BatchRecordPage/BatchRecordPage";
+import ChartPage from "./pages/ChartPage/ChartPage";
 
 // css style
 import "./App.css";
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={[<AnaliticSystemPage key={"analitic"} />]} />
             <Route path="/batch-record" element={[<BatchRecordPage key={"batchRecord"} />]} />
             <Route path="/batch-registration" element={[<BatchRegistrationPage key={"batchReg"} />]} />
+            <Route path="/chart" element={[<ChartPage key={"chart"} />]} />
           </Routes>
         </Router>
       </div>

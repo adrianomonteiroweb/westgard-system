@@ -14,7 +14,7 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
     <div className="nivel">
       {/* nivel input */}
       <InputComponent
-        input={["number",
+        input={["text",
           "nivel",
           stage2[nivel][nivel],
           nivelText,
