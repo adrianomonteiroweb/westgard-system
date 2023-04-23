@@ -83,10 +83,18 @@ table th, td {
     text-align: center;
 }
 
-.edit-button {
-    background-color: dimgray;
+.edit-button, .delete-button {
     border: 0;
     border-radius: 10px;
+    margin: 2px;
     font-size: 12px;
-    width: 55px;
+    width: 60px;
+}
+
+.edit-button {
+    background-color: dimgray;
+}
+
+.delete-button {
+    background-color: red;
 }

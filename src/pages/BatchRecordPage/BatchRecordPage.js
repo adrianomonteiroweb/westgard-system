@@ -56,6 +56,12 @@ function BatchRecordPage() {
     }
   };
 
+  const deleteRegister = (id) => {
+    const forDelete = stage3.filter((reg) => reg.id !== id);
+
+    setStage3(forDelete);
+  };
+
   return (
     <>
       <div className="batch-record-div">
@@ -101,6 +107,12 @@ function BatchRecordPage() {
                   onClick={() => editRegister(index + 1)}
                 >
                     Editar
+                </Button>
+                <Button
+                  className="delete-button"
+                  onClick={() => deleteRegister(index + 1)}
+                >
+                    Deletar
                 </Button>
               </td>
             </tr>
