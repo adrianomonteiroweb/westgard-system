@@ -5,14 +5,14 @@ import { Button, Table } from "react-bootstrap";
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
 import IsContext from "../../context/IsContext";
-import { emptyInputs, getValuesOfInputs, setValuesOfInputs } from "../../utils/functions";
+import { emptyInputs, getValuesOfInputs, setValuesOfInputs } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
 
 function BatchRecordPage() {
   const { stage3, setStage3 } = useContext(IsContext);
+  const { stage2, setStage2 } = useContext(IsContext);
   const [batches, setBatches] = useState({});
-  console.log(stage3); // -----------------------------
 
   const setStage3Func = () =>
   {
