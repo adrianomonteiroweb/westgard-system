@@ -63,7 +63,7 @@ function BatchRecordPage() {
   };
 
   return (
-    <>
+    <div className="batch-record">
       <div className="batch-record-div">
         <div>
           <InputComponent input={["date", "batch-date",  batches["date"], "Data"]} />
@@ -125,7 +125,7 @@ function BatchRecordPage() {
         <Link to="/batch-registration" id="next-button"  className="link">Próximo</Link>
         <Link id="clear-button"  className="link" onClick={() => setStage3(initialStage3)}>Limpar</Link>
       </div>
-    </>
+    </div>
   );
 }
 
