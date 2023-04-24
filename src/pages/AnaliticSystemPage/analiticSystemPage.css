@@ -8,6 +8,10 @@
     padding: 20px;
 }
 
+.analiticSystem-div .input-component {
+    text-align: center;
+}
+
 .analiticSystem-div #next-button {
     background-color: transparent;
     border: 1px solid blue;
