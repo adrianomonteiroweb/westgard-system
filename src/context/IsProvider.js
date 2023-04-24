@@ -5,9 +5,13 @@ import IsContext from "./IsContext";
 import { initialStage1, initialStage2, initialStage3 } from "./initialGlobalState";
 
 function IsProvider({ children }) {
-  const [stage1, setStage1] = useState(initialStage1);
-  const [stage2, setStage2] = useState(initialStage2);
-  const [stage3, setStage3] = useState(initialStage3);
+  const stage1LocalStorage = JSON.parse(localStorage.getItem("stage1"));
+  const stage2LocalStorage = JSON.parse(localStorage.getItem("stage2"));
+  const stage3LocalStorage = JSON.parse(localStorage.getItem("stage3"));
+
+  const [stage1, setStage1] = useState(stage1LocalStorage ? stage1LocalStorage : initialStage1);
+  const [stage2, setStage2] = useState(stage2LocalStorage ? stage2LocalStorage : initialStage2);
+  const [stage3, setStage3] = useState(stage3LocalStorage ? stage3LocalStorage : initialStage3);
 
   const contextValue = {
     stage1,
