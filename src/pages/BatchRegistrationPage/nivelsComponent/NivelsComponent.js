@@ -4,7 +4,7 @@ import InputComponent from "../../../components/forms/inputs/InputComponent";
 
 function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
     
-  function setPropState(nivel, event, prop) {
+  function setPropState(event, prop, nivel) {
     nivel === "nivel1"
       ? setStage2({ nivel2: stage2.nivel2, nivel1: { ...stage2.nivel1, [prop]: event.target.value} })
       : setStage2({ nivel1: stage2.nivel1, nivel2: { ...stage2.nivel2, [prop]: event.target.value} });
@@ -29,8 +29,8 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
           stage2[nivel]["batchNumber"],
           "Nº de lote",
           setPropState,
-          nivel,
-          "batchNumber"]}
+          "batchNumber",
+          nivel]}
       />
       {/* media input */}
       <InputComponent
@@ -39,8 +39,8 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
           stage2[nivel]["media"],
           "Média",
           setPropState,
-          nivel,
-          "media"]}
+          "media",
+          nivel]}
       />
       {/* DP input */}
       <InputComponent input={["number",
@@ -48,8 +48,8 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
         stage2[nivel]["DP"],
         "DP",
         setPropState,
-        nivel,
-        "DP"]}
+        "DP",
+        nivel]}
       />
     </div>
   );

@@ -43,9 +43,9 @@ function BatchRegistrationPage() {
         <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } />
       </div>
       {/* link */}
-      <Link to="/batch-record" id="back-button">Voltar</Link>
-      <Link to="/chart" id="next-button">Próximo</Link>
-      <Link id="clear-button" onClick={() => setStage2(initialStage2)}>Limpar</Link>
+      <Link to="/batch-record" id="back-button">Sessão Anterior</Link>
+      <Link to="/chart" id="next-button" onClick={() => localStorage.setItem("stage2", JSON.stringify(stage2))}>Próxima Sessão</Link>
+      <Link id="clear-button" onClick={() => setStage2(initialStage2)}>Limpar Sessão</Link>
     </div>
   );
 }
