@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function LinkComponent({ link: [Icon, to, id, iconClass, text] }) {
+function LinkComponent({ link: [Icon, to, id, iconClass, text, func] }) {
   return (
-    <Link to={to} id={id}>{<Icon className={`${iconClass}`} />}{`${text}`}</Link>
+    iconClass === "back-session"
+      ? <Link to={to} id={id} onClick={func}>{<Icon className={`${iconClass}`} />}{`${text}`}</Link>
+      : <Link to={to} id={id} onClick={func}>{`${text}`}{<Icon className={`${iconClass}`} />}</Link>
   );
 }
 

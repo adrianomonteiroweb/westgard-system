@@ -12,22 +12,13 @@
     text-align: center;
 }
 
-.analiticSystem-div #next-button {
-    background-color: transparent;
-    border: 1px solid blue;
-    border-radius: 8px;
-    color: blue;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    top: 10px;
-}
-
+.analiticSystem-div #next-button,
 .analiticSystem-div #clear-button {
     background-color: transparent;
-    border: 1px solid red;
+    border: 1px solid #3b3a3a;
     border-radius: 8px;
-    color: red;
+    color: #3b3a3a;
+    margin: 2px;
     text-align: center;
     text-decoration: none;
     position: relative;

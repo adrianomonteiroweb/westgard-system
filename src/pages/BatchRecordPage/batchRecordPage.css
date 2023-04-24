@@ -20,9 +20,24 @@
     top: 15px;
 }
 
+.batch-record-div .register-button {
+    background-color: transparent;
+    border: 1px solid #3b3a3a;
+    color: #3b3a3a;
+}
+
 .batch-record-div .update-button {
-    background-color: green;
-    border: 0;
+    background-color: transparent;
+    border: 1px solid #3b3a3a;
+    color: #3b3a3a;
+}
+
+.update-button:hover {
+    background-color: rgba(14, 196, 14, 0.603);
+}
+
+.register-button:hover {
+    background-color: rgba(0, 0, 255, 0.596);
 }
 
 .links-div {
@@ -110,4 +125,31 @@ table th, td {
 #batch-date, #nivel1-result, #nivel2-result {
     font-size: 10px;
     text-align: center;
+}
+
+.links-div #back-button, .links-div #next-button, .links-div #clear-button {
+    border: 1px solid #3b3a3a;
+    border-radius: 8px;
+    background-color: transparent;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    top: 10px;
+    width: 200px;
+}
+
+#back-button:hover {
+    background-color: rgba(0, 0, 0, 0.582);
+    color: aliceblue;
+}
+
+#next-button:hover {
+    background-color: rgba(0, 0, 255, 0.568);
+    color: aliceblue;
+}
+
+#clear-button:hover {
+    background-color: rgba(255, 0, 0, 0.596);
+    color: aliceblue;
 }
