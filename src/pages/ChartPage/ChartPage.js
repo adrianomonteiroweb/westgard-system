@@ -4,6 +4,7 @@ import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 
 import "./chartPage.css";
 import { useEffect } from "react";
+import LinkComponent from "../../components/links/LinkComponent";
 
 const data = [
   ["x", "Nível 1", "Nível 2"],
@@ -38,8 +39,8 @@ function ChartPage() {
         data={data}
         options={options}
       />
-      <Link to="/batch-registration" id="back-button-chart">{<IoArrowUndoSharp className="back-session" />}Sessão Anterior</Link>
-      <Link to="/" id="back-button-chart">{<IoStorefrontSharp className="home-session" />}Sessão Inicial</Link>
+      <LinkComponent link={[IoArrowUndoSharp, "/batch-registration", "back-button-chart", "back-session", "Sessão Anterior"]} />
+      <LinkComponent link={[IoStorefrontSharp, "/", "back-button-chart", "home-session", "Sessão Inicial"]} />
     </>
   );
 }
