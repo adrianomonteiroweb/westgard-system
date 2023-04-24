@@ -8,9 +8,13 @@
     font-size: 12px;
 }
 
+.batch-record-div div {
+    margin: 4px;
+}
+
 .batch-record-div .register-button,.update-button {
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 9px;
     margin: 2px;
     position: relative;
     top: 15px;
@@ -86,8 +90,7 @@ table th, td {
     border: 0;
     border-radius: 10px;
     margin: 2px;
-    font-size: 12px;
-    width: 60px;
+    font-size: 9px;
 }
 
 .edit-button {
@@ -96,4 +99,15 @@ table th, td {
 
 .delete-button {
     background-color: red;
+}
+
+[for="batch-date"] h6,
+[for="nivel1-result"] h6,
+[for="nivel2-result"] h6 {
+    font-size: 14px;
+}
+
+#batch-date, #nivel1-result, #nivel2-result {
+    font-size: 10px;
+    text-align: center;
 }

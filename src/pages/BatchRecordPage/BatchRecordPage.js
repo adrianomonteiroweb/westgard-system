@@ -135,8 +135,8 @@ function BatchRecordPage() {
       </Table>
       <div className="links-div">
         {/* link */}
-        <Link to="/" id="back-button" className="link">Voltar</Link>
-        <Link to="/batch-registration" id="next-button"  className="link">Próximo</Link>
+        <Link to="/" id="back-button" className="link">Sessão Anterior</Link>
+        <Link to="/batch-registration" id="next-button"  className="link">Próxima Sessão</Link>
         <Link id="clear-button"  className="link" onClick={() => {
           setStage3(initialStage3);
           persistDataOnLocalStorage("stage3", initialStage3);
