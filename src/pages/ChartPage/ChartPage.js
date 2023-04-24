@@ -1,5 +1,6 @@
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
+import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 
 import "./chartPage.css";
 import { useEffect } from "react";
@@ -10,13 +11,15 @@ const data = [
 
 const options = {
   hAxis: {
-    title: "Dias"
+    title: "Dias",
+    format: "short"
   },
   vAxis: {
     title: "Médias",
     format: "decimal",
     gridlines: { color: "#333", minSpacing: 0.20 },
   },
+  pointSize: 6
 };
 
 function ChartPage() {
@@ -31,11 +34,12 @@ function ChartPage() {
       <Chart
         chartType="LineChart"
         width="100%"
-        height="400px"
+        // height="400px"
         data={data}
         options={options}
       />
-      <Link to="/batch-registration" id="back-button-chart">Voltar</Link>
+      <Link to="/batch-registration" id="back-button-chart">{<IoArrowUndoSharp className="back-session" />}Sessão Anterior</Link>
+      <Link to="/" id="back-button-chart">{<IoStorefrontSharp className="home-session" />}Sessão Inicial</Link>
     </>
   );
 }

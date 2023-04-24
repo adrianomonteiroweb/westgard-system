@@ -9,3 +9,9 @@
     top: 10px;
     width: 300px;
 }
+
+.back-session, .home-session {
+    margin-right: 5px;
+    position: relative;
+    top: -2px;
+}
