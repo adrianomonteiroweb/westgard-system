@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
 import IsContext from "../../context/IsContext";
 import NilvelsComponent from "./nivelsComponent/NivelsComponent";
 
 import "./batchRegistrationPage.css";
 import { initialStage2 } from "../../context/initialGlobalState";
+import LinkComponent from "../../components/links/LinkComponent";
 
 function BatchRegistrationPage() {
   const { stage2, setStage2 } = useContext(IsContext);
@@ -43,9 +44,9 @@ function BatchRegistrationPage() {
         <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } />
       </div>
       {/* link */}
-      <Link to="/batch-record" id="back-button">Sessão Anterior</Link>
-      <Link to="/chart" id="next-button" onClick={() => localStorage.setItem("stage2", JSON.stringify(stage2))}>Próxima Sessão</Link>
-      <Link id="clear-button" onClick={() => setStage2(initialStage2)}>Limpar Sessão</Link>
+      <LinkComponent link={[IoArrowUndoSharp, "/batch-record", "back-button", "back-session", "Sessão Anterior"]} />
+      <LinkComponent link={[IoArrowRedoSharp, "/chart", "next-button", "next-session", "Próxima Sessão", () => localStorage.setItem("stage2", JSON.stringify(stage2))]} />
+      <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => setStage2(initialStage2)]} />
     </div>
   );
 }

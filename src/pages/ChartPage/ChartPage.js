@@ -1,5 +1,4 @@
 import { Chart } from "react-google-charts";
-import { Link } from "react-router-dom";
 import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 
 import "./chartPage.css";

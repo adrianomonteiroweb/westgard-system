@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect,} from "react";
 import { Button, Table } from "react-bootstrap";
+import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
@@ -8,6 +8,7 @@ import IsContext from "../../context/IsContext";
 import { emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
+import LinkComponent from "../../components/links/LinkComponent";
 
 function BatchRecordPage() {
   const { stage3, setStage3 } = useContext(IsContext);
@@ -135,12 +136,12 @@ function BatchRecordPage() {
       </Table>
       <div className="links-div">
         {/* link */}
-        <Link to="/" id="back-button" className="link">Sessão Anterior</Link>
-        <Link to="/batch-registration" id="next-button"  className="link">Próxima Sessão</Link>
-        <Link id="clear-button"  className="link" onClick={() => {
+        <LinkComponent link={[IoArrowUndoSharp, "/", "back-button", "back-session", "Sessão Anterior"]} />
+        <LinkComponent link={[IoArrowRedoSharp, "/batch-registration", "next-button", "next-session", "Próxima Sessão"]} />
+        <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => {
           setStage3(initialStage3);
           persistDataOnLocalStorage("stage3", initialStage3);
-        }}>Limpar Sessão</Link>
+        }]} />
       </div>
     </div>
   );

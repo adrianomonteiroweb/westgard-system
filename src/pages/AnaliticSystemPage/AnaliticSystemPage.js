@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
 import IsContext from "../../context/IsContext";
 
@@ -7,6 +8,7 @@ import { initialStage1 } from "../../context/initialGlobalState";
 import InputComponent from "../../components/forms/inputs/InputComponent";
 
 import "./analiticSystemPage.css";
+import LinkComponent from "../../components/links/LinkComponent";
 
 function AnaliticSystemPage() {
   const { stage1, setStage1 } = useContext(IsContext);
@@ -29,8 +31,9 @@ function AnaliticSystemPage() {
       {/* period input */}
       <InputComponent input={["date", "period", stage1.period, "Período", setStage1Func, "period"]} />
       {/* link */}
-      <Link to="/batch-record" id="next-button" onClick={() => stage1Persist()}>Próxima Sessão</Link>
-      <Link id="clear-button" onClick={() => setStage1(initialStage1)}>Limpar Sessão</Link>
+      <LinkComponent link={[IoArrowRedoSharp, "/batch-record", "next-button", "next-session", "Próxima Sessão", () => stage1Persist()]} />
+      <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => 
+        setStage1(initialStage1)]} />
     </div>
   );
 }
