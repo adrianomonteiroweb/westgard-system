@@ -29,8 +29,8 @@ function AnaliticSystemPage() {
       {/* period input */}
       <InputComponent input={["date", "period", stage1.period, "Período", setStage1Func, "period"]} />
       {/* link */}
-      <Link to="/batch-record" id="next-button" onClick={() => stage1Persist()}>Próximo</Link>
-      <Link id="clear-button" onClick={() => setStage1(initialStage1)}>Limpar</Link>
+      <Link to="/batch-record" id="next-button" onClick={() => stage1Persist()}>Próxima Sessão</Link>
+      <Link id="clear-button" onClick={() => setStage1(initialStage1)}>Limpar Sessão</Link>
     </div>
   );
 }

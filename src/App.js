@@ -16,8 +16,9 @@ function App() {
   return (
     <IsProvider>
       <div className="App">
-        <div>
-          <h1>Controle de qualidade</h1>
+        <div className="title-div">
+          <img src="laac-logo.png" alt="LAAC" />
+          <h2>Controle de qualidade</h2>
         </div>
         <Router>
           <Routes>
