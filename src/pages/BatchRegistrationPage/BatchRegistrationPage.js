@@ -27,12 +27,12 @@ function BatchRegistrationPage() {
     const variant2 = stage3.reduce((total, valor) => total + Math.pow(media2 - Number(valor.nivel2), 2)/stage3.length, 0);
 
     // standard deviation
-    const dp1 = Math.sqrt(variant1).toFixed(1);
-    const dp2 = Math.sqrt(variant2).toFixed(1);
+    const dp1 = Math.sqrt(variant1).toFixed(2);
+    const dp2 = Math.sqrt(variant2).toFixed(2);
 
     setStage2({
-      nivel1: { ...stage2.nivel1, media: media1.toFixed(1), DP: dp1 },
-      nivel2: { ...stage2.nivel2, media: media2.toFixed(1), DP: dp2 }
+      nivel1: { ...stage2.nivel1, media: media1.toFixed(2), DP: dp1 },
+      nivel2: { ...stage2.nivel2, media: media2.toFixed(2), DP: dp2 }
     });
   }, []);
 
