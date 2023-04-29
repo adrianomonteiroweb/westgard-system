@@ -1,9 +1,10 @@
+import { useContext, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 
 import "./chartPage.css";
-import { useEffect } from "react";
 import LinkComponent from "../../components/links/LinkComponent";
+import IsContext from "../../context/IsContext";
 
 const data = [
   ["x", "Nível 1", "Nível 2"],
@@ -23,10 +24,19 @@ const options = {
 };
 
 function ChartPage() {
+  const { stage2, setStage2 } = useContext(IsContext);
+
   useEffect(() => {
     const medias = JSON.parse(localStorage.getItem("stage3"));
     
-    if (data.length === 1) medias.map(({id, nivel1, nivel2}) => data.push([id, Number(nivel1), Number(nivel2)]));
+    if (data.length === 1) medias
+      .map(({id, nivel1, nivel2}) => {
+        const n1 = Number(nivel1) / stage2.nivel1.media;
+        const n2 = Number(nivel2) / stage2.nivel2.media;
+        
+        data
+          .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
+      });
   }, []);
 
   return (
