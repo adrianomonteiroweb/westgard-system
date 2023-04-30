@@ -24,6 +24,16 @@ table th, td {
   border-top: 1px solid black;
 }
 
+.loading-div {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  height: 600px;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
 @media (max-width: 1440px) {
   .table-div {
     padding: 5px;
@@ -52,6 +62,10 @@ table th, td {
 }
 
 @media (max-width: 768px) {
+  .chart-div {
+    height: 210px;
+  }
+  
   .table-div {
     padding: 5px;
     width: 60%;
@@ -94,6 +108,10 @@ table th, td {
 }
 
 @media (max-width: 320px) {
+  .loading-div {
+    padding: 2px;
+  }
+
   table th, td {
     font-size: 9px;
   }
