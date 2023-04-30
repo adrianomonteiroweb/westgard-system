@@ -2,7 +2,6 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 650px;
   justify-content: center;
   padding: 20px;
 }
@@ -16,8 +15,19 @@
 
 .title-div h2 {
   color: #02293B;
+  margin: 2px;
 }
 
-.App img {
-  width: 160px;
+@media (max-width: 320px) {
+  .analiticSystem-div {
+    height: 450px;
+  }
+
+  .App img {
+    width: 120px;
+  }
+
+  .title-div h2 {
+    font-size: 18px;
+  }
 }

@@ -1,20 +1,10 @@
-.batch-record {
-    min-height: 500px;
-    padding: 20px;
-}
-
 .batch-record-div {
     display: flex;
-    font-size: 12px;
-}
-
-.batch-record-div div {
-    margin: 4px;
+    font-size: 10px;
 }
 
 .batch-record-div .register-button,.update-button {
     border-radius: 10px;
-    font-size: 9px;
     margin: 2px;
     position: relative;
     top: 15px;
@@ -93,11 +83,10 @@
 }
 
 table {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 table th, td {
-    font-size: 10px;
     text-align: center;
 }
 
@@ -105,7 +94,6 @@ table th, td {
     border: 0;
     border-radius: 10px;
     margin: 2px;
-    font-size: 9px;
 }
 
 .edit-button {
@@ -116,27 +104,18 @@ table th, td {
     background-color: red;
 }
 
-[for="batch-date"] h6,
-[for="nivel1-result"] h6,
-[for="nivel2-result"] h6 {
-    font-size: 14px;
-}
-
 #batch-date, #nivel1-result, #nivel2-result {
-    font-size: 10px;
-    text-align: center;
+  text-align: center;
 }
 
 .links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
     border: 1px solid #3b3a3a;
     border-radius: 8px;
     background-color: transparent;
-    margin: 2px;
+    color: #3b3a3a;
     text-align: center;
     text-decoration: none;
     position: relative;
-    top: 10px;
-    width: 200px;
 }
 
 #back-button:hover {
@@ -158,4 +137,45 @@ table th, td {
     color: red;
     font-family: 'Courier New', Courier, monospace;
     font-style: bold;
+}
+
+@media (max-width: 320px) {
+  .batch-record {
+    width: 100%;
+  }
+
+  .batch-record-div div {
+    margin: 2px;
+  }
+
+  .batch-record-div .register-button,.update-button {
+    font-size: 6px;
+  }
+
+  table th, td {
+    font-size: 8px;
+  }
+
+  .edit-button, .delete-button {
+    font-size: 6px;
+  }
+
+  [for="batch-date"] h6,
+  [for="nivel1-result"] h6,
+  [for="nivel2-result"] h6 {
+    font-size: 12px;
+  }
+
+  #batch-date, #nivel1-result, #nivel2-result {
+    font-size: 10px;
+  }
+
+  .batch-record .alert {
+    font-size: 10px;
+  }
+
+  .links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
+    font-size: 10px;
+    width: 200px;
+  }
 }
