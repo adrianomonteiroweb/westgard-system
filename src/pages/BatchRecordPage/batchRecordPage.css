@@ -139,6 +139,47 @@ table th, td {
     font-style: bold;
 }
 
+@media (max-width: 1440px) {
+  .batch-record {
+    width: 60%;
+  }
+
+  .batch-record-div div {
+    margin: 2px;
+  }
+
+  .batch-record-div .register-button,.update-button {
+    font-size: 10px;
+  }
+
+  table th, td {
+    font-size: 14px;
+  }
+
+  .edit-button, .delete-button {
+    font-size: 10px;
+  }
+
+  [for="batch-date"] h6,
+  [for="nivel1-result"] h6,
+  [for="nivel2-result"] h6 {
+    font-size: 12px;
+  }
+
+  #batch-date, #nivel1-result, #nivel2-result {
+    font-size: 12px;
+  }
+
+  .batch-record .alert {
+    font-size: 16px;
+  }
+
+  .links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
+    font-size: 14px;
+    width: 200px;
+  }
+}
+
 @media (max-width: 320px) {
   .batch-record {
     width: 100%;
