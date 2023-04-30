@@ -49,6 +49,20 @@
   }
 }
 
+@media (max-width: 425px) {
+  .analiticSystem-div {
+    height: 450px;
+  }
+
+  .App img {
+    width: 120px;
+  }
+
+  .title-div h2 {
+    font-size: 18px;
+  }
+}
+
 @media (max-width: 320px) {
   .analiticSystem-div {
     height: 450px;
