@@ -37,37 +37,38 @@ table th, td {
 @media (max-width: 1440px) {
   .chart-div {
     height: 210px;
-  }
-
-  .table-div {
-    padding: 5px;
     width: 60%;
   }
 
+  .table-div {
+    padding: 4px;
+    width: 40%;
+  }
+
   table th, td {
-    font-size: 18px;
+    font-size: 16px;
     width: 150px;
   }
 
   .title-table {
     color: black;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .media h6 {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   #back-button-chart,
   #home-session {
-    font-size: 18px;
+    font-size: 16px;
     width: 250px;
   }
 }
 
 @media (max-width: 768px) {
   .chart-div {
-    height: 210px;
+    width: 70%;
   }
   
   .table-div {
@@ -97,6 +98,10 @@ table th, td {
 }
 
 @media (max-width: 425px) {
+  .chart-div {
+    width: 100%;
+  }
+
   table th, td {
     font-size: 12px;
   }
@@ -116,6 +121,11 @@ table th, td {
     padding: 2px;
   }
 
+  .table-div {
+    padding: 5px;
+    width: 60%;
+  }
+
   table th, td {
     font-size: 9px;
   }
@@ -126,6 +136,6 @@ table th, td {
   }
 
   .media h6 {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
