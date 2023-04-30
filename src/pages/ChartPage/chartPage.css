@@ -1,13 +1,82 @@
 #back-button-chart,
 #home-session {
-    border: 1px solid #3b3a3a;
-    border-radius: 8px;
-    background-color: transparent;
-    color: #3b3a3a;
-    margin: 2px;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    top: 10px;
-    width: 200px;
+  border: 1px solid #3b3a3a;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #3b3a3a;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  width: 170px;
+}
+
+table th, td {
+  text-align: center;
+  width: 100px;
+}
+
+.col-table {
+  border: 1px solid black;
+}
+
+.media {
+  border-top: 1px solid black;
+}
+
+@media (max-width: 1440px) {
+  .table-div {
+    padding: 5px;
+    width: 60%;
+  }
+
+  table th, td {
+    font-size: 18px;
+    width: 150px;
+  }
+
+  .title-table {
+    color: black;
+    font-size: 20px;
+  }
+
+  .media h6 {
+    font-size: 24px;
+  }
+
+  #back-button-chart,
+  #home-session {
+    font-size: 18px;
+    width: 250px;
+  }
+}
+
+@media (max-width: 425px) {
+  table th, td {
+    font-size: 12px;
+  }
+
+  .title-table {
+    color: black;
+    font-size: 12px;
+  }
+
+  .media h6 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  table th, td {
+    font-size: 9px;
+  }
+
+  .title-table {
+    color: black;
+    font-size: 11px;
+  }
+
+  .media h6 {
+    font-size: 12px;
+  }
 }
