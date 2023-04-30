@@ -33,9 +33,13 @@
   color: aliceblue;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 425px) {
   .analiticSystem-div {
     height: 400px;
     padding: 10px;
+    width: 100%;
   }
+}
+
+@media (max-width: 320px) {
 }
