@@ -1,36 +1,41 @@
 .analiticSystem-div {
-    border: 1px solid #38B1E6;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    height: 550px;
-    justify-content: center;
-    padding: 20px;
+  border: 1px solid #38B1E6;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .analiticSystem-div .input-component {
-    text-align: center;
+  text-align: center;
 }
 
 .analiticSystem-div #next-button,
 .analiticSystem-div #clear-button {
-    background-color: transparent;
-    border: 1px solid #3b3a3a;
-    border-radius: 8px;
-    color: #3b3a3a;
-    margin: 2px;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    top: 10px;
+  background-color: transparent;
+  border: 1px solid #3b3a3a;
+  border-radius: 8px;
+  color: #3b3a3a;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  top: 10px;
 }
 
 #next-button:hover {
-    background-color: rgba(0, 0, 255, 0.568);
-    color: aliceblue;
+  background-color: rgba(0, 0, 255, 0.568);
+  color: aliceblue;
 }
 
 #clear-button:hover {
-    background-color: rgba(255, 0, 0, 0.596);
-    color: aliceblue;
+  background-color: rgba(255, 0, 0, 0.596);
+  color: aliceblue;
+}
+
+@media (max-width: 320px) {
+  .analiticSystem-div {
+    height: 400px;
+    padding: 10px;
+  }
 }
