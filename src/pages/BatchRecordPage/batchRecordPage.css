@@ -223,7 +223,7 @@ table th, td {
 
 @media (max-width: 425px) {
   .batch-record {
-    width: 100%;
+    width: 96%;
   }
 
   .batch-record-div div {
@@ -264,7 +264,7 @@ table th, td {
 
 @media (max-width: 320px) {
   .batch-record {
-    width: 100%;
+    width: 96%;
   }
 
   .batch-record-div div {
