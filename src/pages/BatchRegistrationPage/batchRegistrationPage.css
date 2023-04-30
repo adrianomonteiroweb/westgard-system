@@ -1,42 +1,48 @@
 .batchRegistration-div {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #38B1E6;
-    border-radius: 8px;
-    height: 500px;
-    justify-content: center;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #38B1E6;
+  border-radius: 8px;
+  height: 500px;
+  justify-content: center;
+  padding: 20px;
 }
 
 .batchRegistration-div .nivels-div {
-    display: flex;
+  display: flex;
 }
 
 .batchRegistration-div #back-button,
 .batchRegistration-div #next-button,
 .batchRegistration-div #clear-button {
-    border: 1px solid #3b3a3a;
-    border-radius: 8px;
-    background-color: transparent;
-    color: #3b3a3a;
-    margin: 2px;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    top: 10px;
+  border: 1px solid #3b3a3a;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #3b3a3a;
+  margin: 2px;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  top: 10px;
 }
 
 #back-button:hover {
-    background-color: rgba(0, 0, 0, 0.582);
-    color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.582);
+  color: aliceblue;
 }
 
 #next-button:hover {
-    background-color: rgba(0, 0, 255, 0.568);
-    color: aliceblue;
+  background-color: rgba(0, 0, 255, 0.568);
+  color: aliceblue;
 }
 
 #clear-button:hover {
-    background-color: rgba(255, 0, 0, 0.596);
-    color: aliceblue;
+  background-color: rgba(255, 0, 0, 0.596);
+  color: aliceblue;
+}
+
+@media (max-width: 425px) {
+  .batchRegistration-div {
+    border: 0;
+  }
 }
