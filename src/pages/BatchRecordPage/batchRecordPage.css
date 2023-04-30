@@ -180,6 +180,47 @@ table th, td {
   }
 }
 
+@media (max-width: 425px) {
+  .batch-record {
+    width: 100%;
+  }
+
+  .batch-record-div div {
+    margin: 2px;
+  }
+
+  .batch-record-div .register-button,.update-button {
+    font-size: 8px;
+  }
+
+  table th, td {
+    font-size: 10px;
+  }
+
+  .edit-button, .delete-button {
+    font-size: 8px;
+  }
+
+  [for="batch-date"] h6,
+  [for="nivel1-result"] h6,
+  [for="nivel2-result"] h6 {
+    font-size: 12px;
+  }
+
+  #batch-date, #nivel1-result, #nivel2-result {
+    font-size: 10px;
+  }
+
+  .batch-record .alert {
+    font-size: 10px;
+  }
+
+  .links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
+    font-size: 12px;
+    width: 200px;
+  }
+}
+
 @media (max-width: 320px) {
   .batch-record {
     width: 100%;
