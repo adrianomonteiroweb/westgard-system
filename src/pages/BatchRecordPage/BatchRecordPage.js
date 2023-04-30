@@ -1,4 +1,4 @@
-import { useContext, useEffect,} from "react";
+import { useContext, useEffect, useState,} from "react";
 import { Button, Table } from "react-bootstrap";
 import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
@@ -12,12 +12,24 @@ import LinkComponent from "../../components/links/LinkComponent";
 
 function BatchRecordPage() {
   const { stage3, setStage3 } = useContext(IsContext);
+  const [addButtonStatus, setAddButtonStatus] = useState(true);
+  const [setButtonStatus, setSetButtonStatus] = useState(true);
+  const [dataValue, setDataValue] = useState("");
+  const [nivel1Value, setNivel1Value] = useState("");
+  const [nivel2Value, setNivel2Value] = useState("");
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("stage3"))) setStage3(JSON.parse(localStorage.getItem("stage3")));
   }, []);
-  
+
+  useEffect(() => {
+    if (dataValue.length > 0 && nivel1Value > 0 && nivel2Value > 0) setAddButtonStatus(false);
+  }, [dataValue, nivel1Value, nivel2Value]);
+
   const batches = {};
+
+  const setAddButtonStatusFunc = (event, prop) =>
+    prop(event.target.value);
 
   const setStage3Func = () =>
   {
@@ -33,6 +45,7 @@ function BatchRecordPage() {
     }];
 
     setStage3(stage3Change);
+    setAddButtonStatus(true);
 
     persistDataOnLocalStorage("stage3", stage3Change);
 
@@ -51,6 +64,7 @@ function BatchRecordPage() {
       {id: isId, date: values[0], nivel1: values[1], nivel2: values[2]}];
 
     setStage3(changeStage3);
+    setSetButtonStatus(true);
 
     persistDataOnLocalStorage("stage3", changeStage3);
 
@@ -66,8 +80,18 @@ function BatchRecordPage() {
       setValuesOfInputs(["batch-date", "nivel1-result", "nivel2-result"], [date, nivel1, nivel2]);
 
       document.querySelector(".update-button").id = id;
+
+      setSetButtonStatus(false);
     }
   };
+
+  const alertMinimalReg = () => stage3.length < 10
+    ? (<span className="alert">* Insira pelo menos 10 resultados.</span>)
+    : (<div></div>);
+
+  const renderByConditional = () => stage3.length < 10
+    ? (<span className="alert-next">Próxima Sessão</span>)
+    : (<LinkComponent link={[IoArrowRedoSharp, "/batch-registration", "next-button", "next-session", "Próxima Sessão"]} />);
 
   const deleteRegister = (id) => {
     const forDelete = stage3.filter((reg) => reg.id !== id);
@@ -76,24 +100,25 @@ function BatchRecordPage() {
 
     persistDataOnLocalStorage("stage3", forDelete);
   };
-
+  
   return (
     <div className="batch-record">
       <div className="batch-record-div">
         <div>
-          <InputComponent input={["date", "batch-date",  batches["date"], "Data"]} />
+          <InputComponent input={["date", "batch-date",  batches["date"], "Data", setAddButtonStatusFunc, setDataValue]} />
         </div>
         <div>
-          <InputComponent input={["number", "nivel1-result",  batches["nivel1"], "Nível 1"]} />
+          <InputComponent input={["number", "nivel1-result",  batches["nivel1"], "Nível 1", setAddButtonStatusFunc, setNivel1Value]} />
         </div>
         <div>
-          <InputComponent input={["number", "nivel2-result",  batches["nivel2"], "Nível 2"]} />
+          <InputComponent input={["number", "nivel2-result",  batches["nivel2"], "Nível 2", setAddButtonStatusFunc, setNivel2Value]} />
         </div>
         <div>
-          <Button className="register-button" onClick={() => setStage3Func()}>Adicionar</Button>
-          <Button className="update-button" onClick={(event) => setStage3ById(event.target.id)}>Atualizar</Button>
+          <Button className="register-button" onClick={() => setStage3Func()} disabled={addButtonStatus}>Adicionar</Button>
+          <Button className="update-button" onClick={(event) => setStage3ById(event.target.id)} disabled={setButtonStatus}>Atualizar</Button>
         </div>
       </div>
+      {alertMinimalReg()}
       <Table striped borded hover>
         <tbody>
           <tr>
@@ -137,7 +162,7 @@ function BatchRecordPage() {
       <div className="links-div">
         {/* link */}
         <LinkComponent link={[IoArrowUndoSharp, "/", "back-button", "back-session", "Sessão Anterior"]} />
-        <LinkComponent link={[IoArrowRedoSharp, "/batch-registration", "next-button", "next-session", "Próxima Sessão"]} />
+        {renderByConditional()}
         <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => {
           setStage3(initialStage3);
           persistDataOnLocalStorage("stage3", initialStage3);

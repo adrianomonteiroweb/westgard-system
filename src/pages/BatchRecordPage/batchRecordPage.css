@@ -127,7 +127,7 @@ table th, td {
     text-align: center;
 }
 
-.links-div #back-button, .links-div #next-button, .links-div #clear-button {
+.links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
     border: 1px solid #3b3a3a;
     border-radius: 8px;
     background-color: transparent;
@@ -152,4 +152,10 @@ table th, td {
 #clear-button:hover {
     background-color: rgba(255, 0, 0, 0.596);
     color: aliceblue;
+}
+
+.batch-record .alert {
+    color: red;
+    font-family: 'Courier New', Courier, monospace;
+    font-style: bold;
 }
