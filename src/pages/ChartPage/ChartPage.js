@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 import { Table } from "react-bootstrap";
 
@@ -6,6 +6,7 @@ import "./chartPage.css";
 import LinkComponent from "../../components/links/LinkComponent";
 import IsContext from "../../context/IsContext";
 import ChartComponent from "../../components/charts/ChartComponent";
+import SpinnerComponent from "../../components/spinners/SpinnerComponent";
 
 const data = [
   ["x", "Nível 1", "Nível 2"],
@@ -28,6 +29,7 @@ const options = {
 
 function ChartPage() {
   const { stage2, setStage2 } = useContext(IsContext);
+  const [showLoading, setShowLoading] = useState(true);
 
   const cv1 = (stage2.nivel1.DP / stage2.nivel1.media) * 100;
   const cv2 = (stage2.nivel2.DP / stage2.nivel2.media) * 100;
@@ -48,11 +50,17 @@ function ChartPage() {
         data
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
       });
+
+    setTimeout(() => setShowLoading(false), 1000);
   }, []);
+
+  const renderLoadingFunc = () => showLoading && (<div className="loading-div"><SpinnerComponent /></div>);
 
   return (
     <>
-      <ChartComponent chart={[data, options]} />
+      <div className="chart-div">
+        <ChartComponent chart={[data, options]} />
+      </div>
       <div className="table-div">
         <Table striped borded hover>
           <tbody>
@@ -116,6 +124,7 @@ function ChartPage() {
         <LinkComponent link={[IoArrowUndoSharp, "/batch-registration", "back-button-chart", "back-session", "Sessão Anterior"]} />
         <LinkComponent link={[IoStorefrontSharp, "/", "back-button-chart", "home-session", "Sessão Inicial"]} />
       </div>
+      {renderLoadingFunc()}
     </>
   );
 }
