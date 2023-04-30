@@ -28,13 +28,17 @@ table th, td {
   align-items: center;
   background-color: white;
   display: flex;
-  height: 600px;
+  height: 700px;
   justify-content: center;
   position: absolute;
   width: 100%;
 }
 
 @media (max-width: 1440px) {
+  .chart-div {
+    height: 210px;
+  }
+
   .table-div {
     padding: 5px;
     width: 60%;
