@@ -50,6 +50,11 @@
 }
 
 @media (max-width: 425px) {
+  .App {
+    border: 1pz solid red;
+    padding: 20px 4px 0 4px;
+  }
+
   .analiticSystem-div {
     height: 450px;
   }

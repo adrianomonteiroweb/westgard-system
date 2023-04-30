@@ -1,17 +1,13 @@
-#back-button-chart {
-    border: 1px solid rgb(58, 56, 56);
+#back-button-chart,
+#home-session {
+    border: 1px solid #3b3a3a;
     border-radius: 8px;
     background-color: transparent;
-    margin: 5px;
+    color: #3b3a3a;
+    margin: 2px;
     text-align: center;
     text-decoration: none;
     position: relative;
     top: 10px;
-    width: 300px;
-}
-
-.back-session, .home-session {
-    margin-right: 5px;
-    position: relative;
-    top: -2px;
+    width: 200px;
 }

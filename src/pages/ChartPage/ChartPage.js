@@ -20,7 +20,9 @@ const options = {
     format: "decimal",
     gridlines: { color: "#333", minSpacing: 0.20 },
   },
-  pointSize: 6
+  pointSize: 6,
+  legend: { position: "top" },
+  isStacked: true,
 };
 
 function ChartPage() {
@@ -44,7 +46,6 @@ function ChartPage() {
       <Chart
         chartType="LineChart"
         width="100%"
-        // height="400px"
         data={data}
         options={options}
       />
