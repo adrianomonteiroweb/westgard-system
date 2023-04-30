@@ -51,6 +51,33 @@ table th, td {
   }
 }
 
+@media (max-width: 768px) {
+  .table-div {
+    padding: 5px;
+    width: 60%;
+  }
+
+  table th, td {
+    font-size: 14px;
+    width: 150px;
+  }
+
+  .title-table {
+    color: black;
+    font-size: 16px;
+  }
+
+  .media h6 {
+    font-size: 20px;
+  }
+
+  #back-button-chart,
+  #home-session {
+    font-size: 12px;
+    width: 250px;
+  }
+}
+
 @media (max-width: 425px) {
   table th, td {
     font-size: 12px;
