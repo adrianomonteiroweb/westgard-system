@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
-import { Chart } from "react-google-charts";
 import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 
 import "./chartPage.css";
 import LinkComponent from "../../components/links/LinkComponent";
 import IsContext from "../../context/IsContext";
+import ChartComponent from "../../components/charts/ChartComponent";
 
 const data = [
   ["x", "Nível 1", "Nível 2"],
@@ -43,12 +43,7 @@ function ChartPage() {
 
   return (
     <>
-      <Chart
-        chartType="LineChart"
-        width="100%"
-        data={data}
-        options={options}
-      />
+      <ChartComponent chart={[data, options]} />
       <LinkComponent link={[IoArrowUndoSharp, "/batch-registration", "back-button-chart", "back-session", "Sessão Anterior"]} />
       <LinkComponent link={[IoStorefrontSharp, "/", "back-button-chart", "home-session", "Sessão Inicial"]} />
     </>
