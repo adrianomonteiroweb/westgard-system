@@ -51,7 +51,7 @@ function ChartPage() {
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
       });
 
-    setTimeout(() => setShowLoading(false), 1000);
+    setTimeout(() => setShowLoading(false), 500);
   }, []);
 
   const renderLoadingFunc = () => showLoading && (<div className="loading-div"><SpinnerComponent /></div>);
