@@ -29,7 +29,7 @@ function AnaliticSystemPage() {
       {/* method input */}
       <InputComponent input={["text", "method", stage1.method, "Método", setStage1Func, "method"]} />
       {/* period input */}
-      <InputComponent input={["date", "period", stage1.period, "Período", setStage1Func, "period"]} />
+      <InputComponent input={["month", "period", stage1.period, "Período", setStage1Func, "period"]} />
       {/* link */}
       <LinkComponent link={[IoArrowRedoSharp, "/batch-record", "next-button", "next-session", "Próxima Sessão", () => stage1Persist()]} />
       <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => 
