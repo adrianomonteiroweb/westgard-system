@@ -5,13 +5,13 @@ import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
 import IsContext from "../../context/IsContext";
-import { emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs } from "../../utils/functions/";
+import { checksShuntedRule, emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs, shuntedRuleResult, stage2Results } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
 import LinkComponent from "../../components/links/LinkComponent";
 
 function BatchRecordPage() {
-  const { stage3, setStage3 } = useContext(IsContext);
+  const { stage3, setStage3, stage2 } = useContext(IsContext);
   const [addButtonStatus, setAddButtonStatus] = useState(true);
   const [setButtonStatus, setSetButtonStatus] = useState(true);
   const [dataValue, setDataValue] = useState("");
@@ -26,7 +26,27 @@ function BatchRecordPage() {
     if (dataValue.length > 0 && nivel1Value > 0 && nivel2Value > 0) setAddButtonStatus(false);
   }, [dataValue, nivel1Value, nivel2Value]);
 
+  useEffect(() => {
+    if (stage3.length >= 10) addNewColOnTable(shuntedRuleResult(stage3, stage2, checksShuntedRule, stage2Results(stage2)));
+  }, [stage3]);
+
   const batches = {};
+
+  const addNewColOnTable = (period) => {
+    const line = document.querySelector(`#l-${Object.keys(period)}`);
+
+    const newTd = document.createElement("td");
+    newTd.id = `c-${Object.keys(period)}`;
+    newTd.classList.add("period");
+
+    const col = document.querySelector(`#c-${Object.keys(period)}`);
+
+    if (col) return;
+
+    newTd.append(Object.values(period));
+
+    line.appendChild(newTd);
+  };
 
   const setAddButtonStatusFunc = (event, prop) =>
     prop(event.target.value);
@@ -128,7 +148,7 @@ function BatchRecordPage() {
             <th>Nível 2</th>
           </tr>
           {stage3.map(({date, nivel1, nivel2}, index) => (
-            <tr key={index}>
+            <tr key={index} id={`l-${index + 1}`}>
               <td>
                 {`${index + 1}`}
               </td>
