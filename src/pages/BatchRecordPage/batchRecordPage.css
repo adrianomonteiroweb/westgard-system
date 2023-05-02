@@ -139,6 +139,13 @@ table th, td {
     font-style: bold;
 }
 
+.period {
+  color: red;
+  font-size: 18px;
+  position: relative;
+  top: 12px;
+}
+
 @media (max-width: 1440px) {
   .batch-record {
     width: 60%;
@@ -260,6 +267,10 @@ table th, td {
     font-size: 12px;
     width: 200px;
   }
+
+  .period {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 320px) {
@@ -300,5 +311,9 @@ table th, td {
   .links-div #back-button, .links-div #next-button, .links-div #clear-button, .batch-record .alert-next {
     font-size: 10px;
     width: 200px;
+  }
+
+  .period {
+    font-size: 12px;
   }
 }
