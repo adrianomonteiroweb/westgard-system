@@ -103,16 +103,16 @@ table th, td {
   }
 
   table th, td {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .title-table {
     color: black;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .media h6 {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
