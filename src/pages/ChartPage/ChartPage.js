@@ -129,12 +129,14 @@ function ChartPage() {
                       <td>Err. Aleatório:</td>
                       <td>{errors[`err${index}`].toFixed(2)}</td>
                     </tr>
-                    <tr className="media">
-                      <td colSpan={2} className="title-table"><h6>Err. Aleatório Médio: {errMed.toFixed(2)}%</h6></td>
-                    </tr>
                   </td>
                 ))
               }
+            </tr>
+            <tr className="media">
+              <td colSpan={data[0].length - 1} className="title-table">
+                <h6>Err. Aleatório Médio: {errMed.toFixed(2)}%</h6>
+              </td>
             </tr>
           </tbody>
         </Table>
