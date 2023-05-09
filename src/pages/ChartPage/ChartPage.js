@@ -27,18 +27,18 @@ const options = {
   isStacked: true,
 };
 
-const checkControls = (stage) => {
-  let controls = [];
+// const checkControls = (stage) => {
+//   let controls = [];
 
-  Object.values(stage).map((nivel) => {
-    if (Number(nivel.media) > 0) controls.push({
-      ...nivel,
-      cv: (Number(nivel.DP) / Number(nivel.media)) * 100
-    });
-  });
+//   Object.values(stage).map((nivel) => {
+//     if (Number(nivel.media) > 0) controls.push({
+//       ...nivel,
+//       cv: (Number(nivel.DP) / Number(nivel.media)) * 100
+//     });
+//   });
 
-  return controls;
-};
+//   return controls;
+// };
 
 function ChartPage() {
   const { stage2, stage3 } = useContext(IsContext);
@@ -47,12 +47,14 @@ function ChartPage() {
 
   const cvs = {
     cv1: (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100,
-    cv2: (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100
+    cv2: (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100,
+    cv3: (Number(stage2.nivel3.DP) / Number(stage2.nivel3.media)) * 100
   };
 
   const errors = {
     err1: cvs.cv1 ? cvs.cv1 * 1.65 : 0,
-    err2: cvs.cv2 ? cvs.cv2 * 1.65 : 0
+    err2: cvs.cv2 ? cvs.cv2 * 1.65 : 0,
+    err3: cvs.cv3 ? cvs.cv3 * 1.65 : 0
   };
 
   useEffect(() => {
@@ -62,6 +64,7 @@ function ChartPage() {
     if (
       errors.err1 !== 0
       && errors.err2 === 0
+      && errors.err3 === 0
       && data[0].length < 2
     ) {
       data[0].push("Nível 1");
@@ -72,6 +75,7 @@ function ChartPage() {
     if (
       errors.err1 !== 0
       && errors.err2 !== 0
+      && errors.err3 === 0
       && data[0].length < 2
     ) {
       data[0].push("Nível 1", "Nível 2");
@@ -79,15 +83,29 @@ function ChartPage() {
       setErrMed((errors.err1 + errors.err2) / 2);
     }
 
+    if (
+      errors.err1 !== 0
+      && errors.err2 !== 0
+      && errors.err3 !== 0
+      && data[0].length < 2
+    ) {
+      data[0].push("Nível 1", "Nível 2", "Nível 3");
+
+      setErrMed((errors.err1 + errors.err2 + errors.err3) / 3);
+    }
+
     if (data.length === 1) checkDate
-      .map(({id, nivel1, nivel2}) => {
+      .map(({id, nivel1, nivel2, nivel3}) => {
         const n1 = Number(nivel1) / stage2.nivel1.media;
         const n2 = Number(nivel2) / stage2.nivel2.media;
+        const n3 = Number(nivel3) / stage2.nivel3.media;
         
         if (data[0].length === 2) data
           .push([id, Number(n1.toFixed(2))]);
         if (data[0].length === 3) data
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
+        if (data[0].length === 4) data
+          .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2)), Number(n3.toFixed(2))]);
       });
 
     setTimeout(() => setShowLoading(false), 500);
@@ -104,7 +122,7 @@ function ChartPage() {
         <Table striped borded hover>
           <tbody>
             <tr>
-              <th colSpan={2} className="col-table"><h6 className="title-table">Estatísticas do Mês</h6></th>
+              <th colSpan={data[0].length - 1} className="col-table"><h6 className="title-table">Estatísticas do Mês</h6></th>
             </tr>
             <tr>
               {
@@ -126,7 +144,7 @@ function ChartPage() {
                       <td>{cvs[`cv${1}`].toFixed(2)}</td>
                     </tr>
                     <tr>
-                      <td>Err. Aleatório:</td>
+                      <td>Err.:</td>
                       <td>{errors[`err${index}`].toFixed(2)}</td>
                     </tr>
                   </td>
