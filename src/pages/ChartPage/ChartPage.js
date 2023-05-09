@@ -9,7 +9,7 @@ import ChartComponent from "../../components/charts/ChartComponent";
 import SpinnerComponent from "../../components/spinners/SpinnerComponent";
 
 const data = [
-  ["x", "Nível 1", "Nível 2"],
+  ["x"],
 ];
 
 const options = {
@@ -27,30 +27,75 @@ const options = {
   isStacked: true,
 };
 
+const checkControls = (stage) => {
+  let controls = [];
+
+  Object.values(stage).map((nivel) => {
+    if (Number(nivel.media) > 0) controls.push({
+      ...nivel,
+      cv: (Number(nivel.DP) / Number(nivel.media)) * 100
+    });
+  });
+
+  return controls;
+};
+
 function ChartPage() {
-  const { stage2, setStage2 } = useContext(IsContext);
+  const { stage2, setStage2, stage3 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
+  const [controls, setControls] = useState([]);
+  const [errMed, setErrMed] = useState(0);
 
-  const cv1 = (stage2.nivel1.DP / stage2.nivel1.media) * 100;
-  const cv2 = (stage2.nivel2.DP / stage2.nivel2.media) * 100;
+  const cv1 = (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100;
+  const cv2 = (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100;
 
-  const err1 = cv1 * 1.65;
-  const err2 = cv2 * 1.65;
-
-  const errMed = (err1 + err2) / 2;
-
+  const [err1, err2] = [
+    cv1 ? cv1 * 1.65 : 0,
+    cv2 ? cv2 * 1.65 : 0,
+  ];
+  
   useEffect(() => {
     const medias = JSON.parse(localStorage.getItem("stage3"));
+    const checkDate = medias ? medias : stage3;
+
+    let countControls = 0;
+
+    if (
+      err1 !== 0
+      && err2 === 0
+      && data[0].length < 2
+    ) {
+      data[0].push("Nível 1");
+
+      countControls = 1;
+    }
+
+    if (
+      err1 !== 0
+      && err2 !== 0
+      && data[0].length < 2
+    ) {
+      data[0].push("Nível 1", "Nível 2");
+
+      countControls = 2;
+    }
+
+    setErrMed((err1 + err2) / countControls);
     
-    if (data.length === 1) medias
-      .map(({id, nivel1, nivel2}) => {
+    if (data.length === 1) checkDate
+      .map(({id, nivel1, nivel2, nivel3}) => {
         const n1 = Number(nivel1) / stage2.nivel1.media;
         const n2 = Number(nivel2) / stage2.nivel2.media;
         
-        data
+        if (countControls === 1) data
+          .push([id, Number(n1.toFixed(2))]);
+        if (countControls === 2) data
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
       });
 
+      
+    setControls(checkControls(stage2));
+    
     setTimeout(() => setShowLoading(false), 500);
   }, []);
 

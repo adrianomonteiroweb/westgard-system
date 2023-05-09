@@ -18,6 +18,12 @@ export const initialStage2 = {
     batchNumber: 0,
     media: 0,
     DP: 0
+  },
+  nivel3: {
+    nivel3: "",
+    batchNumber: 0,
+    media: 0,
+    DP: 0
   }
 };
 
@@ -34,9 +40,17 @@ export const initialStage2Results = {
     s1less: (initialStage2.nivel2.media - initialStage2.nivel2.DP) / initialStage2.nivel2.media,
     s2less: (initialStage2.nivel2.media - (2 * initialStage2.nivel2.DP)) / initialStage2.nivel2.media,
     s3less: (initialStage2.nivel2.media - (3 * initialStage2.nivel2.DP)) / initialStage2.nivel2.media,
-    s2bigger: (initialStage2.nivel2.media + initialStage2.nivel2.DP) / initialStage2.nivel2.media,
+    s1bigger: (initialStage2.nivel2.media + initialStage2.nivel2.DP) / initialStage2.nivel2.media,
     s2bigger: (initialStage2.nivel2.media + (2 * initialStage2.nivel2.DP)) / initialStage2.nivel2.media,
     s3bigger: (initialStage2.nivel2.media + (3 * initialStage2.nivel2.DP)) / initialStage2.nivel2.media
+  },
+  nivel3: {
+    s1less: (initialStage2.nivel3.media - initialStage2.nivel3.DP) / initialStage2.nivel3.media,
+    s2less: (initialStage2.nivel3.media - (2 * initialStage2.nivel3.DP)) / initialStage2.nivel3.media,
+    s3less: (initialStage2.nivel3.media - (3 * initialStage2.nivel3.DP)) / initialStage2.nivel3.media,
+    s1bigger: (initialStage2.nivel3.media + initialStage2.nivel3.DP) / initialStage2.nivel3.media,
+    s2bigger: (initialStage2.nivel3.media + (2 * initialStage2.nivel3.DP)) / initialStage2.nivel3.media,
+    s3bigger: (initialStage2.nivel3.media + (3 * initialStage2.nivel3.DP)) / initialStage2.nivel3.media
   }
 };
 
