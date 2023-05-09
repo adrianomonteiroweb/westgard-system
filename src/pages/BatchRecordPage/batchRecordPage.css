@@ -210,11 +210,12 @@ table th, td {
 
   [for="batch-date"] h6,
   [for="nivel1-result"] h6,
-  [for="nivel2-result"] h6 {
+  [for="nivel2-result"] h6,
+  [for="nivel3-result"] h6 {
     font-size: 14px;
   }
 
-  #batch-date, #nivel1-result, #nivel2-result {
+  #batch-date, #nivel1-result, #nivel2-result, #nivel3-result {
     font-size: 14px;
   }
 
@@ -251,11 +252,12 @@ table th, td {
 
   [for="batch-date"] h6,
   [for="nivel1-result"] h6,
-  [for="nivel2-result"] h6 {
+  [for="nivel2-result"] h6,
+  [for="nivel3-result"] h6 {
     font-size: 12px;
   }
 
-  #batch-date, #nivel1-result, #nivel2-result {
+  #batch-date, #nivel1-result, #nivel2-result, #nivel3-result {
     font-size: 10px;
   }
 
@@ -296,11 +298,12 @@ table th, td {
 
   [for="batch-date"] h6,
   [for="nivel1-result"] h6,
-  [for="nivel2-result"] h6 {
-    font-size: 12px;
+  [for="nivel2-result"] h6,
+  [for="nivel3-result"] h6 {
+    font-size: 10px;
   }
 
-  #batch-date, #nivel1-result, #nivel2-result {
+  #batch-date, #nivel1-result, #nivel2-result, #nivel3-result {
     font-size: 10px;
   }
 

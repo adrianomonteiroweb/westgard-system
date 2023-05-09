@@ -9,9 +9,9 @@ function IsProvider({ children }) {
   const stage2LocalStorage = JSON.parse(localStorage.getItem("stage2"));
   const stage3LocalStorage = JSON.parse(localStorage.getItem("stage3"));
 
-  const [stage1, setStage1] = useState(stage1LocalStorage ? stage1LocalStorage : initialStage1);
-  const [stage2, setStage2] = useState(stage2LocalStorage ? stage2LocalStorage : initialStage2);
-  const [stage3, setStage3] = useState(stage3LocalStorage ? stage3LocalStorage : initialStage3);
+  const [stage1, setStage1] = useState(stage1LocalStorage || initialStage1);
+  const [stage2, setStage2] = useState(stage2LocalStorage || initialStage2);
+  const [stage3, setStage3] = useState(stage3LocalStorage || initialStage3);
 
   const contextValue = {
     stage1,
