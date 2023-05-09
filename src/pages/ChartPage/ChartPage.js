@@ -41,61 +41,55 @@ const checkControls = (stage) => {
 };
 
 function ChartPage() {
-  const { stage2, setStage2, stage3 } = useContext(IsContext);
+  const { stage2, stage3 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
-  const [controls, setControls] = useState([]);
   const [errMed, setErrMed] = useState(0);
 
-  const cv1 = (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100;
-  const cv2 = (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100;
+  const cvs = {
+    cv1: (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100,
+    cv2: (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100
+  };
 
-  const [err1, err2] = [
-    cv1 ? cv1 * 1.65 : 0,
-    cv2 ? cv2 * 1.65 : 0,
-  ];
-  
+  const errors = {
+    err1: cvs.cv1 ? cvs.cv1 * 1.65 : 0,
+    err2: cvs.cv2 ? cvs.cv2 * 1.65 : 0
+  };
+
   useEffect(() => {
     const medias = JSON.parse(localStorage.getItem("stage3"));
     const checkDate = medias ? medias : stage3;
 
-    let countControls = 0;
-
     if (
-      err1 !== 0
-      && err2 === 0
+      errors.err1 !== 0
+      && errors.err2 === 0
       && data[0].length < 2
     ) {
       data[0].push("Nível 1");
 
-      countControls = 1;
+      setErrMed(errors.err1);
     }
 
     if (
-      err1 !== 0
-      && err2 !== 0
+      errors.err1 !== 0
+      && errors.err2 !== 0
       && data[0].length < 2
     ) {
       data[0].push("Nível 1", "Nível 2");
 
-      countControls = 2;
+      setErrMed((errors.err1 + errors.err2) / 2);
     }
 
-    setErrMed((err1 + err2) / countControls);
-    
     if (data.length === 1) checkDate
-      .map(({id, nivel1, nivel2, nivel3}) => {
+      .map(({id, nivel1, nivel2}) => {
         const n1 = Number(nivel1) / stage2.nivel1.media;
         const n2 = Number(nivel2) / stage2.nivel2.media;
         
-        if (countControls === 1) data
+        if (data[0].length === 2) data
           .push([id, Number(n1.toFixed(2))]);
-        if (countControls === 2) data
+        if (data[0].length === 3) data
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2))]);
       });
 
-      
-    setControls(checkControls(stage2));
-    
     setTimeout(() => setShowLoading(false), 500);
   }, []);
 
@@ -113,54 +107,34 @@ function ChartPage() {
               <th colSpan={2} className="col-table"><h6 className="title-table">Estatísticas do Mês</h6></th>
             </tr>
             <tr>
-              <td className="col-table">
-                <tr>
-                  <td colSpan={2}><h6 className="title-table">Nível 1</h6></td>
-                </tr>
-                <tr>
-                  <td>Média:</td>
-                  <td>{stage2.nivel1.media}</td>
-                </tr>
-                <tr>
-                  <td>DP:</td>
-                  <td>{stage2.nivel1.DP}</td>
-                </tr>
-                <tr>
-                  <td>CV:</td>
-                  <td>{cv1.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td>Err. Aleatório:</td>
-                  <td>{err1.toFixed(2)}</td>
-                </tr>
-                <tr className="media">
-                  <td colSpan={2} className="title-table"><h6>Err. Aleatório Médio:</h6></td>
-                </tr>
-              </td>
-              <td className="col-table">
-                <tr>
-                  <td colSpan={2}><h6 className="title-table">Nível 2</h6></td>
-                </tr>
-                <tr>
-                  <td>Média:</td>
-                  <td>{stage2.nivel2.media}</td>
-                </tr>
-                <tr>
-                  <td>DP:</td>
-                  <td>{stage2.nivel2.DP}</td>
-                </tr>
-                <tr>
-                  <td>CV:</td>
-                  <td>{cv2.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td>Err. Aleatório:</td>
-                  <td>{err2.toFixed(2)}</td>
-                </tr>
-                <tr className="media">
-                  <td colSpan={2} className="title-table"><h6>{errMed.toFixed(2)}%</h6></td>
-                </tr>
-              </td>
+              {
+                data[0].map((nivel, index) => index > 0 && (
+                  <td key={index}  className="col-table">
+                    <tr>
+                      <td colSpan={2}><h6 className="title-table">{`${nivel}`}</h6></td>
+                    </tr>
+                    <tr>
+                      <td>Média:</td>
+                      <td>{stage2[`nivel${index}`].media}</td>
+                    </tr>
+                    <tr>
+                      <td>DP:</td>
+                      <td>{stage2[`nivel${index}`].DP}</td>
+                    </tr>
+                    <tr>
+                      <td>CV:</td>
+                      <td>{cvs[`cv${1}`].toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>Err. Aleatório:</td>
+                      <td>{errors[`err${index}`].toFixed(2)}</td>
+                    </tr>
+                    <tr className="media">
+                      <td colSpan={2} className="title-table"><h6>Err. Aleatório Médio: {errMed.toFixed(2)}%</h6></td>
+                    </tr>
+                  </td>
+                ))
+              }
             </tr>
           </tbody>
         </Table>
