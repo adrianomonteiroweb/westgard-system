@@ -5,13 +5,13 @@ import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
 import IsContext from "../../context/IsContext";
-import { checksShuntedRule, emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs, shuntedRuleResult, stage2Results } from "../../utils/functions/";
+import { emptyInputs, getValuesOfInputs, persistDataOnLocalStorage, setValuesOfInputs, shuntedRuleResult, stage2Results } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
 import LinkComponent from "../../components/links/LinkComponent";
 
 function BatchRecordPage() {
-  const { stage3, setStage3, stage2 } = useContext(IsContext);
+  const { stage3, setStage3 } = useContext(IsContext);
   const [addButtonStatus, setAddButtonStatus] = useState(true);
   const [setButtonStatus, setSetButtonStatus] = useState(true);
   const [dataValue, setDataValue] = useState("");
@@ -52,16 +52,33 @@ function BatchRecordPage() {
   const setAddButtonStatusFunc = (event, prop) =>
     prop(event.target.value);
 
+  const businessRoleForMaxTeenDays = () => {
+    const allDates = stage3.map(({ date }) => new Date(date));
+
+    const minDate = new Date(Math.min.apply(null, allDates));
+    const maxDate = new Date(Math.max.apply(null, allDates));
+
+    const minStr = `${minDate.getFullYear()}-${minDate.getMonth() + 1}-${minDate.getDate()}`;
+    const maxStr = `${maxDate.getFullYear()}-${maxDate.getMonth() + 1}-${maxDate.getDate()}`;
+
+    const diffInMinutes =  new Date(maxStr) - new Date(minStr);
+    const diffInDays = (diffInMinutes / 10) / (100 * 60 * 60 * 24);
+
+    return diffInDays;
+  };
+
   const setStage3Func = () =>
   {
-    const date = document.querySelector("#batch-date").value;
+    const date = new Date (document.querySelector("#batch-date").value);
     const nivel1 = document.querySelector("#nivel1-result").value;
     const nivel2 = document.querySelector("#nivel2-result").value;
     const nivel3 = document.querySelector("#nivel3-result").value;
 
+    const formatedDate = ((date.getMonth() + 1) + "-" + (date.getDate()) + "-" + (date.getFullYear()));
+
     const stage3Change = [...stage3, {
       id: stage3.length + 1,
-      date,
+      date: formatedDate,
       nivel1,
       nivel2,
       nivel3
@@ -111,6 +128,9 @@ function BatchRecordPage() {
   const alertMinimalReg = () => stage3.length < 10
     ? (<span className="alert">* Insira pelo menos 20 resultados com até 10 dias.</span>)
     : (<div></div>);
+  const alertMaxDaysReg = () => businessRoleForMaxTeenDays() > 10
+    ? (<span className="alert">* Insira apesas registros de no máximo 10 dias.</span>)
+    : (<div></div>);
 
   const renderByConditional = () => stage3.length < 10
     ? (<span className="alert-next">Próxima Sessão</span>)
@@ -145,6 +165,7 @@ function BatchRecordPage() {
         </div>
       </div>
       {alertMinimalReg()}
+      {alertMaxDaysReg()}
       <Table striped borded hover>
         <tbody>
           <tr>
