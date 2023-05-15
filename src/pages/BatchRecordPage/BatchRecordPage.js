@@ -180,8 +180,8 @@ function BatchRecordPage() {
               <td>
                 {`${index + 1}`}
               </td>
-              <td>
-                {`${date}`}
+              <td className="date-td">
+                {`${new Date(date).getDate()}-${new Date(date).getMonth() + 1}-${new Date(date).getFullYear()}`}
               </td>
               <td>
                 {`${nivel1}`}

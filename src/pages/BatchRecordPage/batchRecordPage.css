@@ -292,6 +292,10 @@ table th, td {
     font-size: 8px;
   }
 
+  .date-td {
+    font-size: 6px;
+  }
+
   .edit-button, .delete-button {
     font-size: 6px;
   }
