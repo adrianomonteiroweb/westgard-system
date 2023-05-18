@@ -45,8 +45,8 @@ function BatchRegistrationPage() {
       <p>Personalização de valores do lote (10 primeiros dias).</p>
       <div className="nivels-div">
         <NilvelsComponent nivel={ ["nivel1", "Nível 1", stage2, setStage2] } />
-        <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } />
-        <NilvelsComponent nivel={ ["nivel3", "Nível 3", stage2, setStage2] } />
+        { stage2.nivel2.media > 0 && <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } /> }
+        { stage2.nivel3.media > 0 && <NilvelsComponent nivel={ ["nivel3", "Nível 3", stage2, setStage2] } /> }
       </div>
       {/* link */}
       <LinkComponent link={[IoArrowUndoSharp, "/batch-record", "back-button", "back-session", "Sessão Anterior"]} />
