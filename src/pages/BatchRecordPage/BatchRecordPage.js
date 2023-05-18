@@ -27,27 +27,7 @@ function BatchRecordPage() {
     if (dataValue.length > 0 && nivel1Value > 0 || nivel2Value > 0 || nivel3Value > 0) setAddButtonStatus(false);
   }, [dataValue, nivel1Value, nivel2Value, nivel3Value]);
 
-  // useEffect(() => {
-  //   if (stage3.length >= 10) addNewColOnTable(shuntedRuleResult(stage3, stage2, checksShuntedRule, stage2Results(stage2)));
-  // }, [stage3]);
-
   const batches = {};
-
-  // const addNewColOnTable = (period) => {
-  //   const line = document.querySelector(`#l-${Object.keys(period)}`);
-
-  //   const newTd = document.createElement("td");
-  //   newTd.id = `c-${Object.keys(period)}`;
-  //   newTd.classList.add("period");
-
-  //   const col = document.querySelector(`#c-${Object.keys(period)}`);
-
-  //   if (col) return;
-
-  //   newTd.append(Object.values(period));
-
-  //   line.appendChild(newTd);
-  // };
 
   const setAddButtonStatusFunc = (event, prop) =>
     prop(event.target.value);
@@ -125,7 +105,7 @@ function BatchRecordPage() {
     }
   };
 
-  const alertMinimalReg = () => stage3.length < 10
+  const alertMinimalReg = () => stage3.length < 20
     ? (<span className="alert">* Insira pelo menos 20 resultados com até 10 dias.</span>)
     : (<div></div>);
   const alertMaxDaysReg = () => businessRoleForMaxTeenDays() > 10
