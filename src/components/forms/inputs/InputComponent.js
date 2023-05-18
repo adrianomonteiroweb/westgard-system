@@ -2,6 +2,7 @@ import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./inputComponent.css";
 
 function InputComponent({ input: [ type = "text", id, value, nivelText, eventFunc, prop, nivel ] }) {
   return (

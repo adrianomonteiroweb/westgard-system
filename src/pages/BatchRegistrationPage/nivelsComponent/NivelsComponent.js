@@ -2,6 +2,8 @@ import PropTypes from "react";
 
 import InputComponent from "../../../components/forms/inputs/InputComponent";
 
+import "./nivelsComponent.css";
+
 function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
     
   function setPropState(event, prop, nivel) {

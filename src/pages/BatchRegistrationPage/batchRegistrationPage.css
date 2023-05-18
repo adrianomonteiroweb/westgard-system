@@ -10,6 +10,7 @@
 
 .batchRegistration-div .nivels-div {
   display: flex;
+  justify-content: center;
 }
 
 .batchRegistration-div #back-button,
