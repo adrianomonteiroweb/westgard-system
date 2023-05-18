@@ -27,23 +27,10 @@ const options = {
   isStacked: true,
 };
 
-// const checkControls = (stage) => {
-//   let controls = [];
-
-//   Object.values(stage).map((nivel) => {
-//     if (Number(nivel.media) > 0) controls.push({
-//       ...nivel,
-//       cv: (Number(nivel.DP) / Number(nivel.media)) * 100
-//     });
-//   });
-
-//   return controls;
-// };
-
 function ChartPage() {
   const { stage2, stage3 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
-  const [errMed, setErrMed] = useState(0);
+  const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
 
   const cvs = {
     cv1: (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100,
@@ -111,6 +98,8 @@ function ChartPage() {
     setTimeout(() => setShowLoading(false), 500);
   }, []);
 
+  useEffect(() => localStorage.setItem("errAelMed", JSON.stringify(errMed)), [errMed]);
+
   const renderLoadingFunc = () => showLoading && (<div className="loading-div"><SpinnerComponent /></div>);
 
   return (
@@ -145,7 +134,7 @@ function ChartPage() {
                     </tr>
                     <tr>
                       <td>Err.:</td>
-                      <td>{errors[`err${index}`].toFixed(2)}</td>
+                      <td>{errors[`err${index}`].toFixed(2)}%</td>
                     </tr>
                   </td>
                 ))
