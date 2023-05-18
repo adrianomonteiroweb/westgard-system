@@ -7,6 +7,7 @@ import LinkComponent from "../../components/links/LinkComponent";
 import IsContext from "../../context/IsContext";
 import ChartComponent from "../../components/charts/ChartComponent";
 import SpinnerComponent from "../../components/spinners/SpinnerComponent";
+import { checksShuntedRule, stage2ResultsFunction } from "../../utils/functions";
 
 const data = [
   ["x"],
@@ -31,6 +32,7 @@ function ChartPage() {
   const { stage2, stage3 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
   const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
+  const [results, setResults] = useState(false);
 
   const cvs = {
     cv1: (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100,
@@ -95,16 +97,48 @@ function ChartPage() {
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2)), Number(n3.toFixed(2))]);
       });
 
+    setResults(stage2ResultsFunction(stage2));
+
     setTimeout(() => setShowLoading(false), 500);
+
+    console.log(checksShuntedRule(stage2ResultsFunction(stage2), 1.51));
   }, []);
 
   useEffect(() => localStorage.setItem("errAelMed", JSON.stringify(errMed)), [errMed]);
 
   const renderLoadingFunc = () => showLoading && (<div className="loading-div"><SpinnerComponent /></div>);
 
-  return (
+  
+  if (results) return (
     <>
       <div className="chart-div">
+        <Table className="results">
+          <tbody>
+            <tr>
+              <td>
+                <tr className="line-result red">
+                  {`+3s - ${results.nivel1.s3bigger.toFixed(2)}`}
+                </tr>
+                <tr className="line-result yellow">
+                  {`+2s - ${results.nivel1.s2bigger.toFixed(2)}`}
+                </tr>
+                <tr className="line-result blue">
+                  {`+1s - ${results.nivel1.s1bigger.toFixed(2)}`}
+                </tr>
+                <tr className="line-result green">Xm</tr>
+                <tr className="line-result blue">
+                  {`-1s - ${results.nivel1.s1less.toFixed(2)}`}
+                </tr>
+                <tr className="line-result yellow">
+                  {`-2s - ${results.nivel1.s2less.toFixed(2)}`}
+                </tr>
+                <tr className="line-result red">
+                  {`-3s - ${results.nivel1.s3less.toFixed(2)}`}
+                </tr>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
         <ChartComponent chart={[data, options]} />
       </div>
       <div className="table-div">
