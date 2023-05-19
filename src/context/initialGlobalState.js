@@ -10,19 +10,25 @@ export const initialStage2 = {
   nivel1: {
     nivel1: "",
     batchNumber: 0,
+    mediaTenDays: 0,
     media: 0,
+    DPTenDays: 0,
     DP: 0
   },
   nivel2: {
     nivel2: "",
     batchNumber: 0,
+    mediaTenDays: 0,
     media: 0,
+    DPTenDays: 0,
     DP: 0
   },
   nivel3: {
     nivel3: "",
     batchNumber: 0,
+    mediaTenDays: 0,
     media: 0,
+    DPTenDays: 0,
     DP: 0
   }
 };

@@ -7,7 +7,7 @@ import LinkComponent from "../../components/links/LinkComponent";
 import IsContext from "../../context/IsContext";
 import ChartComponent from "../../components/charts/ChartComponent";
 import SpinnerComponent from "../../components/spinners/SpinnerComponent";
-import { checksShuntedRule, stage2ResultsFunction } from "../../utils/functions";
+import { checksShuntedRule, stage2ResultsFunction, stdevFunc } from "../../utils/functions";
 
 const data = [
   ["x"],
@@ -29,26 +29,51 @@ const options = {
 };
 
 function ChartPage() {
-  const { stage2, stage3 } = useContext(IsContext);
+  const { stage2, setStage2 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
-  const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
   const [results, setResults] = useState(false);
-
-  const cvs = {
-    cv1: (Number(stage2.nivel1.DP) / Number(stage2.nivel1.media)) * 100,
-    cv2: (Number(stage2.nivel2.DP) / Number(stage2.nivel2.media)) * 100,
-    cv3: (Number(stage2.nivel3.DP) / Number(stage2.nivel3.media)) * 100
-  };
-
-  const errors = {
-    err1: cvs.cv1 ? cvs.cv1 * 1.65 : 0,
-    err2: cvs.cv2 ? cvs.cv2 * 1.65 : 0,
-    err3: cvs.cv3 ? cvs.cv3 * 1.65 : 0
-  };
+  const [cvs, setCvs] = useState({});
+  const [errors, setErrors] = useState({});
+  const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
 
   useEffect(() => {
     const medias = JSON.parse(localStorage.getItem("stage3"));
-    const checkDate = medias ? medias : stage3;
+
+    const sum1 = medias
+      .reduce((a, b) => a + Number(b.nivel1), 0);
+    const sum2 = medias
+      .reduce((a, b) => a + Number(b.nivel2), 0);
+    const sum3 = medias
+      .reduce((a, b) => a + Number(b.nivel3), 0);
+
+    const media1 = sum1 / medias.length;
+    const media2 = sum2 / medias.length;
+    const media3 = sum3 / medias.length;
+    
+    const dp1 = stdevFunc(medias, "nivel1", medias.length);
+    const dp2 = stdevFunc(medias, "nivel2", medias.length);
+    const dp3 = stdevFunc(medias, "nivel3", medias.length);
+
+    setCvs(
+      {
+        cv1: (dp1 / media1) * 100,
+        cv2: (dp2 / media2) * 100,
+        cv3: (dp3 / media3) * 100
+      }
+    );
+
+    setErrors({
+      err1: cvs.cv1 ? cvs.cv1 * 1.65 : 0,
+      err2: cvs.cv2 ? cvs.cv2 * 1.65 : 0,
+      err3: cvs.cv3 ? cvs.cv3 * 1.65 : 0
+    });
+
+    setStage2({
+      nivel1: { ...stage2.nivel1, media: media1.toFixed(2), DP: dp1.toFixed(2) },
+      nivel2: { ...stage2.nivel2, media: media2.toFixed(2), DP: dp2.toFixed(2) },
+      nivel3: { ...stage2.nivel3, media: media3.toFixed(2), DP: dp3.toFixed(2) }
+    });
+    
 
     if (
       errors.err1 !== 0
@@ -83,7 +108,7 @@ function ChartPage() {
       setErrMed((errors.err1 + errors.err2 + errors.err3) / 3);
     }
 
-    if (data.length === 1) checkDate
+    if (data.length === 1) medias
       .map(({id, nivel1, nivel2, nivel3}) => {
         const n1 = Number(nivel1) / stage2.nivel1.media;
         const n2 = Number(nivel2) / stage2.nivel2.media;
