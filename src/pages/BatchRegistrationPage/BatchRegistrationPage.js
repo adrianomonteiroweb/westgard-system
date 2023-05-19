@@ -33,9 +33,9 @@ function BatchRegistrationPage() {
     const dp3 = stdevFunc(stage3.slice(0, 10), "nivel3");
 
     setStage2({
-      nivel1: { ...stage2.nivel1, media: media1.toFixed(2), DP: dp1.toFixed(2) },
-      nivel2: { ...stage2.nivel2, media: media2.toFixed(2), DP: dp2.toFixed(2) },
-      nivel3: { ...stage2.nivel3, media: media3.toFixed(2), DP: dp3.toFixed(2) }
+      nivel1: { ...stage2.nivel1, mediaTenDays: media1.toFixed(2), DPTenDays: dp1.toFixed(2) },
+      nivel2: { ...stage2.nivel2, mediaTenDays: media2.toFixed(2), DPTenDays: dp2.toFixed(2) },
+      nivel3: { ...stage2.nivel3, mediaTenDays: media3.toFixed(2), DPTenDays: dp3.toFixed(2) }
     });
   }, []);
 
@@ -44,8 +44,8 @@ function BatchRegistrationPage() {
       <p>Personalização de valores do lote (10 primeiros dias).</p>
       <div className="nivels-div">
         <NilvelsComponent nivel={ ["nivel1", "Nível 1", stage2, setStage2] } />
-        { stage2.nivel2.media > 0 && <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } /> }
-        { stage2.nivel3.media > 0 && <NilvelsComponent nivel={ ["nivel3", "Nível 3", stage2, setStage2] } /> }
+        { stage2.nivel2.mediaTenDays > 0 && <NilvelsComponent nivel={ ["nivel2", "Nível 2", stage2, setStage2] } /> }
+        { stage2.nivel3.mediaTenDays > 0 && <NilvelsComponent nivel={ ["nivel3", "Nível 3", stage2, setStage2] } /> }
       </div>
       {/* link */}
       <LinkComponent link={[IoArrowUndoSharp, "/batch-record", "back-button", "back-session", "Sessão Anterior"]} />

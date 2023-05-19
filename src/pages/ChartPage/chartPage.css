@@ -50,6 +50,10 @@ table th, td {
   border-top: 1px solid black;
 }
 
+.niveis-statics {
+  display: flex;
+}
+
 .loading-div {
   align-items: center;
   background-color: white;

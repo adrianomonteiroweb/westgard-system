@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
 import IsContext from "../../context/IsContext";
