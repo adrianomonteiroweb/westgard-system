@@ -39,7 +39,7 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
         input={["number",
           "media",
           stage2[nivel]["media"],
-          "Média",
+          "Média (10 dias)",
           setPropState,
           "media",
           nivel]}
@@ -48,7 +48,7 @@ function NivelsComponent({nivel: [ nivel, nivelText, stage2, setStage2 ]}) {
       <InputComponent input={["number",
         "DP",
         stage2[nivel]["DP"],
-        "DP",
+        "DP (10 dias)",
         setPropState,
         "DP",
         nivel]}
