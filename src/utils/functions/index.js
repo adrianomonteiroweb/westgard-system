@@ -101,3 +101,20 @@ export const shuntedRuleResult = (points, stage2,  checksShuntedRule, rules) => 
   
   return results;
 };
+
+export const stdevFunc = (arrayOfObjects, nivel, limit = 10) => {
+  const sum = arrayOfObjects
+    .slice(0, limit)
+    .reduce((a, b) => a + Number(b[nivel]), 0);
+
+  const media = sum / limit;
+
+  const diff = arrayOfObjects.map((obj) => Math.pow(Number(obj[nivel]) - media, 2));
+
+  const mediaDiff = diff
+    .reduce((a, b) => a + b, 0) / 10;
+
+  const stdev = Math.sqrt(mediaDiff);
+
+  return stdev;
+};
