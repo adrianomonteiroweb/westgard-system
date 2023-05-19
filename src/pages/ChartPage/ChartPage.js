@@ -29,7 +29,7 @@ const options = {
 };
 
 function ChartPage() {
-  const { stage2, setStage2 } = useContext(IsContext);
+  const { stage2, setStage2, stage3 } = useContext(IsContext);
   const [showLoading, setShowLoading] = useState(true);
   const [results, setResults] = useState(false);
   const [cvs, setCvs] = useState({});
@@ -73,10 +73,11 @@ function ChartPage() {
       nivel2: { ...stage2.nivel2, media: media2.toFixed(2), DP: dp2.toFixed(2) },
       nivel3: { ...stage2.nivel3, media: media3.toFixed(2), DP: dp3.toFixed(2) }
     });
-    
+  }, []);
 
+  useEffect(() => {
     if (
-      errors.err1 !== 0
+      errors.err1 > 0
       && errors.err2 === 0
       && errors.err3 === 0
       && data[0].length < 2
@@ -87,8 +88,8 @@ function ChartPage() {
     }
 
     if (
-      errors.err1 !== 0
-      && errors.err2 !== 0
+      errors.err1 > 0
+      && errors.err2 > 0
       && errors.err3 === 0
       && data[0].length < 2
     ) {
@@ -98,9 +99,9 @@ function ChartPage() {
     }
 
     if (
-      errors.err1 !== 0
-      && errors.err2 !== 0
-      && errors.err3 !== 0
+      errors.err1 > 0
+      && errors.err2 > 0
+      && errors.err3 > 0
       && data[0].length < 2
     ) {
       data[0].push("Nível 1", "Nível 2", "Nível 3");
@@ -108,7 +109,7 @@ function ChartPage() {
       setErrMed((errors.err1 + errors.err2 + errors.err3) / 3);
     }
 
-    if (data.length === 1) medias
+    if (data.length === 1) stage3
       .map(({id, nivel1, nivel2, nivel3}) => {
         const n1 = Number(nivel1) / stage2.nivel1.media;
         const n2 = Number(nivel2) / stage2.nivel2.media;
@@ -121,13 +122,13 @@ function ChartPage() {
         if (data[0].length === 4) data
           .push([id, Number(n1.toFixed(2)), Number(n2.toFixed(2)), Number(n3.toFixed(2))]);
       });
-
+    
     setResults(stage2ResultsFunction(stage2));
 
     setTimeout(() => setShowLoading(false), 500);
 
     console.log(checksShuntedRule(stage2ResultsFunction(stage2), 1.51));
-  }, []);
+  }, [stage2]);
 
   useEffect(() => localStorage.setItem("errAelMed", JSON.stringify(errMed)), [errMed]);
 
@@ -142,23 +143,23 @@ function ChartPage() {
             <tr>
               <td>
                 <tr className="line-result red">
-                  {`+3s - ${results.nivel1.s3bigger.toFixed(2)}`}
+                  {`+3s | ${results.nivel1.s3bigger.toFixed(2)}`}
                 </tr>
                 <tr className="line-result yellow">
-                  {`+2s - ${results.nivel1.s2bigger.toFixed(2)}`}
+                  {`+2s | ${results.nivel1.s2bigger.toFixed(2)}`}
                 </tr>
                 <tr className="line-result blue">
-                  {`+1s - ${results.nivel1.s1bigger.toFixed(2)}`}
+                  {`+1s | ${results.nivel1.s1bigger.toFixed(2)}`}
                 </tr>
                 <tr className="line-result green">Xm</tr>
                 <tr className="line-result blue">
-                  {`-1s - ${results.nivel1.s1less.toFixed(2)}`}
+                  {`-1s | ${results.nivel1.s1less.toFixed(2)}`}
                 </tr>
                 <tr className="line-result yellow">
-                  {`-2s - ${results.nivel1.s2less.toFixed(2)}`}
+                  {`-2s | ${results.nivel1.s2less.toFixed(2)}`}
                 </tr>
                 <tr className="line-result red">
-                  {`-3s - ${results.nivel1.s3less.toFixed(2)}`}
+                  {`-3s | ${results.nivel1.s3less.toFixed(2)}`}
                 </tr>
               </td>
             </tr>
@@ -172,7 +173,7 @@ function ChartPage() {
             <tr>
               <th colSpan={data[0].length - 1} className="col-table"><h6 className="title-table">Estatísticas do Mês</h6></th>
             </tr>
-            <tr>
+            <tr className="niveis-statics">
               {
                 data[0].map((nivel, index) => index > 0 && (
                   <td key={index}  className="col-table">
