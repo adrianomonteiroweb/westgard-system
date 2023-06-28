@@ -2,36 +2,28 @@ import { useContext, useEffect } from "react";
 import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
 
 import IsContext from "../../context/IsContext";
+import { initialStage2 } from "../../context/initialGlobalState";
+
 import NilvelsComponent from "./nivelsComponent/NivelsComponent";
+import LinkComponent from "../../components/links/LinkComponent";
+
+import { DPCalculate, mediaCalculate } from "../../utils/functions";
 
 import "./batchRegistrationPage.css";
-import { initialStage2 } from "../../context/initialGlobalState";
-import LinkComponent from "../../components/links/LinkComponent";
-import { stdevFunc } from "../../utils/functions";
 
 function BatchRegistrationPage() {
   const { stage2, setStage2, stage3 } = useContext(IsContext);
 
   useEffect(() => {
-    const sum1 = stage3
-      .slice(0, 10)
-      .reduce((a, b) => a + Number(b.nivel1), 0);
-    const sum2 = stage3
-      .slice(0, 10)
-      .reduce((a, b) => a + Number(b.nivel2), 0);
-    const sum3 = stage3
-      .slice(0, 10)
-      .reduce((a, b) => a + Number(b.nivel3), 0);
-
-    const media1 = sum1 / 10;
-    const media2 = sum2 / 10;
-    const media3 = sum3 / 10;
+    const media1 = mediaCalculate(stage3.slice(0, 10), "nivel1");
+    const media2 = mediaCalculate(stage3.slice(0, 10), "nivel2");
+    const media3 = mediaCalculate(stage3.slice(0, 10), "nivel3");
 
     // standard deviation
-    const dp1 = stdevFunc(stage3.slice(0, 10), "nivel1");
-    const dp2 = stdevFunc(stage3.slice(0, 10), "nivel2");
-    const dp3 = stdevFunc(stage3.slice(0, 10), "nivel3");
-
+    const dp1 = DPCalculate(stage3.slice(0, 10), "nivel1");
+    const dp2 = DPCalculate(stage3.slice(0, 10), "nivel2");
+    const dp3 = DPCalculate(stage3.slice(0, 10), "nivel3");
+  
     setStage2({
       nivel1: { ...stage2.nivel1, mediaTenDays: media1.toFixed(2), DPTenDays: dp1.toFixed(2) },
       nivel2: { ...stage2.nivel2, mediaTenDays: media2.toFixed(2), DPTenDays: dp2.toFixed(2) },
