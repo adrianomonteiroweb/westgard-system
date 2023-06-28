@@ -118,3 +118,53 @@ export const stdevFunc = (arrayOfObjects, nivel, limit = 10) => {
 
   return stdev;
 };
+
+function valuesSum(arrayOfObjects, isKey) {
+  let isSum = 0;
+
+  for (let i = 0; i < arrayOfObjects.length; i++) {
+    const stringValue = arrayOfObjects[i][isKey];
+
+    const numberValue = parseFloat(stringValue.replace(",", "."));
+
+    if (!isNaN(numberValue)) {
+      isSum += numberValue;
+    }
+  }
+
+  return isSum;
+}
+
+export function mediaCalculate(arrayOfObjects, isKey) {
+  if (arrayOfObjects.length === 0) return 0;
+
+  const isSum = valuesSum(arrayOfObjects, isKey);
+
+  return isSum / arrayOfObjects.length;
+}
+
+export function DPCalculate(arrayOfObjects, isKey) {
+  // Passo 1: Calcular a média dos valores
+  const isSum = valuesSum(arrayOfObjects, isKey);
+  const media = isSum / arrayOfObjects.length;
+
+  // Passo 2: Calcular a soma dos quadrados das diferenças em relação à média
+  const SumSquares = arrayOfObjects.reduce((acc, obj) => {
+    const stringValue = obj[isKey];
+    const numberValue = parseFloat(stringValue.replace(",", "."));
+
+    if (!isNaN(numberValue)) {
+      const difference = numberValue - media;
+      const squaresDifference = difference * difference;
+      return acc + squaresDifference;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  // Passo 3: Calcular o desvio padrão
+  const standardDeviation = Math
+    .sqrt(SumSquares / arrayOfObjects.length);
+
+  return standardDeviation;
+}
