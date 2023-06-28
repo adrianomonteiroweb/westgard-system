@@ -120,19 +120,16 @@ export const stdevFunc = (arrayOfObjects, nivel, limit = 10) => {
 };
 
 function valuesSum(arrayOfObjects, isKey) {
-  let isSum = 0;
+  return arrayOfObjects.reduce((isSum, obj) => {
+    const valorString = obj[isKey];
+    const valorNumerico = parseFloat(valorString.replace(",", "."));
 
-  for (let i = 0; i < arrayOfObjects.length; i++) {
-    const stringValue = arrayOfObjects[i][isKey];
-
-    const numberValue = parseFloat(stringValue.replace(",", "."));
-
-    if (!isNaN(numberValue)) {
-      isSum += numberValue;
+    if (!isNaN(valorNumerico)) {
+      return isSum + valorNumerico;
+    } else {
+      return isSum;
     }
-  }
-
-  return isSum;
+  }, 0);
 }
 
 export function mediaCalculate(arrayOfObjects, isKey) {
