@@ -3,11 +3,14 @@ import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 import { Table } from "react-bootstrap";
 
 import "./chartPage.css";
-import LinkComponent from "../../components/links/LinkComponent";
+
 import IsContext from "../../context/IsContext";
+
+import LinkComponent from "../../components/links/LinkComponent";
 import ChartComponent from "../../components/charts/ChartComponent";
 import SpinnerComponent from "../../components/spinners/SpinnerComponent";
-import { checksShuntedRule, stage2ResultsFunction, stdevFunc } from "../../utils/functions";
+
+import { DPCalculate, checksShuntedRule, mediaCalculate, stage2ResultsFunction, stdevFunc } from "../../utils/functions";
 
 const data = [
   ["x"],
@@ -15,17 +18,16 @@ const data = [
 
 const options = {
   hAxis: {
-    title: "Dias",
-    format: "short"
+    title: "Dias"
   },
   vAxis: {
     title: "Médias",
-    format: "decimal",
-    gridlines: { color: "#333", minSpacing: 0.20 },
   },
-  pointSize: 6,
+  pointSize: 5,
   legend: { position: "top" },
-  isStacked: true,
+  chartArea: { width: "80%", height: "70%" },
+  curveType: "function",
+  lineWidth: 2
 };
 
 function ChartPage() {
@@ -37,22 +39,15 @@ function ChartPage() {
   const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
 
   useEffect(() => {
-    const medias = JSON.parse(localStorage.getItem("stage3"));
+    // const medias = JSON.parse(localStorage.getItem("stage3"));
 
-    const sum1 = medias
-      .reduce((a, b) => a + Number(b.nivel1), 0);
-    const sum2 = medias
-      .reduce((a, b) => a + Number(b.nivel2), 0);
-    const sum3 = medias
-      .reduce((a, b) => a + Number(b.nivel3), 0);
-
-    const media1 = sum1 / medias.length;
-    const media2 = sum2 / medias.length;
-    const media3 = sum3 / medias.length;
+    const media1 = mediaCalculate(stage3, "nivel1");
+    const media2 = mediaCalculate(stage3, "nivel2");
+    const media3 = mediaCalculate(stage3, "nivel3");
     
-    const dp1 = stdevFunc(medias, "nivel1", medias.length);
-    const dp2 = stdevFunc(medias, "nivel2", medias.length);
-    const dp3 = stdevFunc(medias, "nivel3", medias.length);
+    const dp1 = DPCalculate(stage3, "nivel1");
+    const dp2 = DPCalculate(stage3, "nivel2");
+    const dp3 = DPCalculate(stage3, "nivel3");
 
     setCvs(
       {

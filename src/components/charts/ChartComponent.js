@@ -13,7 +13,7 @@ function ChartComponent({ chart: [data, options]}) {
 }
 
 ChartComponent.propTypes = {
-  chart: PropTypes,
-}.isRequired;
+  chart: PropTypes.array.isRequired,
+};
 
 export default ChartComponent;
