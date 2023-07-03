@@ -18,7 +18,10 @@ const data = [
 
 const options = {
   hAxis: {
-    title: "Dias"
+    title: "Dias",
+    gridlines: {
+      color: "transparent"
+    }
   },
   vAxis: {
     title: "Médias",
@@ -27,7 +30,22 @@ const options = {
   legend: { position: "top" },
   chartArea: { width: "80%", height: "70%" },
   curveType: "function",
-  lineWidth: 2
+  lineWidth: 2,
+  series: {
+    0: { color: "#ff0000" }, // Vermelho para a primeira linha
+    1: { color: "#ffff00" }, // Amarelo para a segunda linha
+    2: { color: "green" }, // Verde para a terceira linha
+    3: { color: "green" }, // Verde para a quarta linha
+    4: { color: "green" }, // Verde para a quinta linha
+    5: { color: "#ffff00" }, // Amarelo para a sexta linha
+    6: { color: "#ff0000" }, // Vermelho para a sétima linha
+  },
+  hAxis: {
+    gridlines: {
+      color: "#ddd",
+      count: 7
+    }
+  }
 };
 
 function ChartPage() {
@@ -39,8 +57,8 @@ function ChartPage() {
   const [errMed, setErrMed] = useState(JSON.parse(localStorage.getItem("errAelMed")) || 0);
 
   useEffect(() => {
-    // const medias = JSON.parse(localStorage.getItem("stage3"));
-
+    const medias = JSON.parse(localStorage.getItem("stage3"));
+    console.log("chartPage | line 43 | ", medias, stage3);
     const media1 = mediaCalculate(stage3, "nivel1");
     const media2 = mediaCalculate(stage3, "nivel2");
     const media3 = mediaCalculate(stage3, "nivel3");
@@ -122,7 +140,7 @@ function ChartPage() {
 
     setTimeout(() => setShowLoading(false), 500);
 
-    console.log(checksShuntedRule(stage2ResultsFunction(stage2), 1.51));
+    console.log("chartPage | line 134 | ", checksShuntedRule(stage2ResultsFunction(stage2), 1.51));
   }, [stage2]);
 
   useEffect(() => localStorage.setItem("errAelMed", JSON.stringify(errMed)), [errMed]);
