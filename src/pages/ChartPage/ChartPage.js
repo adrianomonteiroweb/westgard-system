@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { IoArrowUndoSharp, IoStorefrontSharp } from "react-icons/io5";
 import { Table } from "react-bootstrap";
+import * as math from "mathjs";
 
 import "./chartPage.css";
 
@@ -10,10 +11,10 @@ import LinkComponent from "../../components/links/LinkComponent";
 import ChartComponent from "../../components/charts/ChartComponent";
 import SpinnerComponent from "../../components/spinners/SpinnerComponent";
 
-import { DPCalculate, checksShuntedRule, mediaCalculate, stage2ResultsFunction, stdevFunc } from "../../utils/functions";
+import { mediaCalculate, stage2ResultsFunction, stdevFunc } from "../../utils/functions";
 
 const data = [
-  ["x"],
+  ["x", "Nível 1", "Nível 2", "Nível 3"],
 ];
 
 const options = {
@@ -58,20 +59,21 @@ function ChartPage() {
 
   useEffect(() => {
     const medias = JSON.parse(localStorage.getItem("stage3"));
-    console.log("chartPage | line 43 | ", medias, stage3);
+    console.log("stage3", stage3);
     const media1 = mediaCalculate(stage3, "nivel1");
     const media2 = mediaCalculate(stage3, "nivel2");
     const media3 = mediaCalculate(stage3, "nivel3");
     
-    const dp1 = DPCalculate(stage3, "nivel1");
-    const dp2 = DPCalculate(stage3, "nivel2");
-    const dp3 = DPCalculate(stage3, "nivel3");
+    const dp1 = math.std(stage3.map(({ nivel1 }) => Number(nivel1)), "uncorrected");
+    const dp2 = math.std(stage3.map(({ nivel2 }) => Number(nivel2)), "uncorrected");
+    const dp3 = math.std(stage3.map(({ nivel3 }) => Number(nivel3)), "uncorrected");
+
 
     setCvs(
       {
-        cv1: (dp1 / media1) * 100,
-        cv2: (dp2 / media2) * 100,
-        cv3: (dp3 / media3) * 100
+        cv1: dp1 > 0 ? (dp1 / media1) * 100 : 0,
+        cv2: dp2 > 0 ? (dp2 / media2) * 100 : 0,
+        cv3: dp3 > 0 ? (dp3 / media3) * 100: 0
       }
     );
 
@@ -140,7 +142,6 @@ function ChartPage() {
 
     setTimeout(() => setShowLoading(false), 500);
 
-    console.log("chartPage | line 134 | ", checksShuntedRule(stage2ResultsFunction(stage2), 1.51));
   }, [stage2]);
 
   useEffect(() => localStorage.setItem("errAelMed", JSON.stringify(errMed)), [errMed]);

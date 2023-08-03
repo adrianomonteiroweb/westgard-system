@@ -132,12 +132,19 @@ function valuesSum(arrayOfObjects, isKey) {
   }, 0);
 }
 
-export function mediaCalculate(arrayOfObjects, isKey) {
-  if (arrayOfObjects.length === 0) return 0;
+export function mediaCalculate (stage3, nivel) {
+  let sum = 0;
+  let count = 0;
 
-  const isSum = valuesSum(arrayOfObjects, isKey);
+  stage3.forEach(item => {
+    const value = Number(item[nivel]);
+    if (!isNaN(value)) {
+      sum += value;
+      count++;
+    }
+  });
 
-  return isSum / arrayOfObjects.length;
+  return count > 0 ? sum / count : 0;
 }
 
 export function DPCalculate(arrayOfObjects, isKey) {
