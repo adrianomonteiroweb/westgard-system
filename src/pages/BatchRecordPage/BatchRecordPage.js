@@ -126,6 +126,15 @@ function BatchRecordPage() {
   
   return (
     <div className="batch-record">
+      <div className="links-div">
+        {/* link */}
+        <LinkComponent link={[IoArrowUndoSharp, "/", "back-button", "back-session", "Sessão Anterior"]} />
+        {renderByConditional()}
+        <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => {
+          setStage3(initialStage3);
+          persistDataOnLocalStorage("stage3", initialStage3);
+        }]} />
+      </div>
       <div className="batch-record-div">
         <div>
           <InputComponent input={["date", "batch-date",  batches["date"], "Data", setAddButtonStatusFunc, setDataValue]} />
@@ -190,15 +199,6 @@ function BatchRecordPage() {
           ))}
         </tbody>
       </Table>
-      <div className="links-div">
-        {/* link */}
-        <LinkComponent link={[IoArrowUndoSharp, "/", "back-button", "back-session", "Sessão Anterior"]} />
-        {renderByConditional()}
-        <LinkComponent link={[IoTrashSharp, "", "clear-button", "clear-session", "Limpar Sessão", () => {
-          setStage3(initialStage3);
-          persistDataOnLocalStorage("stage3", initialStage3);
-        }]} />
-      </div>
     </div>
   );
 }

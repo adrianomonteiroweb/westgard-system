@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { IoArrowUndoSharp, IoArrowRedoSharp, IoTrashSharp } from "react-icons/io5";
+import * as math from "mathjs";
 
 import IsContext from "../../context/IsContext";
 import { initialStage2 } from "../../context/initialGlobalState";
@@ -7,7 +8,7 @@ import { initialStage2 } from "../../context/initialGlobalState";
 import NilvelsComponent from "./nivelsComponent/NivelsComponent";
 import LinkComponent from "../../components/links/LinkComponent";
 
-import { DPCalculate, mediaCalculate } from "../../utils/functions";
+import { mediaCalculate } from "../../utils/functions";
 
 import "./batchRegistrationPage.css";
 
@@ -20,9 +21,9 @@ function BatchRegistrationPage() {
     const media3 = mediaCalculate(stage3.slice(0, 10), "nivel3");
 
     // standard deviation
-    const dp1 = DPCalculate(stage3.slice(0, 10), "nivel1");
-    const dp2 = DPCalculate(stage3.slice(0, 10), "nivel2");
-    const dp3 = DPCalculate(stage3.slice(0, 10), "nivel3");
+    const dp1 = math.std(stage3.slice(0, 10).map(item => item.nivel1));
+    const dp2 = math.std(stage3.slice(0, 10).map(item => item.nivel2));
+    const dp3 = math.std(stage3.slice(0, 10).map(item => item.nivel3));
   
     setStage2({
       nivel1: { ...stage2.nivel1, mediaTenDays: media1.toFixed(2), DPTenDays: dp1.toFixed(2) },
