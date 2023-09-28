@@ -7,10 +7,16 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
+    "chrome-path": "^1.0.0",
+    "chrome-paths": "^1.0.1",
+    "csvtojson": "^2.0.10",
     "d3": "^7.8.5",
     "excel-formula": "^1.5.0",
     "exceljs": "^4.3.0",
     "mathjs": "^11.8.2",
+    "playwright-core": "^1.38.1",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
@@ -24,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "e2e": "node src/__tests__/index.js"
   },
   "eslintConfig": {
     "extends": [

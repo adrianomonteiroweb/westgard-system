@@ -1,0 +1,8 @@
+{
+  "config": {
+    "csv_config": "/home/adriano/Me/Projects/Laac/csv_config.csv"
+  },
+  "params": {
+    "headless": "off"
+  }
+}
