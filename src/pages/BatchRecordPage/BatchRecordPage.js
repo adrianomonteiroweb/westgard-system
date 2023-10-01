@@ -5,6 +5,7 @@ import {
   IoArrowRedoSharp,
   IoTrashSharp,
 } from "react-icons/io5";
+import moment from "moment";
 
 import InputComponent from "../../components/forms/inputs/InputComponent";
 import { initialStage3 } from "../../context/initialGlobalState";
@@ -14,8 +15,6 @@ import {
   getValuesOfInputs,
   persistDataOnLocalStorage,
   setValuesOfInputs,
-  shuntedRuleResult,
-  stage2Results,
 } from "../../utils/functions/";
 
 import "./batchRecordPage.css";
@@ -29,6 +28,9 @@ function BatchRecordPage() {
   const [nivel1Value, setNivel1Value] = useState("");
   const [nivel2Value, setNivel2Value] = useState("");
   const [nivel3Value, setNivel3Value] = useState("");
+  const [insertionCount, setInsertionCount] = useState(0); // Contador de inserções
+  const [nextSessionButtonEnabled, setNextSessionButtonEnabled] =
+    useState(false); // Estado do botão "Próxima Sessão"
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("stage3")))
@@ -44,38 +46,29 @@ function BatchRecordPage() {
       setAddButtonStatus(false);
   }, [dataValue, nivel1Value, nivel2Value, nivel3Value]);
 
+  useEffect(() => {
+    if (insertionCount >= 10) {
+      setNextSessionButtonEnabled(true);
+    } else {
+      setNextSessionButtonEnabled(false);
+    }
+  }, [insertionCount]);
+
   const batches = {};
 
-  const setAddButtonStatusFunc = (event, prop) => prop(event.target.value);
-
-  const businessRoleForMaxTeenDays = () => {
-    const allDates = stage3.map(({ date }) => new Date(date));
-
-    const minDate = new Date(Math.min.apply(null, allDates));
-    const maxDate = new Date(Math.max.apply(null, allDates));
-
-    const minStr = `${minDate.getFullYear()}-${
-      minDate.getMonth() + 1
-    }-${minDate.getDate()}`;
-    const maxStr = `${maxDate.getFullYear()}-${
-      maxDate.getMonth() + 1
-    }-${maxDate.getDate()}`;
-
-    const diffInMinutes = new Date(maxStr) - new Date(minStr);
-    const diffInDays = diffInMinutes / 10 / (100 * 60 * 60 * 24);
-
-    return diffInDays;
-  };
-
   const saveRegister = () => {
-    const date = new Date(document.querySelector("#batch-date").value);
+    if (dataValue === "") {
+      alert("Por favor, preencha a data.");
+      return;
+    }
+
+    const date = document.querySelector("#batch-date").value;
     const nivel1 = document.querySelector("#nivel1-result");
     const nivel2 = document.querySelector("#nivel2-result");
     const nivel3 = document.querySelector("#nivel3-result");
-
-    const formatedDate =
-      date.getMonth() + 1 + "-" + date.getDate() + "-" + date.getFullYear();
-
+    console.log(date);
+    const formatedDate = moment(date).format("DD/MM/YYYY");
+    console.log(formatedDate);
     const stage3Change = [
       ...stage3,
       {
@@ -88,7 +81,6 @@ function BatchRecordPage() {
     ];
 
     setStage3(stage3Change);
-    //setAddButtonStatus(true);
 
     persistDataOnLocalStorage("stage3", stage3Change);
 
@@ -98,15 +90,8 @@ function BatchRecordPage() {
       "nivel2-result",
       "nivel3-result",
     ]);
-  };
 
-  const getTodayDate = () => {
-    const dataAtual = new Date();
-    const dia = String(dataAtual.getDate()).padStart(2, "0");
-    const mes = String(dataAtual.getMonth() + 1).padStart(2, "0");
-    const ano = dataAtual.getFullYear();
-
-    return `${mes}/${dia}/${ano}`;
+    setInsertionCount(insertionCount + 1);
   };
 
   const saveRegisterByID = (id) => {
@@ -133,7 +118,6 @@ function BatchRecordPage() {
     ];
 
     setStage3(changeStage3);
-    //setSetButtonStatus(true);
 
     persistDataOnLocalStorage("stage3", changeStage3);
 
@@ -148,7 +132,7 @@ function BatchRecordPage() {
   const editRegister = (e) => {
     const index = e.target.parentNode.parentNode.id;
     const forEdit = stage3.filter((reg, i) => i === Number(index));
-    console.log(forEdit);
+
     if (forEdit.length > 0) {
       const { date, nivel1, nivel2, nivel3 } = forEdit[0];
 
@@ -175,7 +159,6 @@ function BatchRecordPage() {
   return (
     <div className="batch-record">
       <div className="links-div">
-        {/* link */}
         <LinkComponent
           link={[
             IoArrowUndoSharp,
@@ -185,15 +168,17 @@ function BatchRecordPage() {
             "Sessão Anterior",
           ]}
         />
-        <LinkComponent
-          link={[
-            IoArrowRedoSharp,
-            "/batch-registration",
-            "next-button",
-            "next-session",
-            "Próxima Sessão",
-          ]}
-        />
+        {nextSessionButtonEnabled && (
+          <LinkComponent
+            link={[
+              IoArrowRedoSharp,
+              "/batch-registration",
+              "next-button",
+              "next-session",
+              "Próxima Sessão",
+            ]}
+          />
+        )}
         <LinkComponent
           link={[
             IoTrashSharp,
@@ -216,7 +201,6 @@ function BatchRecordPage() {
               "batch-date",
               batches["date"],
               "Data",
-              //setAddButtonStatusFunc,
               setDataValue,
             ]}
           />
@@ -228,7 +212,6 @@ function BatchRecordPage() {
               "nivel1-result",
               batches["nivel1"],
               "Nível 1",
-              //setAddButtonStatusFunc,
               setNivel1Value,
             ]}
           />
@@ -240,7 +223,6 @@ function BatchRecordPage() {
               "nivel2-result",
               batches["nivel2"],
               "Nível 2",
-              //setAddButtonStatusFunc,
               setNivel2Value,
             ]}
           />
@@ -252,7 +234,6 @@ function BatchRecordPage() {
               "nivel3-result",
               batches["nivel3"],
               "Nível 3",
-              //setAddButtonStatusFunc,
               setNivel3Value,
             ]}
           />
@@ -274,8 +255,6 @@ function BatchRecordPage() {
           </Button>
         </div>
       </div>
-      {/* {alertMinimalReg()}
-      {alertMaxDaysReg()} */}
       <Table striped borded hover>
         <tbody>
           <tr>
@@ -288,11 +267,7 @@ function BatchRecordPage() {
           {stage3.map(({ date, nivel1, nivel2, nivel3 }, index) => (
             <tr key={index} id={`${index}`}>
               <td>{`${index + 1}`}</td>
-              <td className="date-td">
-                {`${new Date(date).getDate()}-${
-                  new Date(date).getMonth() + 1
-                }-${new Date(date).getFullYear()}`}
-              </td>
+              <td className="date-td">{`${date}`}</td>
               <td>{`${nivel1}`}</td>
               <td>{`${nivel2 ? nivel2 : 0}`}</td>
               <td>{`${nivel3 ? nivel3 : 0}`}</td>

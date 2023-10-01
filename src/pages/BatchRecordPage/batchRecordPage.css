@@ -5,9 +5,7 @@
 
 .register-button,
 .update-button {
-  border-radius: 10px;
   margin: 2px;
-  position: relative;
   top: 15px;
   background-color: transparent;
   border: 1px solid #3b3a3a;
@@ -31,6 +29,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  margin: 20px;
 }
 
 .link {
@@ -94,40 +93,45 @@ td {
 
 @media screen and (max-width: 768px) {
   .batch-record-div {
-      flex-direction: column;
-      align-items: center;
-      font-size: 8px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 8px;
+  }
+
+  .batch-record-div input {
+    width: 50px;
   }
 
   .register-button,
   .update-button {
-      top: 0;
+    top: 0;
   }
 
   .links-div {
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      align-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 20px;
   }
 
   .link {
-      width: auto;
+    width: auto;
   }
 
   #back-button,
   #next-button,
   #clear-button {
-      font-size: 8px;
-      margin: 2px;
+    font-size: 8px;
+    margin: 2px;
   }
 
   table {
-      font-size: 8px;
+    font-size: 8px;
   }
 
   .edit-button,
   .delete-button {
-      margin: 2px;
-      font-size: 8px;
+    margin: 2px;
+    font-size: 8px;
   }
 }
