@@ -20,14 +20,6 @@ function SessaoDadosLaboratoriais() {
     setDadosLaboratoriais(dadosLocais[indicePeriodo] || {});
   }, [indicePeriodo]);
 
-  // Função para salvar dados no histórico
-  const salvarDadosHistorico = (dados) => {
-    const novoHistorico = [...historicoDados];
-    novoHistorico[indicePeriodo] = dados;
-    setHistoricoDados(novoHistorico);
-    localStorage.setItem("historicoDados", JSON.stringify(novoHistorico));
-  };
-
   // Função para lidar com a alteração de campos de entrada
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +41,13 @@ function SessaoDadosLaboratoriais() {
       return;
     }
 
-    salvarDadosHistorico(dadosLaboratoriais);
+    // Salvar dados no histórico
+    const novoHistorico = [...historicoDados];
+    novoHistorico[indicePeriodo] = dadosLaboratoriais;
+    setHistoricoDados(novoHistorico);
+    localStorage.setItem("historicoDados", JSON.stringify(novoHistorico));
+
+    // Limpar os campos e avançar para o próximo período
     setDadosLaboratoriais({
       sistemaAnalitico: "",
       teste: "",
@@ -63,6 +61,25 @@ function SessaoDadosLaboratoriais() {
   const handlePreviousPeriodo = () => {
     if (indicePeriodo > 0) {
       setIndicePeriodo(indicePeriodo - 1);
+    }
+  };
+
+  const handleDeletePeriodo = () => {
+    const shouldDelete = window.confirm(
+      "Tem certeza de que deseja excluir este período?"
+    );
+
+    if (shouldDelete) {
+      const novoHistorico = [...historicoDados];
+      novoHistorico.splice(indicePeriodo, 1);
+      setHistoricoDados(novoHistorico);
+      localStorage.setItem("historicoDados", JSON.stringify(novoHistorico));
+
+      if (indicePeriodo > 0) {
+        setIndicePeriodo(indicePeriodo - 1);
+      } else if (novoHistorico.length > 0) {
+        setIndicePeriodo(0);
+      }
     }
   };
 
@@ -159,21 +176,28 @@ function SessaoDadosLaboratoriais() {
             <div className="text-center">
               <button
                 type="button"
-                className="btn btn-primary ms-1"
-                onClick={handlePreviousPeriodo}
+                className="btn btn-danger btn-sm ms-1"
+                onClick={handleDeletePeriodo}
               >
-                Período Anterior
+                Excluir
               </button>
               <button
                 type="button"
-                className="btn btn-primary ms-1"
+                className="btn btn-primary btn-sm ms-1"
+                onClick={handlePreviousPeriodo}
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm ms-1"
                 onClick={handleNextPeriodo}
               >
-                Próximo Período
+                {indicePeriodo === historicoDados.length ? "Salvar" : "Próximo"}
               </button>
               <Link
                 to="/cadastro-lotes"
-                className="btn btn-secondary ms-1 mt-0"
+                className="btn btn-secondary btn-sm ms-1 mt-0"
               >
                 Próxima Sessão
               </Link>
