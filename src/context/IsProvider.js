@@ -2,30 +2,39 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 import IsContext from "./IsContext";
-import { initialStage1, initialStage2, initialStage3 } from "./initialGlobalState";
 
 function IsProvider({ children }) {
-  const stage1LocalStorage = JSON.parse(localStorage.getItem("stage1"));
-  const stage2LocalStorage = JSON.parse(localStorage.getItem("stage2"));
-  const stage3LocalStorage = JSON.parse(localStorage.getItem("stage3"));
+  const initial_state = {
+    selectedPeriod: 1,
+    1: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    2: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    3: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    4: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    5: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    6: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    7: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    8: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    9: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    10: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    11: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    12: { historicoDados: [], lotesDados: [], analisesDados: [] },
+  };
 
-  const [stage1, setStage1] = useState(stage1LocalStorage || initialStage1);
-  const [stage2, setStage2] = useState(stage2LocalStorage || initialStage2);
-  const [stage3, setStage3] = useState(stage3LocalStorage || initialStage3);
+  const laac = JSON.parse(localStorage.getItem("laac"));
+
+  const [period, setPeriod] = useState(laac || initial_state);
+
+  if (!laac) {
+    localStorage.setItem("laac", JSON.stringify(initial_state));
+  }
 
   const contextValue = {
-    stage1,
-    setStage1,
-    stage2,
-    setStage2,
-    stage3,
-    setStage3
+    period,
+    setPeriod,
   };
 
   return (
-    <IsContext.Provider value={contextValue}>
-      {children}
-    </IsContext.Provider>
+    <IsContext.Provider value={contextValue}>{children}</IsContext.Provider>
   );
 }
 

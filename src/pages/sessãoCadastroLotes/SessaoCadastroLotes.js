@@ -82,6 +82,12 @@ function SessaoCadastroLotes() {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <div className="text-center mb-3">
+            <img
+              src="laac-logo.png"
+              className="img-fluid"
+              alt="LAAC"
+              style={{ maxWidth: "150px" }}
+            />
             <h2 className="mt-1">Controle de Qualidade</h2>
           </div>
           <h2 className="mb-1">Sessão: Cadastro de Lotes</h2>
@@ -172,7 +178,7 @@ function SessaoCadastroLotes() {
                 {currentIndex === lotes.length ? "Salvar" : "Próximo"}
               </button>
               <Link
-                to="/cadastro-lotes"
+                to="/registro-analises"
                 className="btn btn-secondary btn-sm ms-1"
               >
                 Próxima Sessão

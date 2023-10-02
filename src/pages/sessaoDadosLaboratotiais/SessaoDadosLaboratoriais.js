@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import IsContext from "../../context/IsContext";
 
 function SessaoDadosLaboratoriais() {
+  const { period } = useContext(IsContext);
+
   const [dadosLaboratoriais, setDadosLaboratoriais] = useState({
     sistemaAnalitico: "",
     teste: "",
@@ -11,16 +14,14 @@ function SessaoDadosLaboratoriais() {
   });
 
   const [historicoDados, setHistoricoDados] = useState([]);
-  const [indicePeriodo, setIndicePeriodo] = useState(0);
+  const [indicePeriodo, setIndicePeriodo] = useState(1);
 
   useEffect(() => {
-    const dadosLocais =
-      JSON.parse(localStorage.getItem("historicoDados")) || [];
+    const dadosLocais = period[indicePeriodo]?.historicoDados || [];
     setHistoricoDados(dadosLocais);
-    setDadosLaboratoriais(dadosLocais[indicePeriodo] || {});
-  }, [indicePeriodo]);
+    setDadosLaboratoriais(dadosLocais[0] || {});
+  }, [indicePeriodo, period]);
 
-  // Função para lidar com a alteração de campos de entrada
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setDadosLaboratoriais({
@@ -41,13 +42,15 @@ function SessaoDadosLaboratoriais() {
       return;
     }
 
-    // Salvar dados no histórico
     const novoHistorico = [...historicoDados];
-    novoHistorico[indicePeriodo] = dadosLaboratoriais;
-    setHistoricoDados(novoHistorico);
-    localStorage.setItem("historicoDados", JSON.stringify(novoHistorico));
+    novoHistorico.push(dadosLaboratoriais);
 
-    // Limpar os campos e avançar para o próximo período
+    const updatedPeriod = { ...period };
+    updatedPeriod[indicePeriodo].historicoDados = novoHistorico;
+
+    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+
+    setHistoricoDados(novoHistorico);
     setDadosLaboratoriais({
       sistemaAnalitico: "",
       teste: "",
@@ -55,11 +58,12 @@ function SessaoDadosLaboratoriais() {
       metodo: "",
       periodoAnalisado: "",
     });
+
     setIndicePeriodo(indicePeriodo + 1);
   };
 
   const handlePreviousPeriodo = () => {
-    if (indicePeriodo > 0) {
+    if (indicePeriodo > 1) {
       setIndicePeriodo(indicePeriodo - 1);
     }
   };
@@ -70,15 +74,16 @@ function SessaoDadosLaboratoriais() {
     );
 
     if (shouldDelete) {
-      const novoHistorico = [...historicoDados];
-      novoHistorico.splice(indicePeriodo, 1);
+      const novoHistorico = [];
       setHistoricoDados(novoHistorico);
-      localStorage.setItem("historicoDados", JSON.stringify(novoHistorico));
 
-      if (indicePeriodo > 0) {
+      const updatedPeriod = { ...period };
+      updatedPeriod[indicePeriodo].historicoDados = novoHistorico;
+
+      localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+
+      if (indicePeriodo > 1) {
         setIndicePeriodo(indicePeriodo - 1);
-      } else if (novoHistorico.length > 0) {
-        setIndicePeriodo(0);
       }
     }
   };
@@ -162,16 +167,28 @@ function SessaoDadosLaboratoriais() {
               <label htmlFor="periodoAnalisado" className="form-label">
                 Período Analisado:
               </label>
-              <input
-                type="month"
-                className="form-control"
+              <select
+                className="form-select"
                 id="periodoAnalisado"
                 name="periodoAnalisado"
                 value={dadosLaboratoriais.periodoAnalisado}
                 onChange={handleInputChange}
-                placeholder="Insira o período analisado"
                 required
-              />
+              >
+                <option value="">Selecione um mês</option>
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+              </select>
             </div>
             <div className="text-center">
               <button
@@ -193,7 +210,9 @@ function SessaoDadosLaboratoriais() {
                 className="btn btn-primary btn-sm ms-1"
                 onClick={handleNextPeriodo}
               >
-                {indicePeriodo === historicoDados.length ? "Salvar" : "Próximo"}
+                {indicePeriodo === historicoDados.length + 1
+                  ? "Salvar"
+                  : "Próximo"}
               </button>
               <Link
                 to="/cadastro-lotes"

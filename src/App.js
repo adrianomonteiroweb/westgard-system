@@ -8,6 +8,7 @@ import IsProvider from "./context/IsProvider";
 
 import SessaoDadosLaboratoriais from "./pages/sessaoDadosLaboratotiais/SessaoDadosLaboratoriais";
 import SessaoCadastroLotes from "./pages/sessãoCadastroLotes/SessaoCadastroLotes";
+import SessaoRegistroAnalises from "./pages/sessaoRegistroAnalises/SessaoRegistroAnalises";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
             <Route
               path="/cadastro-lotes"
               element={[<SessaoCadastroLotes key={""} />]}
+            />
+            <Route
+              path="/registro-analises"
+              element={[<SessaoRegistroAnalises key={""} />]}
             />
           </Routes>
         </Router>
