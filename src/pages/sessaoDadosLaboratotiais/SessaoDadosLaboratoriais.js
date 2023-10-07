@@ -46,7 +46,9 @@ function SessaoDadosLaboratoriais() {
     novoHistorico.push(dadosLaboratoriais);
 
     const updatedPeriod = { ...period };
-    updatedPeriod[indicePeriodo].historicoDados = novoHistorico;
+    updatedPeriod.selectedPeriod = dadosLaboratoriais.periodoAnalisado;
+    updatedPeriod[dadosLaboratoriais.periodoAnalisado].historicoDados =
+      novoHistorico;
 
     localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
@@ -210,9 +212,7 @@ function SessaoDadosLaboratoriais() {
                 className="btn btn-primary btn-sm ms-1"
                 onClick={handleNextPeriodo}
               >
-                {indicePeriodo === historicoDados.length + 1
-                  ? "Salvar"
-                  : "Próximo"}
+                {indicePeriodo === historicoDados.length ? "Salvar" : "Próximo"}
               </button>
               <Link
                 to="/cadastro-lotes"

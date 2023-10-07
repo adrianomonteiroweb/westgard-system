@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import IsContext from "../../context/IsContext";
 
 function SessaoCadastroLotes() {
+  const { period } = useContext(IsContext);
+
   const [novoLote, setNovoLote] = useState({
     analise: "",
     numeroLote: "",
@@ -10,13 +13,13 @@ function SessaoCadastroLotes() {
   });
 
   const [lotes, setLotes] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [indicePeriodo, setIndicePeriodo] = useState(1);
 
   useEffect(() => {
-    const lotesSalvos = JSON.parse(localStorage.getItem("lotesDados")) || [];
-    setLotes(lotesSalvos);
-    setNovoLote(lotesSalvos[currentIndex] || {});
-  }, [currentIndex]);
+    const dadosLocais = period[indicePeriodo]?.lotesDados || [];
+    setLotes([...lotes, dadosLocais]);
+    setNovoLote(dadosLocais[0] || {});
+  }, [indicePeriodo, period]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +29,7 @@ function SessaoCadastroLotes() {
     });
   };
 
-  const handleNextLote = () => {
+  const handleSaveLote = () => {
     if (
       !novoLote.analise ||
       !novoLote.numeroLote ||
@@ -37,25 +40,37 @@ function SessaoCadastroLotes() {
       return;
     }
 
-    // Salvar lote existente
     const novosLotes = [...lotes];
-    novosLotes[currentIndex] = novoLote;
-    setLotes(novosLotes);
-    localStorage.setItem("lotesDados", JSON.stringify(novosLotes));
+    novosLotes.push(novoLote);
 
+    const updatedPeriod = { ...period };
+    updatedPeriod[period.selectedPeriod].lotesDados = novoLote;
+
+    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+
+    setLotes(novoLote);
     setNovoLote({
       analise: "",
       numeroLote: "",
       media: "",
       desvioPadrao: "",
     });
-    setCurrentIndex(currentIndex + 1);
+    setIndicePeriodo(indicePeriodo + 1);
   };
 
-  const handlePreviousLote = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+  const selectMonthName = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro",
   };
 
   const handleDeleteLote = () => {
@@ -64,15 +79,15 @@ function SessaoCadastroLotes() {
     );
 
     if (shouldDelete) {
-      const novosLotes = [...lotes];
-      novosLotes.splice(currentIndex, 1);
-      setLotes(novosLotes);
-      localStorage.setItem("lotesDados", JSON.stringify(novosLotes));
+      const novoLote = [];
 
-      if (currentIndex > 0) {
-        setCurrentIndex(novosLotes.length - 1);
-      } else if (novosLotes.length > 0) {
-        setCurrentIndex(0);
+      const updatedPeriod = { ...period };
+      updatedPeriod[indicePeriodo].lotesDados = novoLote;
+
+      localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+
+      if (indicePeriodo > 1) {
+        setIndicePeriodo(indicePeriodo - 1);
       }
     }
   };
@@ -80,8 +95,8 @@ function SessaoCadastroLotes() {
   return (
     <div className="container mt-3">
       <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="text-center mb-3">
+        <div className="col-md-6 offset-md-1">
+          <div className="text-center mb-1">
             <img
               src="laac-logo.png"
               className="img-fluid"
@@ -166,16 +181,9 @@ function SessaoCadastroLotes() {
               <button
                 type="button"
                 className="btn btn-primary btn-sm ms-1"
-                onClick={handlePreviousLote}
+                onClick={handleSaveLote}
               >
-                Anterior
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm ms-1"
-                onClick={handleNextLote}
-              >
-                {currentIndex === lotes.length ? "Salvar" : "Próximo"}
+                Salvar
               </button>
               <Link
                 to="/registro-analises"
@@ -200,11 +208,27 @@ function SessaoCadastroLotes() {
               <tbody>
                 {lotes.map((lote, index) => (
                   <tr key={index}>
-                    <td>February 2023</td>
+                    <td>{selectMonthName[period.selectedPeriod]}</td>
                     <td>{lote.analise}</td>
                     <td>{lote.numeroLote}</td>
                     <td>{lote.media}</td>
                     <td>{lote.desvioPadrao}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={() => handleEditLote(index)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm ms-1"
+                        onClick={() => handleDeleteLote(index)}
+                      >
+                        Excluir
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

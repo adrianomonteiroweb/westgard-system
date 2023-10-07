@@ -81,6 +81,12 @@ function SessaoRegistroAnalises() {
     setEditIndex(-1);
   };
 
+  const handlePreviousAnalysis = () => {
+    if (currentIndex > 1) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
   const handleEditAnalysis = (index) => {
     const analysisToEdit = analisesDados[currentPeriod][index];
     setNewAnalysis({ ...analysisToEdit });
@@ -101,11 +107,6 @@ function SessaoRegistroAnalises() {
         [currentPeriod]: updatedPeriodData,
       });
     }
-  };
-
-  const handleSwitchPeriod = (newPeriod) => {
-    setCurrentPeriod(newPeriod);
-    setCurrentIndex(0);
   };
 
   return (
@@ -175,7 +176,24 @@ function SessaoRegistroAnalises() {
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="8">
+                    <td>
+                      <Link
+                        to="/cadastro-lotes"
+                        className="btn btn-secondary btn-sm me-2"
+                      >
+                        Sessão Anterior
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm mt-1"
+                        onClick={handlePreviousAnalysis}
+                      >
+                        Anterior
+                      </button>
+                    </td>
+                    <td>
                       <button
                         type="button"
                         className="btn btn-primary btn-sm mt-1"
@@ -186,6 +204,14 @@ function SessaoRegistroAnalises() {
                           ? "Salvar"
                           : "Próximo"}
                       </button>
+                    </td>
+                    <td>
+                      <Link
+                        to="/resultados-analises"
+                        className="btn btn-secondary btn-sm me-2"
+                      >
+                        Próxima Sessão
+                      </Link>
                     </td>
                   </tr>
                 </tbody>
@@ -233,44 +259,6 @@ function SessaoRegistroAnalises() {
                 </tbody>
               </table>
             </div>
-          </div>
-          <div className="mt-3">
-            <Link
-              to="/cadastro-lotes"
-              className="btn btn-secondary btn-sm me-2"
-            >
-              Sessão Anterior
-            </Link>
-            <Link to="/resultados-analises" className="btn btn-primary btn-sm">
-              Próxima Sessão
-            </Link>
-          </div>
-          <div className="mt-3">
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm me-2"
-              onClick={() => handleSwitchPeriod("janeiro")}
-              disabled={currentPeriod === "janeiro"}
-            >
-              Janeiro
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm me-2"
-              onClick={() => handleSwitchPeriod("fevereiro")}
-              disabled={currentPeriod === "fevereiro"}
-            >
-              Fevereiro
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => handleSwitchPeriod("marco")}
-              disabled={currentPeriod === "marco"}
-            >
-              Março
-            </button>
-            {/* Adicione os botões para outros meses conforme necessário */}
           </div>
         </div>
       </div>
