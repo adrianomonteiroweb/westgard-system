@@ -6,18 +6,18 @@ import IsContext from "./IsContext";
 function IsProvider({ children }) {
   const initial_state = {
     selectedPeriod: 1,
-    1: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    2: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    3: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    4: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    5: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    6: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    7: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    8: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    9: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    10: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    11: { historicoDados: [], lotesDados: [], analisesDados: [] },
-    12: { historicoDados: [], lotesDados: [], analisesDados: [] },
+    1: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    2: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    3: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    4: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    5: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    6: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    7: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    8: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    9: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    10: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    11: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
+    12: { historicoDados: {}, lotesDados: {}, analisesDados: {} },
   };
 
   const laac = JSON.parse(localStorage.getItem("laac"));

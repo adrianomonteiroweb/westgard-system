@@ -15,7 +15,7 @@ import {
   getValuesOfInputs,
   persistDataOnLocalStorage,
   setValuesOfInputs,
-} from "../../utils/functions/";
+} from "../../utils/functions";
 
 import "./batchRecordPage.css";
 import LinkComponent from "../../components/links/LinkComponent";

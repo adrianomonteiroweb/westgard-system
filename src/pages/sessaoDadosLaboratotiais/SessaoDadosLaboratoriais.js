@@ -14,13 +14,12 @@ function SessaoDadosLaboratoriais() {
     periodoAnalisado: "",
   });
 
-  const [historicoDados, setHistoricoDados] = useState([]);
   const [indicePeriodo, setIndicePeriodo] = useState(1);
 
   useEffect(() => {
-    const dadosLocais = period[indicePeriodo]?.historicoDados || [];
-    setHistoricoDados(dadosLocais);
-    setDadosLaboratoriais(dadosLocais[0] || {});
+    const dadosLocais =
+      period[indicePeriodo]?.historicoDados || dadosLaboratoriais;
+    setDadosLaboratoriais(dadosLocais || dadosLaboratoriais);
   }, [indicePeriodo, period]);
 
   const handleInputChange = (e) => {
@@ -32,28 +31,13 @@ function SessaoDadosLaboratoriais() {
   };
 
   const handleNextPeriodo = () => {
-    /* if (
-      !dadosLaboratoriais.sistemaAnalitico ||
-      !dadosLaboratoriais.teste ||
-      !dadosLaboratoriais.unidade ||
-      !dadosLaboratoriais.metodo ||
-      !dadosLaboratoriais.periodoAnalisado
-    ) {
-      alert("Preencha todos os campos obrigatórios.");
-      return;
-    } */
-
-    const novoHistorico = historicoDados;
-    novoHistorico.push(dadosLaboratoriais);
-
     const updatedPeriod = period;
     updatedPeriod[
       dadosLaboratoriais.periodoAnalisado || indicePeriodo
-    ].historicoDados = novoHistorico;
+    ].historicoDados = dadosLaboratoriais;
 
     localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
-    setHistoricoDados(novoHistorico);
     setDadosLaboratoriais({
       sistemaAnalitico: "",
       teste: "",
@@ -80,7 +64,6 @@ function SessaoDadosLaboratoriais() {
 
     if (shouldDelete) {
       const novoHistorico = [];
-      setHistoricoDados(novoHistorico);
 
       const updatedPeriod = { ...period };
       updatedPeriod[indicePeriodo].historicoDados = novoHistorico;

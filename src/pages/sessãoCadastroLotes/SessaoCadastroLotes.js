@@ -6,64 +6,50 @@ import { selectMonthName } from "../../utils/functions";
 function SessaoCadastroLotes() {
   const { period } = useContext(IsContext);
 
-  const [novoLote, setNovoLote] = useState({
+  const [dadosLotes, setDadosLotes] = useState({
     analise: "",
     numeroLote: "",
     media: "",
     desvioPadrao: "",
   });
 
-  const [lotes, setLotes] = useState([]);
   const [indicePeriodo, setIndicePeriodo] = useState(1);
-  const [registeredLotes, setRegisteredLotes] = useState([]);
 
   useEffect(() => {
-    const dadosLocais = period[indicePeriodo]?.lotesDados || [];
-    setLotes(dadosLocais);
-    setNovoLote(dadosLocais[0] || {});
-
-    const valid_lotes = Object.values(period)
-      .filter((l) => l.lotesDados)
-      .filter((l) => l.lotesDados.length);
-    console.log(valid_lotes);
-    setRegisteredLotes(valid_lotes);
+    const dadosLocais = period[indicePeriodo]?.lotesDados || dadosLotes;
+    setDadosLotes(dadosLocais || dadosLotes);
   }, [indicePeriodo, period]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNovoLote({
-      ...novoLote,
+    setDadosLotes({
+      ...dadosLotes,
       [name]: value,
     });
   };
 
-  const handleSaveLote = () => {
-    if (
-      !novoLote.analise ||
-      !novoLote.numeroLote ||
-      !novoLote.media ||
-      !novoLote.desvioPadrao
-    ) {
-      alert("Preencha todos os campos obrigatórios.");
-      return;
-    }
-
-    const novosLotes = lotes;
-    novosLotes.push(novoLote);
-
+  const handleNextLote = () => {
     const updatedPeriod = period;
-    updatedPeriod[period.selectedPeriod].lotesDados = novoLote;
+    updatedPeriod[period.selectedPeriod].lotesDados = dadosLotes;
 
     localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
-    setLotes(novoLote);
-    setNovoLote({
+    setDadosLotes({
       analise: "",
       numeroLote: "",
       media: "",
       desvioPadrao: "",
     });
-    setIndicePeriodo(indicePeriodo + 1);
+
+    if (indicePeriodo < 12) {
+      setIndicePeriodo(indicePeriodo + 1);
+    }
+  };
+
+  const handlePreviousLote = () => {
+    if (indicePeriodo > 1) {
+      setIndicePeriodo(indicePeriodo - 1);
+    }
   };
 
   const handleDeleteLote = () => {
@@ -72,10 +58,10 @@ function SessaoCadastroLotes() {
     );
 
     if (shouldDelete) {
-      const novoLote = [];
+      const dadosLotes = [];
 
       const updatedPeriod = { ...period };
-      updatedPeriod[indicePeriodo].lotesDados = novoLote;
+      updatedPeriod[indicePeriodo].lotesDados = dadosLotes;
 
       localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
@@ -98,7 +84,9 @@ function SessaoCadastroLotes() {
             />
             <h2 className="mt-1">Controle de Qualidade</h2>
           </div>
-          <h2 className="mb-1">Sessão: Cadastro de Lotes</h2>
+          <h2 className="mb-1">
+            Sessão: Cadastro de Lotes ({selectMonthName[indicePeriodo]})
+          </h2>
           <form>
             <div className="mb-1">
               <label htmlFor="analise" className="form-label">
@@ -109,7 +97,7 @@ function SessaoCadastroLotes() {
                 className="form-control"
                 id="analise"
                 name="analise"
-                value={novoLote.analise}
+                value={dadosLotes.analise}
                 onChange={handleInputChange}
                 required
                 placeholder="Insira a análise"
@@ -124,7 +112,7 @@ function SessaoCadastroLotes() {
                 className="form-control"
                 id="numeroLote"
                 name="numeroLote"
-                value={novoLote.numeroLote}
+                value={dadosLotes.numeroLote}
                 onChange={handleInputChange}
                 required
                 placeholder="Insira o número de lote"
@@ -139,7 +127,7 @@ function SessaoCadastroLotes() {
                 className="form-control"
                 id="media"
                 name="media"
-                value={novoLote.media}
+                value={dadosLotes.media}
                 onChange={handleInputChange}
                 required
                 placeholder="Insira a média"
@@ -154,7 +142,7 @@ function SessaoCadastroLotes() {
                 className="form-control"
                 id="desvioPadrao"
                 name="desvioPadrao"
-                value={novoLote.desvioPadrao}
+                value={dadosLotes.desvioPadrao}
                 onChange={handleInputChange}
                 required
                 placeholder="Insira o desvio padrão"
@@ -174,9 +162,16 @@ function SessaoCadastroLotes() {
               <button
                 type="button"
                 className="btn btn-primary btn-sm ms-1"
-                onClick={handleSaveLote}
+                onClick={handlePreviousLote}
               >
-                Salvar
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm ms-1"
+                onClick={handleNextLote}
+              >
+                Próximo
               </button>
               <Link
                 to="/registro-analises"
@@ -186,47 +181,6 @@ function SessaoCadastroLotes() {
               </Link>
             </div>
           </form>
-          <div className="mt-3">
-            <h3>Lotes Cadastrados</h3>
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Período</th>
-                  <th scope="col">Análise</th>
-                  <th scope="col">Nº Lote</th>
-                  <th scope="col">Média</th>
-                  <th scope="col">DP</th>
-                </tr>
-              </thead>
-              <tbody>
-                {registeredLotes.map((lote, index) => (
-                  <tr key={index}>
-                    <td>{selectMonthName[period.selectedPeriod]}</td>
-                    <td>{lote.analise}</td>
-                    <td>{lote.numeroLote}</td>
-                    <td>{lote.media}</td>
-                    <td>{lote.desvioPadrao}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-sm"
-                        onClick={() => handleEditLote(index)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger btn-sm ms-1"
-                        onClick={() => handleDeleteLote(index)}
-                      >
-                        Excluir
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
