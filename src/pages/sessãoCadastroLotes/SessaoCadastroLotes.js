@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import IsContext from "../../context/IsContext";
+import { selectMonthName } from "../../utils/functions";
 
 function SessaoCadastroLotes() {
   const { period } = useContext(IsContext);
@@ -14,11 +15,18 @@ function SessaoCadastroLotes() {
 
   const [lotes, setLotes] = useState([]);
   const [indicePeriodo, setIndicePeriodo] = useState(1);
+  const [registeredLotes, setRegisteredLotes] = useState([]);
 
   useEffect(() => {
     const dadosLocais = period[indicePeriodo]?.lotesDados || [];
-    setLotes([...lotes, dadosLocais]);
+    setLotes(dadosLocais);
     setNovoLote(dadosLocais[0] || {});
+
+    const valid_lotes = Object.values(period)
+      .filter((l) => l.lotesDados)
+      .filter((l) => l.lotesDados.length);
+    console.log(valid_lotes);
+    setRegisteredLotes(valid_lotes);
   }, [indicePeriodo, period]);
 
   const handleInputChange = (e) => {
@@ -40,10 +48,10 @@ function SessaoCadastroLotes() {
       return;
     }
 
-    const novosLotes = [...lotes];
+    const novosLotes = lotes;
     novosLotes.push(novoLote);
 
-    const updatedPeriod = { ...period };
+    const updatedPeriod = period;
     updatedPeriod[period.selectedPeriod].lotesDados = novoLote;
 
     localStorage.setItem("laac", JSON.stringify(updatedPeriod));
@@ -56,21 +64,6 @@ function SessaoCadastroLotes() {
       desvioPadrao: "",
     });
     setIndicePeriodo(indicePeriodo + 1);
-  };
-
-  const selectMonthName = {
-    1: "Janeiro",
-    2: "Fevereiro",
-    3: "Março",
-    4: "Abril",
-    5: "Maio",
-    6: "Junho",
-    7: "Julho",
-    8: "Agosto",
-    9: "Setembro",
-    10: "Outubro",
-    11: "Novembro",
-    12: "Dezembro",
   };
 
   const handleDeleteLote = () => {
@@ -206,7 +199,7 @@ function SessaoCadastroLotes() {
                 </tr>
               </thead>
               <tbody>
-                {lotes.map((lote, index) => (
+                {registeredLotes.map((lote, index) => (
                   <tr key={index}>
                     <td>{selectMonthName[period.selectedPeriod]}</td>
                     <td>{lote.analise}</td>

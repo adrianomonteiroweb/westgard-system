@@ -10,7 +10,7 @@ function SessaoRegistroAnalises() {
   });
 
   const [analisesDados, setAnalisesDados] = useState({});
-  const [periods, setPeriods] = useState([]);
+  const [_periods, setPeriods] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [editIndex, setEditIndex] = useState(-1);

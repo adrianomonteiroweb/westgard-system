@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import IsContext from "../../context/IsContext";
+import { selectMonthName } from "../../utils/functions";
 
 function SessaoDadosLaboratoriais() {
   const { period } = useContext(IsContext);
@@ -31,7 +32,7 @@ function SessaoDadosLaboratoriais() {
   };
 
   const handleNextPeriodo = () => {
-    if (
+    /* if (
       !dadosLaboratoriais.sistemaAnalitico ||
       !dadosLaboratoriais.teste ||
       !dadosLaboratoriais.unidade ||
@@ -40,15 +41,15 @@ function SessaoDadosLaboratoriais() {
     ) {
       alert("Preencha todos os campos obrigatórios.");
       return;
-    }
+    } */
 
-    const novoHistorico = [...historicoDados];
+    const novoHistorico = historicoDados;
     novoHistorico.push(dadosLaboratoriais);
 
-    const updatedPeriod = { ...period };
-    updatedPeriod.selectedPeriod = dadosLaboratoriais.periodoAnalisado;
-    updatedPeriod[dadosLaboratoriais.periodoAnalisado].historicoDados =
-      novoHistorico;
+    const updatedPeriod = period;
+    updatedPeriod[
+      dadosLaboratoriais.periodoAnalisado || indicePeriodo
+    ].historicoDados = novoHistorico;
 
     localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
@@ -61,7 +62,9 @@ function SessaoDadosLaboratoriais() {
       periodoAnalisado: "",
     });
 
-    setIndicePeriodo(indicePeriodo + 1);
+    if (indicePeriodo < 12) {
+      setIndicePeriodo(indicePeriodo + 1);
+    }
   };
 
   const handlePreviousPeriodo = () => {
@@ -103,7 +106,9 @@ function SessaoDadosLaboratoriais() {
             />
             <h2 className="mt-1">Controle de Qualidade</h2>
           </div>
-          <h4 className="mb-1">Sessão: Dados Laboratoriais</h4>
+          <h4 className="mb-1">
+            Sessão: Dados Laboratoriais ({selectMonthName[indicePeriodo]})
+          </h4>
           <form>
             <div className="mb-1">
               <label htmlFor="sistemaAnalitico" className="form-label">
@@ -173,7 +178,7 @@ function SessaoDadosLaboratoriais() {
                 className="form-select"
                 id="periodoAnalisado"
                 name="periodoAnalisado"
-                value={dadosLaboratoriais.periodoAnalisado}
+                value={indicePeriodo}
                 onChange={handleInputChange}
                 required
               >
@@ -212,7 +217,7 @@ function SessaoDadosLaboratoriais() {
                 className="btn btn-primary btn-sm ms-1"
                 onClick={handleNextPeriodo}
               >
-                {indicePeriodo === historicoDados.length ? "Salvar" : "Próximo"}
+                Próximo
               </button>
               <Link
                 to="/cadastro-lotes"

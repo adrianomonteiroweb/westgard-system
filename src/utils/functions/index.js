@@ -1,21 +1,21 @@
-export const emptyInputs = (inputArrayOfIDs) => 
-{
-  inputArrayOfIDs.map((ID) => document.querySelector(`#${ID}`).value = "");
+export const emptyInputs = (inputArrayOfIDs) => {
+  inputArrayOfIDs.map((ID) => (document.querySelector(`#${ID}`).value = ""));
 };
 
-export const getValuesOfInputs = (inputArrayOfIDs) => 
-{
+export const getValuesOfInputs = (inputArrayOfIDs) => {
   let values = {};
 
-  inputArrayOfIDs.map((ID, i) => values[i] = document.querySelector(`#${ID}`).value);
+  inputArrayOfIDs.map(
+    (ID, i) => (values[i] = document.querySelector(`#${ID}`).value)
+  );
 
   return values;
 };
 
-export const setValuesOfInputs = (inputArrayOfIDs, arrayOfValues) => 
-{
-  inputArrayOfIDs.map((ID, i) => document
-    .querySelector(`#${ID}`).value = arrayOfValues[i]);
+export const setValuesOfInputs = (inputArrayOfIDs, arrayOfValues) => {
+  inputArrayOfIDs.map(
+    (ID, i) => (document.querySelector(`#${ID}`).value = arrayOfValues[i])
+  );
 };
 
 export const persistDataOnLocalStorage = (key, data) => {
@@ -24,29 +24,65 @@ export const persistDataOnLocalStorage = (key, data) => {
 
 export const stage2ResultsFunction = (stage2) => ({
   nivel1: {
-    s1less: (Number(stage2.nivel1.media) - Number(stage2.nivel1.DP)) / Number(stage2.nivel1.media),
-    s2less: (Number(stage2.nivel1.media) - (2 * Number(stage2.nivel1.DP))) / Number(stage2.nivel1.media),
-    s3less: (Number(stage2.nivel1.media) - (3 * Number(stage2.nivel1.DP))) / Number(stage2.nivel1.media),
-    s1bigger: (Number(stage2.nivel1.media) + Number(stage2.nivel1.DP)) / Number(stage2.nivel1.media),
-    s2bigger: (Number(stage2.nivel1.media) + (2 * Number(stage2.nivel1.DP))) / Number(stage2.nivel1.media),
-    s3bigger: (Number(stage2.nivel1.media) + (3 * Number(stage2.nivel1.DP))) / Number(stage2.nivel1.media)
+    s1less:
+      (Number(stage2.nivel1.media) - Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
+    s2less:
+      (Number(stage2.nivel1.media) - 2 * Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
+    s3less:
+      (Number(stage2.nivel1.media) - 3 * Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
+    s1bigger:
+      (Number(stage2.nivel1.media) + Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
+    s2bigger:
+      (Number(stage2.nivel1.media) + 2 * Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
+    s3bigger:
+      (Number(stage2.nivel1.media) + 3 * Number(stage2.nivel1.DP)) /
+      Number(stage2.nivel1.media),
   },
   nivel2: {
-    s1less: (Number(stage2.nivel2.media) - Number(stage2.nivel2.DP)) / Number(stage2.nivel2.media),
-    s2less: (Number(stage2.nivel2.media) - (2 * Number(stage2.nivel2.DP))) / Number(stage2.nivel2.media),
-    s3less: (Number(stage2.nivel2.media) - (3 * Number(stage2.nivel2.DP))) / Number(stage2.nivel2.media),
-    s2bigger: (Number(stage2.nivel2.media) + Number(stage2.nivel2.DP)) / Number(stage2.nivel2.media),
-    s2bigger: (Number(stage2.nivel2.media) + (2 * Number(stage2.nivel2.DP))) / Number(stage2.nivel2.media),
-    s3bigger: (Number(stage2.nivel2.media) + (3 * Number(stage2.nivel2.DP))) / Number(stage2.nivel2.media)
+    s1less:
+      (Number(stage2.nivel2.media) - Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
+    s2less:
+      (Number(stage2.nivel2.media) - 2 * Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
+    s3less:
+      (Number(stage2.nivel2.media) - 3 * Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
+    s2bigger:
+      (Number(stage2.nivel2.media) + Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
+    s2bigger:
+      (Number(stage2.nivel2.media) + 2 * Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
+    s3bigger:
+      (Number(stage2.nivel2.media) + 3 * Number(stage2.nivel2.DP)) /
+      Number(stage2.nivel2.media),
   },
   nivel3: {
-    s1less: (Number(stage2.nivel3.media) - Number(stage2.nivel3.DP)) / Number(stage2.nivel3.media),
-    s2less: (Number(stage2.nivel3.media) - (2 * Number(stage2.nivel3.DP))) / Number(stage2.nivel3.media),
-    s3less: (Number(stage2.nivel3.media) - (3 * Number(stage2.nivel3.DP))) / Number(stage2.nivel3.media),
-    s2bigger: (Number(stage2.nivel3.media) + Number(stage2.nivel3.DP)) / Number(stage2.nivel3.media),
-    s2bigger: (Number(stage2.nivel3.media) + (2 * Number(stage2.nivel3.DP))) / Number(stage2.nivel3.media),
-    s3bigger: (Number(stage2.nivel3.media) + (3 * Number(stage2.nivel3.DP))) / Number(stage2.nivel3.media)
-  }
+    s1less:
+      (Number(stage2.nivel3.media) - Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+    s2less:
+      (Number(stage2.nivel3.media) - 2 * Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+    s3less:
+      (Number(stage2.nivel3.media) - 3 * Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+    s2bigger:
+      (Number(stage2.nivel3.media) + Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+    s2bigger:
+      (Number(stage2.nivel3.media) + 2 * Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+    s3bigger:
+      (Number(stage2.nivel3.media) + 3 * Number(stage2.nivel3.DP)) /
+      Number(stage2.nivel3.media),
+  },
 });
 
 export const checksShuntedRule = (rules, n1, n2, n3) => {
@@ -90,15 +126,19 @@ export const checksShuntedRule = (rules, n1, n2, n3) => {
   return nivel1;
 };
 
-export const shuntedRuleResult = (points, stage2,  checksShuntedRule, rules) => {
+export const shuntedRuleResult = (points, stage2, checksShuntedRule, rules) => {
   let results = {};
 
   points.map(({ nivel1, nivel2 }, index) => {
-    const result = checksShuntedRule(rules, Number(nivel1) / stage2.nivel1.media, Number(nivel2) / stage2.nivel2.media);
+    const result = checksShuntedRule(
+      rules,
+      Number(nivel1) / stage2.nivel1.media,
+      Number(nivel2) / stage2.nivel2.media
+    );
 
     if (result) results[index + 1] = result;
   });
-  
+
   return results;
 };
 
@@ -109,10 +149,11 @@ export const stdevFunc = (arrayOfObjects, nivel, limit = 10) => {
 
   const media = sum / limit;
 
-  const diff = arrayOfObjects.map((obj) => Math.pow(Number(obj[nivel]) - media, 2));
+  const diff = arrayOfObjects.map((obj) =>
+    Math.pow(Number(obj[nivel]) - media, 2)
+  );
 
-  const mediaDiff = diff
-    .reduce((a, b) => a + b, 0) / 10;
+  const mediaDiff = diff.reduce((a, b) => a + b, 0) / 10;
 
   const stdev = Math.sqrt(mediaDiff);
 
@@ -132,11 +173,11 @@ function valuesSum(arrayOfObjects, isKey) {
   }, 0);
 }
 
-export function mediaCalculate (stage3, nivel) {
+export function mediaCalculate(stage3, nivel) {
   let sum = 0;
   let count = 0;
 
-  stage3.forEach(item => {
+  stage3.forEach((item) => {
     const value = Number(item[nivel]);
     if (!isNaN(value)) {
       sum += value;
@@ -167,8 +208,22 @@ export function DPCalculate(arrayOfObjects, isKey) {
   }, 0);
 
   // Passo 3: Calcular o desvio padrão
-  const standardDeviation = Math
-    .sqrt(SumSquares / arrayOfObjects.length);
+  const standardDeviation = Math.sqrt(SumSquares / arrayOfObjects.length);
 
   return standardDeviation;
 }
+
+export const selectMonthName = {
+  1: "Janeiro",
+  2: "Fevereiro",
+  3: "Março",
+  4: "Abril",
+  5: "Maio",
+  6: "Junho",
+  7: "Julho",
+  8: "Agosto",
+  9: "Setembro",
+  10: "Outubro",
+  11: "Novembro",
+  12: "Dezembro",
+};
