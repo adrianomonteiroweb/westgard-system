@@ -1,112 +1,104 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import IsContext from "../../context/IsContext";
 import { Link } from "react-router-dom";
+import {
+  selectMonthName,
+  sortByIdFromLargest,
+  sortByIdFromSmallest,
+} from "../../utils/functions";
 
 function SessaoRegistroAnalises() {
-  const [newAnalysis, setNewAnalysis] = useState({
+  const { period } = useContext(IsContext);
+
+  const [dadosAnalysis, setDadosAnalysis] = useState({
+    id: 0,
     date: "",
     analysis1: 0,
     analysis2: 0,
     analysis3: 0,
   });
 
-  const [analisesDados, setAnalisesDados] = useState({});
-  const [_periods, setPeriods] = useState([]);
-  const [currentPeriod, setCurrentPeriod] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [editIndex, setEditIndex] = useState(-1);
+  const [indicePeriodo, setIndicePeriodo] = useState(1);
 
   useEffect(() => {
-    // Obter períodos disponíveis
-    const availablePeriods = Object.keys(analisesDados);
-    setPeriods(availablePeriods);
-
-    // Definir o período atual como o primeiro período disponível
-    if (availablePeriods.length > 0) {
-      setCurrentPeriod(availablePeriods[0]);
-    }
-  }, [analisesDados]);
-
-  useEffect(() => {
-    // Atualizar análise atual quando o período ou o índice atual mudar
-    if (currentPeriod && analisesDados[currentPeriod]) {
-      setNewAnalysis(
-        analisesDados[currentPeriod][currentIndex] || {
-          date: "",
-          analysis1: 0,
-          analysis2: 0,
-          analysis3: 0,
-        }
-      );
-    }
-  }, [currentPeriod, currentIndex, analisesDados]);
+    const dadosLocais = period[indicePeriodo]?.analisesDados || dadosAnalysis;
+    setDadosAnalysis(dadosLocais, dadosAnalysis);
+  }, [indicePeriodo, period]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    setNewAnalysis({
-      ...newAnalysis,
+    setDadosAnalysis({
+      ...dadosAnalysis,
       [name]: name === "date" ? value : parseFloat(value),
     });
   };
 
   const handleNextAnalysis = () => {
-    if (!newAnalysis.date || isNaN(newAnalysis.analysis1)) {
-      alert("Preencha todos os campos obrigatórios.");
+    if (indicePeriodo < 12) {
+      setIndicePeriodo(indicePeriodo + 1);
+    }
+  };
+
+  const handleSaveAnalysis = () => {
+    if (!dadosAnalysis.date || !dadosAnalysis.analysis1) {
+      alert("Data e Análise 1 são dados obrigatórios.");
       return;
     }
 
-    // Salvar análises existentes no período atual
-    const currentPeriodData = analisesDados[currentPeriod] || [];
-    const updatedPeriodData = [...currentPeriodData];
+    const findIfAlreadyExists = period[indicePeriodo].analisesDados.find(
+      (a) => a.id === dadosAnalysis.id
+    );
 
-    if (editIndex === -1) {
-      updatedPeriodData[currentIndex] = newAnalysis;
+    let updatedPeriod = period;
+    if (findIfAlreadyExists) {
+      const filterWithoutAnalytic = period[indicePeriodo].analisesDados.filter(
+        (a) => a.id !== dadosAnalysis.id
+      );
+
+      updatedPeriod[indicePeriodo].analisesDados = [
+        ...filterWithoutAnalytic,
+        dadosAnalysis,
+      ];
     } else {
-      updatedPeriodData[editIndex] = newAnalysis;
+      dadosAnalysis.id =
+        period[indicePeriodo].analisesDados.sort(sortByIdFromLargest)[0].id + 1;
+      updatedPeriod[indicePeriodo].analisesDados.push(dadosAnalysis);
     }
 
-    setAnalisesDados({
-      ...analisesDados,
-      [currentPeriod]: updatedPeriodData,
-    });
+    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
 
-    setNewAnalysis({
+    setDadosAnalysis({
+      id: 0,
       date: "",
       analysis1: 0,
       analysis2: 0,
       analysis3: 0,
     });
-
-    setCurrentIndex(currentIndex + 1);
-    setEditIndex(-1);
   };
 
   const handlePreviousAnalysis = () => {
-    if (currentIndex > 1) {
-      setCurrentIndex(currentIndex - 1);
+    if (indicePeriodo > 1) {
+      setIndicePeriodo(indicePeriodo - 1);
     }
   };
 
-  const handleEditAnalysis = (index) => {
-    const analysisToEdit = analisesDados[currentPeriod][index];
-    setNewAnalysis({ ...analysisToEdit });
-    setEditIndex(index);
-  };
-
-  const handleDeleteAnalysis = (index) => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja excluir esta análise?"
+  const handleEditAnalysis = (id) => {
+    const analyticToUpdate = period[indicePeriodo].analisesDados.find(
+      (a) => a.id === id
     );
-    if (confirmDelete) {
-      const currentPeriodData = analisesDados[currentPeriod] || [];
-      const updatedPeriodData = [...currentPeriodData];
-      updatedPeriodData.splice(index, 1);
+    setDadosAnalysis(analyticToUpdate);
+  };
 
-      setAnalisesDados({
-        ...analisesDados,
-        [currentPeriod]: updatedPeriodData,
-      });
-    }
+  const handleDeleteAnalysis = (id) => {
+    const filterWithoutAnalytic = period[indicePeriodo].analisesDados.filter(
+      (a) => a.id !== id
+    );
+
+    const updatedPeriod = period;
+
+    updatedPeriod[indicePeriodo].analisesDados = [...filterWithoutAnalytic];
+
+    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
   };
 
   return (
@@ -120,9 +112,11 @@ function SessaoRegistroAnalises() {
               alt="LAAC"
               style={{ maxWidth: "150px" }}
             />
-            <h2 className="mt-1">Controle de Qualidade</h2>
+            <h3 className="mt-1">Controle de Qualidade</h3>
           </div>
-          <h2 className="mb-1">Sessão: Registro de Análises</h2>
+          <h4 className="mb-1">
+            Sessão: Registro de Análises ({selectMonthName[indicePeriodo]})
+          </h4>
           <form>
             <div className="table-responsive">
               <table className="table table-bordered">
@@ -135,7 +129,7 @@ function SessaoRegistroAnalises() {
                         className="form-control"
                         id="date"
                         name="date"
-                        value={newAnalysis.date}
+                        value={dadosAnalysis.date}
                         onChange={handleInputChange}
                         required
                       />
@@ -147,7 +141,7 @@ function SessaoRegistroAnalises() {
                         className="form-control"
                         id="analysis1"
                         name="analysis1"
-                        value={newAnalysis.analysis1}
+                        value={dadosAnalysis.analysis1}
                         onChange={handleInputChange}
                         required
                       />
@@ -159,7 +153,7 @@ function SessaoRegistroAnalises() {
                         className="form-control"
                         id="analysis2"
                         name="analysis2"
-                        value={newAnalysis.analysis2}
+                        value={dadosAnalysis.analysis2}
                         onChange={handleInputChange}
                       />
                     </td>
@@ -170,7 +164,7 @@ function SessaoRegistroAnalises() {
                         className="form-control"
                         id="analysis3"
                         name="analysis3"
-                        value={newAnalysis.analysis3}
+                        value={dadosAnalysis.analysis3}
                         onChange={handleInputChange}
                       />
                     </td>
@@ -197,12 +191,18 @@ function SessaoRegistroAnalises() {
                       <button
                         type="button"
                         className="btn btn-primary btn-sm mt-1"
+                        onClick={handleSaveAnalysis}
+                      >
+                        Adicionar
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm mt-1"
                         onClick={handleNextAnalysis}
                       >
-                        {currentIndex ===
-                        (analisesDados[currentPeriod]?.length || 0)
-                          ? "Salvar"
-                          : "Próximo"}
+                        Próximo
                       </button>
                     </td>
                     <td>
@@ -219,43 +219,51 @@ function SessaoRegistroAnalises() {
             </div>
           </form>
           <div className="mt-2">
-            <h3>Análises Cadastradas ({currentPeriod})</h3>
+            <h4>Análises Cadastradas</h4>
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
                   <tr>
+                    <th scope="col">Nº</th>
                     <th scope="col">Data</th>
-                    <th scope="col">Análise 1</th>
-                    <th scope="col">Análise 2</th>
-                    <th scope="col">Análise 3</th>
+                    <th scope="col">Análises</th>
                     <th scope="col">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {analisesDados[currentPeriod]?.map((isAnalysis, index) => (
-                    <tr key={index}>
-                      <td>{isAnalysis.date}</td>
-                      <td>{isAnalysis.analysis1}</td>
-                      <td>{isAnalysis.analysis2}</td>
-                      <td>{isAnalysis.analysis3}</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-sm me-2"
-                          onClick={() => handleEditAnalysis(index)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-sm"
-                          onClick={() => handleDeleteAnalysis(index)}
-                        >
-                          Excluir
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {period[indicePeriodo]?.analisesDados
+                    .sort(sortByIdFromSmallest)
+                    ?.map((isAnalysis, index) => (
+                      <tr key={index}>
+                        <td>{isAnalysis.id}</td>
+                        <td>{isAnalysis.date}</td>
+                        {isAnalysis.analysis1 > 0 && (
+                          <td>{isAnalysis.analysis1}</td>
+                        )}
+                        {isAnalysis.analysis2 > 0 && (
+                          <td>{isAnalysis.analysis2}</td>
+                        )}
+                        {isAnalysis.analysis3 > 0 && (
+                          <td>{isAnalysis.analysis3}</td>
+                        )}
+                        <td>
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-sm me-2"
+                            onClick={() => handleEditAnalysis(isAnalysis.id)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDeleteAnalysis(isAnalysis.id)}
+                          >
+                            Excluir
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

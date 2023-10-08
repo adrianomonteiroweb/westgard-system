@@ -227,3 +227,6 @@ export const selectMonthName = {
   11: "Novembro",
   12: "Dezembro",
 };
+
+export const sortByIdFromLargest = (a, b) => b.id - a.id;
+export const sortByIdFromSmallest = (a, b) => a.id - b.id;
