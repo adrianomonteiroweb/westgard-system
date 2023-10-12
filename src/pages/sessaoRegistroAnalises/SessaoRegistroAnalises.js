@@ -24,8 +24,21 @@ function SessaoRegistroAnalises() {
     setDadosAnalysis(dadosLocais, dadosAnalysis);
   }, [laacPeriod, laacState]);
 
+  const isDateInCorrectMonth = (date) => {
+    const selectedDate = new Date(date);
+    const selectedMonth = selectedDate.getMonth() + 1;
+
+    return selectedMonth === laacPeriod;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "date" && !isDateInCorrectMonth(value)) {
+      alert(`A data deve estar no mês ${selectMonthName[laacPeriod]}`);
+      return;
+    }
+
     setDadosAnalysis({
       ...dadosAnalysis,
       [name]: name === "date" ? value : parseFloat(value),
@@ -39,8 +52,8 @@ function SessaoRegistroAnalises() {
   };
 
   const handleSaveAnalysis = () => {
-    if (!dadosAnalysis.date || !dadosAnalysis.analysis1) {
-      alert("Data e Análise 1 são dados obrigatórios.");
+    if (!dadosAnalysis.date) {
+      alert("Data é um dado obrigatório.");
       return;
     }
 
@@ -145,6 +158,13 @@ function SessaoRegistroAnalises() {
                         value={dadosAnalysis.date}
                         onChange={handleInputChange}
                         required
+                        max={`${new Date().getFullYear()}-${String(
+                          laacPeriod
+                        ).padStart(2, "0")}-${new Date(
+                          new Date().getFullYear(),
+                          laacPeriod,
+                          0
+                        ).getDate()}`}
                       />
                     </td>
                     <td>Análise 1:</td>
@@ -220,7 +240,7 @@ function SessaoRegistroAnalises() {
                     </td>
                     <td>
                       <Link
-                        to="/resultados-analises"
+                        to="/10-primeiros-resultados"
                         className="btn btn-secondary btn-sm me-2"
                       >
                         Próxima Sessão
@@ -250,15 +270,9 @@ function SessaoRegistroAnalises() {
                       <tr key={index}>
                         <td>{isAnalysis.id}</td>
                         <td>{isAnalysis.date}</td>
-                        {isAnalysis.analysis1 > 0 && (
-                          <td>{isAnalysis.analysis1}</td>
-                        )}
-                        {isAnalysis.analysis2 > 0 && (
-                          <td>{isAnalysis.analysis2}</td>
-                        )}
-                        {isAnalysis.analysis3 > 0 && (
-                          <td>{isAnalysis.analysis3}</td>
-                        )}
+                        <td>{isAnalysis.analysis1}</td>
+                        <td>{isAnalysis.analysis2}</td>
+                        <td>{isAnalysis.analysis3}</td>
                         <td>
                           <button
                             type="button"

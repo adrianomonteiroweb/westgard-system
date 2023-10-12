@@ -1,218 +1,3 @@
-export const emptyInputs = (inputArrayOfIDs) => {
-  inputArrayOfIDs.map((ID) => (document.querySelector(`#${ID}`).value = ""));
-};
-
-export const getValuesOfInputs = (inputArrayOfIDs) => {
-  let values = {};
-
-  inputArrayOfIDs.map(
-    (ID, i) => (values[i] = document.querySelector(`#${ID}`).value)
-  );
-
-  return values;
-};
-
-export const setValuesOfInputs = (inputArrayOfIDs, arrayOfValues) => {
-  inputArrayOfIDs.map(
-    (ID, i) => (document.querySelector(`#${ID}`).value = arrayOfValues[i])
-  );
-};
-
-export const persistDataOnLocalStorage = (key, data) => {
-  localStorage.setItem(`${key}`, JSON.stringify(data));
-};
-
-export const stage2ResultsFunction = (stage2) => ({
-  nivel1: {
-    s1less:
-      (Number(stage2.nivel1.media) - Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-    s2less:
-      (Number(stage2.nivel1.media) - 2 * Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-    s3less:
-      (Number(stage2.nivel1.media) - 3 * Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-    s1bigger:
-      (Number(stage2.nivel1.media) + Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-    s2bigger:
-      (Number(stage2.nivel1.media) + 2 * Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-    s3bigger:
-      (Number(stage2.nivel1.media) + 3 * Number(stage2.nivel1.DP)) /
-      Number(stage2.nivel1.media),
-  },
-  nivel2: {
-    s1less:
-      (Number(stage2.nivel2.media) - Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-    s2less:
-      (Number(stage2.nivel2.media) - 2 * Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-    s3less:
-      (Number(stage2.nivel2.media) - 3 * Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-    s2bigger:
-      (Number(stage2.nivel2.media) + Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-    s2bigger:
-      (Number(stage2.nivel2.media) + 2 * Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-    s3bigger:
-      (Number(stage2.nivel2.media) + 3 * Number(stage2.nivel2.DP)) /
-      Number(stage2.nivel2.media),
-  },
-  nivel3: {
-    s1less:
-      (Number(stage2.nivel3.media) - Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-    s2less:
-      (Number(stage2.nivel3.media) - 2 * Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-    s3less:
-      (Number(stage2.nivel3.media) - 3 * Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-    s2bigger:
-      (Number(stage2.nivel3.media) + Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-    s2bigger:
-      (Number(stage2.nivel3.media) + 2 * Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-    s3bigger:
-      (Number(stage2.nivel3.media) + 3 * Number(stage2.nivel3.DP)) /
-      Number(stage2.nivel3.media),
-  },
-});
-
-export const checksShuntedRule = (rules, n1, n2, n3) => {
-  let nivel1 = "Normal";
-  let nivel2 = "Normal";
-  let nivel3 = "Normal";
-
-  // Nível 1 - lower direction
-  if (n1 <= rules.nivel1.s1less && n1 > rules.nivel1.s2less) nivel1 = "-1s1";
-  if (n1 <= rules.nivel1.s2less && n1 > rules.nivel1.s3less) nivel1 = "-1s2";
-  if (n1 <= rules.nivel1.s3less) nivel1 = "-1s3";
-  // Nível 1 - Greater direction
-  if (n1 >= rules.nivel1.s1bigger && n1 < rules.nivel1.s2bigger) nivel1 = "1s1";
-  if (n1 >= rules.nivel1.s2bigger && n1 < rules.nivel1.s3bigger) nivel1 = "1s2";
-  if (n1 >= rules.nivel1.s3bigger) nivel1 = "1s3";
-
-  // Nível 2
-  if (n2 <= rules.nivel2.s1less && n2 > rules.nivel2.s2less) nivel2 = "-1s1";
-  if (n2 <= rules.nivel2.s2less && n2 > rules.nivel2.s3less) nivel2 = "-1s2";
-  if (n2 <= rules.nivel2.s3less) nivel2 = "-1s3";
-  // Nível 2 - Greater direction
-  if (n2 >= rules.nivel2.s1bigger && n2 < rules.nivel2.s2bigger) nivel2 = "1s1";
-  if (n2 >= rules.nivel2.s2bigger && n2 < rules.nivel2.s3bigger) nivel2 = "1s2";
-  if (n2 >= rules.nivel2.s3bigger) nivel2 = "1s3";
-
-  // switch (nivel1, nivel2) {
-  // case "-1s1", "-1s1":
-  //   return "2-s1";
-  // case "-1s2", "-1s2":
-  //   return "2-s2";
-  // case "-1s3", "-1s3":
-  //   return "2-s3";
-  // case "1s1", "1s1":
-  //   return "2-s1";
-  // case "1s2", "1s2":
-  //   return "2-s2";
-  // case "1s3", "1s3":
-  //   return "2-s3";
-  // }
-
-  return nivel1;
-};
-
-export const shuntedRuleResult = (points, stage2, checksShuntedRule, rules) => {
-  let results = {};
-
-  points.map(({ nivel1, nivel2 }, index) => {
-    const result = checksShuntedRule(
-      rules,
-      Number(nivel1) / stage2.nivel1.media,
-      Number(nivel2) / stage2.nivel2.media
-    );
-
-    if (result) results[index + 1] = result;
-  });
-
-  return results;
-};
-
-export const stdevFunc = (arrayOfObjects, nivel, limit = 10) => {
-  const sum = arrayOfObjects
-    .slice(0, limit)
-    .reduce((a, b) => a + Number(b[nivel]), 0);
-
-  const media = sum / limit;
-
-  const diff = arrayOfObjects.map((obj) =>
-    Math.pow(Number(obj[nivel]) - media, 2)
-  );
-
-  const mediaDiff = diff.reduce((a, b) => a + b, 0) / 10;
-
-  const stdev = Math.sqrt(mediaDiff);
-
-  return stdev;
-};
-
-function valuesSum(arrayOfObjects, isKey) {
-  return arrayOfObjects.reduce((isSum, obj) => {
-    const valorString = obj[isKey];
-    const valorNumerico = parseFloat(valorString.replace(",", "."));
-
-    if (!isNaN(valorNumerico)) {
-      return isSum + valorNumerico;
-    } else {
-      return isSum;
-    }
-  }, 0);
-}
-
-export function mediaCalculate(stage3, nivel) {
-  let sum = 0;
-  let count = 0;
-
-  stage3.forEach((item) => {
-    const value = Number(item[nivel]);
-    if (!isNaN(value)) {
-      sum += value;
-      count++;
-    }
-  });
-
-  return count > 0 ? sum / count : 0;
-}
-
-export function DPCalculate(arrayOfObjects, isKey) {
-  // Passo 1: Calcular a média dos valores
-  const isSum = valuesSum(arrayOfObjects, isKey);
-  const media = isSum / arrayOfObjects.length;
-
-  // Passo 2: Calcular a soma dos quadrados das diferenças em relação à média
-  const SumSquares = arrayOfObjects.reduce((acc, obj) => {
-    const stringValue = obj[isKey];
-    const numberValue = parseFloat(stringValue.replace(",", "."));
-
-    if (!isNaN(numberValue)) {
-      const difference = numberValue - media;
-      const squaresDifference = difference * difference;
-      return acc + squaresDifference;
-    } else {
-      return acc;
-    }
-  }, 0);
-
-  // Passo 3: Calcular o desvio padrão
-  const standardDeviation = Math.sqrt(SumSquares / arrayOfObjects.length);
-
-  return standardDeviation;
-}
-
 export const selectMonthName = {
   1: "Janeiro",
   2: "Fevereiro",
@@ -230,3 +15,135 @@ export const selectMonthName = {
 
 export const sortByIdFromLargest = (a, b) => b.id - a.id;
 export const sortByIdFromSmallest = (a, b) => a.id - b.id;
+
+export const mediascalculate = (arrayOfObjects) => {
+  const first10Days = arrayOfObjects.slice(0, 10);
+
+  let mediaAnalysis1 = 0;
+  let mediaAnalysis2 = 0;
+  let mediaAnalysis3 = 0;
+
+  for (const day of first10Days) {
+    mediaAnalysis1 += day.analysis1;
+    mediaAnalysis2 += day.analysis2;
+    mediaAnalysis3 += day.analysis3;
+  }
+
+  mediaAnalysis1 /= first10Days.length;
+  mediaAnalysis2 /= first10Days.length;
+  mediaAnalysis3 /= first10Days.length;
+
+  return {
+    mediaAnalysis1,
+    mediaAnalysis2,
+    mediaAnalysis3,
+  };
+};
+
+export const mediasTotalcalculate = (arrayOfObjects) => {
+  let mediaAnalysis1 = 0;
+  let mediaAnalysis2 = 0;
+  let mediaAnalysis3 = 0;
+
+  for (const day of arrayOfObjects) {
+    mediaAnalysis1 += day.analysis1;
+    mediaAnalysis2 += day.analysis2;
+    mediaAnalysis3 += day.analysis3;
+  }
+
+  mediaAnalysis1 /= arrayOfObjects.length;
+  mediaAnalysis2 /= arrayOfObjects.length;
+  mediaAnalysis3 /= arrayOfObjects.length;
+
+  return {
+    mediaAnalysis1,
+    mediaAnalysis2,
+    mediaAnalysis3,
+  };
+};
+
+export const standardDeviationCalculate = (arrayOfObjects) => {
+  const first10Days = arrayOfObjects.slice(0, 10);
+
+  let sumAnalysis1 = 0;
+  let sumAnalysis2 = 0;
+  let sumAnalysis3 = 0;
+
+  for (const day of first10Days) {
+    sumAnalysis1 += day.analysis1;
+    sumAnalysis2 += day.analysis2;
+    sumAnalysis3 += day.analysis3;
+  }
+
+  const mediaAnalysis1 = sumAnalysis1 / first10Days.length;
+  const mediaAnalysis2 = sumAnalysis2 / first10Days.length;
+  const mediaAnalysis3 = sumAnalysis3 / first10Days.length;
+
+  let sumSquaresDifAnalysis1 = 0;
+  let sumSquaresDifAnalysis2 = 0;
+  let sumSquaresDifAnalysis3 = 0;
+
+  for (const day of first10Days) {
+    sumSquaresDifAnalysis1 += Math.pow(day.analysis1 - mediaAnalysis1, 2);
+    sumSquaresDifAnalysis2 += Math.pow(day.analysis2 - mediaAnalysis2, 2);
+    sumSquaresDifAnalysis3 += Math.pow(day.analysis3 - mediaAnalysis3, 2);
+  }
+
+  const standardDeviationAnalysis1 = Math.sqrt(
+    sumSquaresDifAnalysis1 / first10Days.length
+  );
+  const standardDeviationAnalysis2 = Math.sqrt(
+    sumSquaresDifAnalysis2 / first10Days.length
+  );
+  const standardDeviationAnalysis3 = Math.sqrt(
+    sumSquaresDifAnalysis3 / first10Days.length
+  );
+
+  return {
+    standardDeviationAnalysis1,
+    standardDeviationAnalysis2,
+    standardDeviationAnalysis3,
+  };
+};
+
+export const standardDeviationTotalCalculate = (arrayOfObjects) => {
+  let sumAnalysis1 = 0;
+  let sumAnalysis2 = 0;
+  let sumAnalysis3 = 0;
+
+  for (const day of arrayOfObjects) {
+    sumAnalysis1 += day.analysis1;
+    sumAnalysis2 += day.analysis2;
+    sumAnalysis3 += day.analysis3;
+  }
+
+  const mediaAnalysis1 = sumAnalysis1 / arrayOfObjects.length;
+  const mediaAnalysis2 = sumAnalysis2 / arrayOfObjects.length;
+  const mediaAnalysis3 = sumAnalysis3 / arrayOfObjects.length;
+
+  let sumSquaresDifAnalysis1 = 0;
+  let sumSquaresDifAnalysis2 = 0;
+  let sumSquaresDifAnalysis3 = 0;
+
+  for (const day of arrayOfObjects) {
+    sumSquaresDifAnalysis1 += Math.pow(day.analysis1 - mediaAnalysis1, 2);
+    sumSquaresDifAnalysis2 += Math.pow(day.analysis2 - mediaAnalysis2, 2);
+    sumSquaresDifAnalysis3 += Math.pow(day.analysis3 - mediaAnalysis3, 2);
+  }
+
+  const standardDeviationAnalysis1 = Math.sqrt(
+    sumSquaresDifAnalysis1 / arrayOfObjects.length
+  );
+  const standardDeviationAnalysis2 = Math.sqrt(
+    sumSquaresDifAnalysis2 / arrayOfObjects.length
+  );
+  const standardDeviationAnalysis3 = Math.sqrt(
+    sumSquaresDifAnalysis3 / arrayOfObjects.length
+  );
+
+  return {
+    standardDeviationAnalysis1,
+    standardDeviationAnalysis2,
+    standardDeviationAnalysis3,
+  };
+};
