@@ -4,7 +4,8 @@ import IsContext from "../../context/IsContext";
 import { selectMonthName } from "../../utils/functions";
 
 function SessaoCadastroLotes() {
-  const { period } = useContext(IsContext);
+  const { laacState, setLaacState, laacPeriod, setLaacPeriod } =
+    useContext(IsContext);
 
   const [dadosLotes, setDadosLotes] = useState({
     analise: "",
@@ -13,12 +14,10 @@ function SessaoCadastroLotes() {
     desvioPadrao: "",
   });
 
-  const [indicePeriodo, setIndicePeriodo] = useState(1);
-
   useEffect(() => {
-    const dadosLocais = period[indicePeriodo]?.lotesDados || dadosLotes;
+    const dadosLocais = laacState[laacPeriod]?.batch || dadosLotes;
     setDadosLotes(dadosLocais || dadosLotes);
-  }, [indicePeriodo, period]);
+  }, [laacPeriod, laacState]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,10 +28,12 @@ function SessaoCadastroLotes() {
   };
 
   const handleNextLote = () => {
-    const updatedPeriod = period;
-    updatedPeriod[period.selectedPeriod].lotesDados = dadosLotes;
+    const updatedState = laacState;
 
-    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+    updatedState[laacPeriod].batch = dadosLotes;
+
+    localStorage.setItem("laac_state", JSON.stringify(updatedState));
+    setLaacState(updatedState);
 
     setDadosLotes({
       analise: "",
@@ -41,14 +42,14 @@ function SessaoCadastroLotes() {
       desvioPadrao: "",
     });
 
-    if (indicePeriodo < 12) {
-      setIndicePeriodo(indicePeriodo + 1);
+    if (laacPeriod < 12) {
+      setLaacPeriod(laacPeriod + 1);
     }
   };
 
   const handlePreviousLote = () => {
-    if (indicePeriodo > 1) {
-      setIndicePeriodo(indicePeriodo - 1);
+    if (laacPeriod > 1) {
+      setLaacPeriod(laacPeriod - 1);
     }
   };
 
@@ -60,13 +61,14 @@ function SessaoCadastroLotes() {
     if (shouldDelete) {
       const dadosLotes = [];
 
-      const updatedPeriod = { ...period };
-      updatedPeriod[indicePeriodo].lotesDados = dadosLotes;
+      const updatedState = { ...laacState };
+      updatedState[laacPeriod].batch = dadosLotes;
 
-      localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+      localStorage.setItem("laac_state", JSON.stringify(updatedState));
+      setLaacState(updatedState);
 
-      if (indicePeriodo > 1) {
-        setIndicePeriodo(indicePeriodo - 1);
+      if (laacPeriod > 1) {
+        setLaacPeriod(laacPeriod - 1);
       }
     }
   };
@@ -85,7 +87,7 @@ function SessaoCadastroLotes() {
             <h2 className="mt-1">Controle de Qualidade</h2>
           </div>
           <h2 className="mb-1">
-            Sessão: Cadastro de Lotes ({selectMonthName[indicePeriodo]})
+            Sessão: Cadastro de Lotes ({selectMonthName[laacPeriod]})
           </h2>
           <form>
             <div className="mb-1">

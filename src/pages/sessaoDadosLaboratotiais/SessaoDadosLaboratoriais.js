@@ -4,7 +4,8 @@ import IsContext from "../../context/IsContext";
 import { selectMonthName } from "../../utils/functions";
 
 function SessaoDadosLaboratoriais() {
-  const { period } = useContext(IsContext);
+  const { laacState, setLaacState, laacPeriod, setLaacPeriod } =
+    useContext(IsContext);
 
   const [dadosLaboratoriais, setDadosLaboratoriais] = useState({
     sistemaAnalitico: "",
@@ -14,13 +15,10 @@ function SessaoDadosLaboratoriais() {
     periodoAnalisado: "",
   });
 
-  const [indicePeriodo, setIndicePeriodo] = useState(1);
-
   useEffect(() => {
-    const dadosLocais =
-      period[indicePeriodo]?.historicoDados || dadosLaboratoriais;
+    const dadosLocais = laacState[laacPeriod]?.analysis || dadosLaboratoriais;
     setDadosLaboratoriais(dadosLocais || dadosLaboratoriais);
-  }, [indicePeriodo, period]);
+  }, [laacPeriod, laacState]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,12 +29,14 @@ function SessaoDadosLaboratoriais() {
   };
 
   const handleNextPeriodo = () => {
-    const updatedPeriod = period;
-    updatedPeriod[
-      dadosLaboratoriais.periodoAnalisado || indicePeriodo
+    const updatedState = laacState;
+
+    updatedState[
+      dadosLaboratoriais.periodoAnalisado || laacPeriod
     ].historicoDados = dadosLaboratoriais;
 
-    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+    localStorage.setItem("laac_state", JSON.stringify(updatedState));
+    setLaacState(updatedState);
 
     setDadosLaboratoriais({
       sistemaAnalitico: "",
@@ -46,14 +46,14 @@ function SessaoDadosLaboratoriais() {
       periodoAnalisado: "",
     });
 
-    if (indicePeriodo < 12) {
-      setIndicePeriodo(indicePeriodo + 1);
+    if (laacPeriod < 12) {
+      setLaacPeriod(laacPeriod + 1);
     }
   };
 
   const handlePreviousPeriodo = () => {
-    if (indicePeriodo > 1) {
-      setIndicePeriodo(indicePeriodo - 1);
+    if (laacPeriod > 1) {
+      setLaacPeriod(laacPeriod - 1);
     }
   };
 
@@ -65,13 +65,14 @@ function SessaoDadosLaboratoriais() {
     if (shouldDelete) {
       const novoHistorico = [];
 
-      const updatedPeriod = { ...period };
-      updatedPeriod[indicePeriodo].historicoDados = novoHistorico;
+      const updatedState = { ...laacState };
+      updatedState[laacPeriod].analysis = novoHistorico;
 
-      localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+      localStorage.setItem("laac_state", JSON.stringify(updatedState));
+      setLaacState(updatedState);
 
-      if (indicePeriodo > 1) {
-        setIndicePeriodo(indicePeriodo - 1);
+      if (laacPeriod > 1) {
+        setLaacPeriod(laacPeriod - 1);
       }
     }
   };
@@ -90,7 +91,7 @@ function SessaoDadosLaboratoriais() {
             <h2 className="mt-1">Controle de Qualidade</h2>
           </div>
           <h4 className="mb-1">
-            Sessão: Dados Laboratoriais ({selectMonthName[indicePeriodo]})
+            Sessão: Dados Laboratoriais ({selectMonthName[laacPeriod]})
           </h4>
           <form>
             <div className="mb-1">
@@ -161,7 +162,7 @@ function SessaoDadosLaboratoriais() {
                 className="form-select"
                 id="periodoAnalisado"
                 name="periodoAnalisado"
-                value={indicePeriodo}
+                value={laacPeriod}
                 onChange={handleInputChange}
                 required
               >

@@ -5,31 +5,39 @@ import IsContext from "./IsContext";
 
 function IsProvider({ children }) {
   const initial_state = {
-    1: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    2: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    3: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    4: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    5: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    6: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    7: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    8: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    9: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    10: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    11: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
-    12: { historicoDados: {}, lotesDados: {}, analisesDados: [] },
+    1: { analysis: {}, batch: {}, values: [] },
+    2: { analysis: {}, batch: {}, values: [] },
+    3: { analysis: {}, batch: {}, values: [] },
+    4: { analysis: {}, batch: {}, values: [] },
+    5: { analysis: {}, batch: {}, values: [] },
+    6: { analysis: {}, batch: {}, values: [] },
+    7: { analysis: {}, batch: {}, values: [] },
+    8: { analysis: {}, batch: {}, values: [] },
+    9: { analysis: {}, batch: {}, values: [] },
+    10: { analysis: {}, batch: {}, values: [] },
+    11: { analysis: {}, batch: {}, values: [] },
+    12: { analysis: {}, batch: {}, values: [] },
   };
 
-  const laac = JSON.parse(localStorage.getItem("laac"));
+  const laac_state = JSON.parse(localStorage.getItem("laac_state"));
+  const laac_period = JSON.parse(localStorage.getItem("laac_period"));
 
-  const [period, setPeriod] = useState(laac || initial_state);
+  const [laacState, setLaacState] = useState(laac_state || initial_state);
+  const [laacPeriod, setLaacPeriod] = useState(laac_period || 1);
 
-  if (!laac) {
-    localStorage.setItem("laac", JSON.stringify(initial_state));
+  if (!laac_state) {
+    localStorage.setItem("laac_state", JSON.stringify(initial_state));
+  }
+
+  if (!laac_period) {
+    localStorage.setItem("laac_period", JSON.stringify(1));
   }
 
   const contextValue = {
-    period,
-    setPeriod,
+    laacState,
+    setLaacState,
+    laacPeriod,
+    setLaacPeriod,
   };
 
   return (

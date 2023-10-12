@@ -8,7 +8,8 @@ import {
 } from "../../utils/functions";
 
 function SessaoRegistroAnalises() {
-  const { period } = useContext(IsContext);
+  const { laacState, setLaacState, laacPeriod, setLaacPeriod } =
+    useContext(IsContext);
 
   const [dadosAnalysis, setDadosAnalysis] = useState({
     id: 0,
@@ -18,12 +19,10 @@ function SessaoRegistroAnalises() {
     analysis3: 0,
   });
 
-  const [indicePeriodo, setIndicePeriodo] = useState(1);
-
   useEffect(() => {
-    const dadosLocais = period[indicePeriodo]?.analisesDados || dadosAnalysis;
+    const dadosLocais = laacState[laacPeriod]?.values || dadosAnalysis;
     setDadosAnalysis(dadosLocais, dadosAnalysis);
-  }, [indicePeriodo, period]);
+  }, [laacPeriod, laacState]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,8 +33,8 @@ function SessaoRegistroAnalises() {
   };
 
   const handleNextAnalysis = () => {
-    if (indicePeriodo < 12) {
-      setIndicePeriodo(indicePeriodo + 1);
+    if (laacPeriod < 12) {
+      setLaacPeriod(laacPeriod + 1);
     }
   };
 
@@ -45,27 +44,33 @@ function SessaoRegistroAnalises() {
       return;
     }
 
-    const findIfAlreadyExists = period[indicePeriodo].analisesDados.find(
+    const findIfAlreadyExists = laacState[laacPeriod].values.find(
       (a) => a.id === dadosAnalysis.id
     );
 
-    let updatedPeriod = period;
+    let updatedState = laacState;
     if (findIfAlreadyExists) {
-      const filterWithoutAnalytic = period[indicePeriodo].analisesDados.filter(
+      const filterWithoutAnalytic = laacState[laacPeriod].values.filter(
         (a) => a.id !== dadosAnalysis.id
       );
 
-      updatedPeriod[indicePeriodo].analisesDados = [
+      updatedState[laacPeriod].values = [
         ...filterWithoutAnalytic,
         dadosAnalysis,
       ];
     } else {
-      dadosAnalysis.id =
-        period[indicePeriodo].analisesDados.sort(sortByIdFromLargest)[0].id + 1;
-      updatedPeriod[indicePeriodo].analisesDados.push(dadosAnalysis);
+      const next_id = laacState[laacPeriod].values;
+      if (next_id.length < 1) {
+        dadosAnalysis.id = laacState[laacPeriod].values.length + 1;
+      } else {
+        dadosAnalysis.id =
+          laacState[laacPeriod].values.sort(sortByIdFromLargest)[0].id + 1;
+      }
+      updatedState[laacPeriod].values.push(dadosAnalysis);
     }
 
-    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+    localStorage.setItem("laac_state", JSON.stringify(updatedState));
+    setLaacState(updatedState);
 
     setDadosAnalysis({
       id: 0,
@@ -77,28 +82,36 @@ function SessaoRegistroAnalises() {
   };
 
   const handlePreviousAnalysis = () => {
-    if (indicePeriodo > 1) {
-      setIndicePeriodo(indicePeriodo - 1);
+    if (laacPeriod > 1) {
+      setLaacPeriod(laacPeriod - 1);
     }
   };
 
   const handleEditAnalysis = (id) => {
-    const analyticToUpdate = period[indicePeriodo].analisesDados.find(
+    const analyticToUpdate = laacState[laacPeriod].values.find(
       (a) => a.id === id
     );
     setDadosAnalysis(analyticToUpdate);
   };
 
   const handleDeleteAnalysis = (id) => {
-    const filterWithoutAnalytic = period[indicePeriodo].analisesDados.filter(
+    const filterWithoutAnalytic = laacState[laacPeriod].values.filter(
       (a) => a.id !== id
     );
 
-    const updatedPeriod = period;
+    const updatedState = laacState;
 
-    updatedPeriod[indicePeriodo].analisesDados = [...filterWithoutAnalytic];
+    updatedState[laacPeriod].values = [...filterWithoutAnalytic];
 
-    localStorage.setItem("laac", JSON.stringify(updatedPeriod));
+    localStorage.setItem("laac_state", JSON.stringify(updatedState));
+    setLaacState(updatedState);
+    setDadosAnalysis({
+      id: 0,
+      date: "",
+      analysis1: 0,
+      analysis2: 0,
+      analysis3: 0,
+    });
   };
 
   return (
@@ -115,7 +128,7 @@ function SessaoRegistroAnalises() {
             <h3 className="mt-1">Controle de Qualidade</h3>
           </div>
           <h4 className="mb-1">
-            Sessão: Registro de Análises ({selectMonthName[indicePeriodo]})
+            Sessão: Registro de Análises ({selectMonthName[laacPeriod]})
           </h4>
           <form>
             <div className="table-responsive">
@@ -231,7 +244,7 @@ function SessaoRegistroAnalises() {
                   </tr>
                 </thead>
                 <tbody>
-                  {period[indicePeriodo]?.analisesDados
+                  {laacState[laacPeriod]?.values
                     .sort(sortByIdFromSmallest)
                     ?.map((isAnalysis, index) => (
                       <tr key={index}>
